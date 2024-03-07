@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>roof4All</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header><%- include('partials/navbar', {page: '/login'}) %></header>
+
+    <main class="">
+      <div class="">
+        <div class="">
+          <h1 class="">Login</h1>
+          <p class="">
+            Welcome back
+          </p>
+        </div>
+      </div>
+      <form action="/login" method="POST" class="">
+        <!-- Username -->
+        <div class="">
+          <label class="">Username</label>
+          <input
+            required
+            type="text"
+            name="userName"
+            placeholder="username"
+            value="<%= userName ? userName : '' %>"
+            class="input"
+          />
+        </div>
+        <!-- Password -->
+        <div class="">
+          <label class="">Password</label>
+          <input
+            required
+            type="password"
+            name="password"
+            placeholder="passsword"
+            class="input"
+          />
+        </div>
+        <div class="">
+          <button type="submit" class="">Confirm</button>
+        </div>
+      </form>
+    </main>
+  </body>
+  <%- include('partials/footer', {page: '/login'}) %>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>roof4All</title>
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body>
+    <header><%- include('partials/navbar', {page: '/register'}) %></header>
+    <main class="">
+      <div class="">
+        <div class="">
+          <h1 class="">Register</h1>
+          <p class="">Get a roof over your head</p>
+        </div>
+      </div>
+      <form action="/register" method="POST" class="">
+        <!-- Username -->
+        <div class="">
+          <label class="">Username</label>
+          <input
+            required
+            type="text"
+            name="userName"
+            placeholder="username"
+            class=""
+          />
+        </div>
+        <!-- Password -->
+        <div class="form-control w-full max-w-xs">
+          <label class="label">Password</label>
+          <input
+            required
+            type="password"
+            name="password"
+            placeholder="password"
+            class=""
+          />
+        </div>
+        <div class="form-control w-full max-w-xs">
+          <label class="label">Re-eneter Password</label>
+          <input
+            required
+            type="password"
+            name="password2"
+            placeholder="re-enter password"
+            class=""
+          />
+        </div>
+        <div class="form-control w-full max-w-xs">
+          <label class="label">Email</label>
+          <input
+            required
+            type="email"
+            name="email"
+            placeholder="e.g. cs@roof4all.com"
+            class=""
+          />
+        </div>
+        <div class="">
+          <button type="submit" class="btn btn-accent">Confirm</button>
+        </div>
+      </form>
+      <!-- ERROR MESSAGE -->
+      <% if (errorMessage) { %>
+      <div class="container alert alert-error">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="stroke-current shrink-0 h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span><%= errorMessage %></span>
+      </div>
+      <% } %>
+      <!-- SUCCESS MESSAGE -->
+      <% if (successMessage) { %>
+      <div class="container alert">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="stroke-current shrink-0 h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span><%= successMessage %></span>
+      </div>
+      <br />
+      <a href="/login" class="">Proceed to Log in</a>
+      <% } %>
+    </main>
+  </body>
+  <%- include('partials/footer', {page: '/register'}) %>
+</html>
