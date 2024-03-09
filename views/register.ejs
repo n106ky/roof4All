@@ -59,13 +59,46 @@
           />
         </div>
 
-        <label for="">Type*</label>
-        <select required name="userType">
-          <option value="" disabled selected>Select Type</option>
-          <option value="Guest">Guest</option>
-          <option value="Host">Host</option>
-          <option value="Business">Business</option>
-        </select>
+        <!-- <div>
+          <label for="">Type</label>
+          <select required name="userType">
+            <option value="" disabled selected>Select Type</option>
+            <option value="Guest">Guest</option>
+            <option value="Host">Host</option>
+            <option value="Business">Business</option>
+          </select>
+        </div> -->
+
+        <div>
+          <div>
+             
+            <input
+              type="radio"
+              id="guest"
+              name="userType"
+              value="guest"
+              checked="checked"
+            />
+              <label for="guest">Guest</label><br />
+            <span>Find accomodations, post your request</span>
+          </div>
+          <div>
+              <input type="radio" id="host" name="userType" value="host" />  
+            <label for="host">Host</label><br />
+            <span>Rent out houses, find tenent</span>
+          </div>
+          <div>
+             
+            <input
+              type="radio"
+              id="business"
+              name="userType"
+              value="business"
+            />
+              <label for="business">Business</label><br />
+            <span>Find accomodations for employees</span>
+          </div>
+        </div>
 
         <div class="">
           <button type="submit" class="btn btn-accent">Confirm</button>
