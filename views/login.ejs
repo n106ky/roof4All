@@ -47,6 +47,11 @@
           <button type="submit" class="">Confirm</button>
         </div>
       </form>
+      <div class="message">
+        <% if(errorMessage) { %>
+        <p><%= errorMessage %></p>
+        <% } %>
+      </div>
     </main>
   </body>
   <%- include('partials/footer', {page: '/login'}) %>

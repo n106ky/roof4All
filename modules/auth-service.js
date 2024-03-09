@@ -9,12 +9,18 @@ let userSchema = new Schema({
   userName: { type: String, unique: true },
   password: String,
   email: String,
+  role: {
+    type: String,
+    enum: ["guest", "host", "business", "admin"],
+    default: "guest",
+  },
   loginHistory: [
     {
       dateTime: { type: Date },
       userAgent: { type: String }, // useful piece of information for security, analytics, and troubleshooting purposes
     },
   ],
+  user_img: String,
 });
 
 let User;

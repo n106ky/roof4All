@@ -17,6 +17,7 @@ const authData = require("./modules/auth-service.js");
 
 const express = require("express");
 const clientSessions = require("client-sessions");
+const session = require("express-session"); // For secure configurations
 const app = express();
 const HTTP_PORT = process.env.PORT || 6543;
 
@@ -24,16 +25,26 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true })); // By including this middleware, your Express application can now properly receive and parse form data and append it to the req.body property, so you can work with the form data in your route handlers. Without this middleware, req.body would be undefined for URL-encoded form submissions.
 app.use(express.static("public"));
 
-// HOME
-app.get("/", (req, res) => {
-  res.render("home");
-});
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET, // A secret key for signing the cookie
+    resave: false, // Don't save session if unmodified
+    saveUninitialized: false, // Don't create session until something stored
+    cookie: {
+      httpOnly: true, // Prevents client side JS from reading the cookie
+      secure: false, // true: Ensures the cookie is sent over HTTPS
+      sameSite: "strict", // Ensures the cookie is sent only to your website
+      maxAge: 1000 * 60 * 60 * 24, // Sets cookie expiry to one day (in milliseconds)
+    },
+  })
+);
+
 
 // USER LOGIN
 app.use(
     clientSessions({
       cookieName: "session", // Name of the cookie
-      secret: "DH3AJ-EJ2AN-OD0UD-VB8DE", // Secret key for signing the cookie
+      secret: process.env.CLIENT_SESSION_SECRET, // Secret key for signing the cookie
       duration: 2 * 60 * 1000, // Total duration of the session (2 minutes in this case)
       activeDuration: 3 * 60 * 1000, // Active duration extension (3 minutes in this case)
     })
@@ -53,6 +64,13 @@ app.use(
     }
   }
   
+
+  // HOME
+app.get("/", (req, res) => {
+  res.render("home");
+});
+
+
   app.get("/login", (req, res) => {
     res.render("login", { errorMessage: null, userName: null });
   });
@@ -68,7 +86,7 @@ app.use(
           email: user.email,
           loginHistory: user.loginHistory,
         };
-        res.redirect("/home");
+        res.redirect("/");
       })
       .catch((err) => {
         res.render("login", { errorMessage: err, userName: req.body.userName });
@@ -88,7 +106,7 @@ app.use(
       .registerUser(req.body)
       .then(() => {
         res.render("register", {
-          successMessage: "User created",
+          successMessage: "Successfully registered! Redirecting to login in 3s...",
           errorMessage: null,
           userName: req.body.userName,
         });
