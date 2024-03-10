@@ -1,9 +1,9 @@
 [
     {
-      "price(CAD)": "CAD 2500/month",
+      "monthly_price(CAD)": 2500,
       "property_name": "Maple Leaf Square",
       "address": "55 Bremner Blvd, Toronto, ON M5J 0A6",
-      "room_size": "850 sqft",
+      "room_size(sqft)": 850,
       "no_of_rooms": 2,
       "no_of_guest": 4,
       "host": "https://examplehost.com/mapleleafsquare",
@@ -13,10 +13,10 @@
       "policies": ["No Smoking", "No Pets", "Maximum 30 days booking"]
     },
     {
-      "price(CAD)": "CAD 3200/month",
+      "monthly_price(CAD)": 3200,
       "property_name": "The Waterfront Condo",
       "address": "228 Queens Quay W, Toronto, ON M5J 2X1",
-      "room_size": "920 sqft",
+      "room_size(sqft)": 920,
       "no_of_rooms": 3,
       "no_of_guest": 5,
       "host": "https://examplehost.com/waterfrontcondo",
@@ -26,10 +26,10 @@
       "policies": ["No Smoking", "Pet Friendly", "References Required"]
     },
     {
-      "price(CAD)": "CAD 1800/month",
+      "monthly_price(CAD)": 1800,
       "property_name": "Downtown Studio",
       "address": "101 Peter St, Toronto, ON M5V 2G9",
-      "room_size": "500 sqft",
+      "room_size(sqft)": 500,
       "no_of_rooms": 1,
       "no_of_guest": 2,
       "host": "https://examplehost.com/downtownstudio",
@@ -39,10 +39,10 @@
       "policies": ["No Smoking", "No Pets"]
     },
     {
-      "price(CAD)": "CAD 4000/month",
+      "monthly_price(CAD)": "CAD 4000/month",
       "property_name": "Yorkville Luxury Suite",
       "address": "155 Yorkville Ave, Toronto, ON M5R 1C4",
-      "room_size": "1100 sqft",
+      "room_size(sqft)": 1100,
       "no_of_rooms": 3,
       "no_of_guest": 6,
       "host": "https://examplehost.com/yorkvilleluxury",
