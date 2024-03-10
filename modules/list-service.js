@@ -22,7 +22,7 @@ let Property;
 async function initialize() {
   try {
     const db = await connectToDatabase("list-service");
-    Property = db.model("Property", propertySchema);
+    Property = db.model("property", propertySchema);
   } catch (error) {
     console.error("Service initialization failed", error);
     process.exit(1);
