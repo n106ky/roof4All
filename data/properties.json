@@ -1,6 +1,6 @@
 [
     {
-      "monthly_price(CAD)": 2500,
+      "monthly_price(CAD)": 1000,
       "property_name": "Maple Leaf Square",
       "address": "55 Bremner Blvd, Toronto, ON M5J 0A6",
       "room_size(sqft)": 850,
@@ -39,7 +39,7 @@
       "policies": ["No Smoking", "No Pets"]
     },
     {
-      "monthly_price(CAD)": "CAD 4000/month",
+      "monthly_price(CAD)": 4000,
       "property_name": "Yorkville Luxury Suite",
       "address": "155 Yorkville Ave, Toronto, ON M5R 1C4",
       "room_size(sqft)": 1100,
