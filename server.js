@@ -89,6 +89,11 @@ app.get("/emailSent", (req, res) => {
   res.render("emailSent");
 });
 
+app.get("/verification", (req, res) => {
+  res.render("verification", { successMessage: null, errorMessage: null });
+});
+
+
 app.get("/login", (req, res) => {
   res.render("login", { errorMessage: null, userName: null });
 });
@@ -126,15 +131,15 @@ app.get("/register", (req, res) => {
 
 app.get("/member", ensureLogin, async (req, res) => {
   try {
-  const userID = req.session.userID;
-  const userData = await authData.getUser(userID);
-  res.render("member", { user: userData });
-} catch (err) {
-  console.log(err);
-  res.status(500).render("500", {
-    message: `I'm sorry, but we've encountered the following error: ${err}`,
-  });
-}
+    const userID = req.session.userID;
+    const userData = await authData.getUser(userID);
+    res.render("member", { user: userData });
+  } catch (err) {
+    console.log(err);
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
 });
 
 app.get("/logout", function (req, res) {
@@ -146,7 +151,6 @@ app.get("/logout", function (req, res) {
     res.redirect("/home");
   });
 });
-
 
 /////// HOME
 app.get("/", (req, res) => {

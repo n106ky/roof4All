@@ -1,3 +1,10 @@
 .black-frame{
     border: solid 1px black;
 }
+
+#aboutYou{
+    display: block;
+}
+#KYCVerification{
+    display: none;
+}
