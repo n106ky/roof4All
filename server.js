@@ -84,15 +84,17 @@ app.post("/login", async (req, res) => {
     const user = await authData.checkUser(req.body);
 
     req.session.user = {
+      userID: user._id,
       userName: user.userName,
       email: user.email,
       loginHistory: user.loginHistory,
       userType: user.userType,
       verified: user.verified,
     };
-    const userID = req.session.userID;
+    const userID = req.session.user.userID;
+    // console.log("SESSION USER: ",  userID);
     const userDetails = await authData.getUser(userID);
-    console.log("LOGIN USER: ", userDetails);
+    // console.log("LOGIN USER: ", userDetails);
     res.render("member", { user: userDetails });
   } catch (err) {
     res.render("login", { errorMessage: err, userName: req.body.userName });

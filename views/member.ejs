@@ -13,8 +13,9 @@
         <div>THIS IS YOUR INFO</div>
         <% if(session.user.verified == true) { %>
             <p>The membership has been verified.</p>
-            <p>Member details as follow</p>
-            <%= session.user.userName %>
+            <p>Member details as follow:</p>
+            <p>User name: <%= user.userName %> </p>
+            
         <% } else { %>
             <p>The membership has not been verified.</p>
             <a href="/aboutYou"><button>Verify your membership now</button></a>
