@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const bcrypt = require("bcryptjs"); //  used for hashing and comparing passwords securely
-const mongoose = require("mongoose");
+const { connectToDatabase, mongoose } = require("./dbConnection");
 
 let Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
@@ -148,7 +148,7 @@ function checkUser(userData) {
 
 async function verifyUser(userID) {
   try {
-    
+
   } catch {
 
   }
