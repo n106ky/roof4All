@@ -64,19 +64,34 @@ function ensureLogin(req, res, next) {
   }
 }
 
-// HOME
-app.get("/", (req, res) => {
-  res.render("home");
-});
-
-app.get("/login", (req, res) => {
-  res.render("login", { errorMessage: null, userName: null });
+app.post("/register", (req, res) => {
+  authData
+    .registerUser(req.body)
+    .then(() => {
+      res.render("register", {
+        successMessage:
+          "Successfully registered! Sending comfirmation email...",
+        errorMessage: null,
+        userName: req.body.userName,
+      });
+    })
+    .catch((err) => {
+      console.log("reqbody in Register: ", req.body);
+      res.render("register", {
+        successMessage: null,
+        errorMessage: err,
+        userName: req.body.userName,
+      });
+    });
 });
 
 app.get("/emailSent", (req, res) => {
   res.render("emailSent");
 });
 
+app.get("/login", (req, res) => {
+  res.render("login", { errorMessage: null, userName: null });
+});
 
 app.post("/login", async (req, res) => {
   try {
@@ -109,27 +124,6 @@ app.get("/register", (req, res) => {
   });
 });
 
-app.post("/register", (req, res) => {
-  authData
-    .registerUser(req.body)
-    .then(() => {
-      res.render("register", {
-        successMessage:
-          "Successfully registered! Sending comfirmation email...",
-        errorMessage: null,
-        userName: req.body.userName,
-      });
-    })
-    .catch((err) => {
-      console.log("reqbody in Register: ", req.body);
-      res.render("register", {
-        successMessage: null,
-        errorMessage: err,
-        userName: req.body.userName,
-      });
-    });
-});
-
 app.get("/member", ensureLogin, async (req, res) => {
   try {
   const userID = req.session.userID;
@@ -151,6 +145,12 @@ app.get("/logout", function (req, res) {
     }
     res.redirect("/home");
   });
+});
+
+
+/////// HOME
+app.get("/", (req, res) => {
+  res.render("home");
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
