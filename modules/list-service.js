@@ -19,17 +19,27 @@ let propertySchema = new Schema({
 
 let Property;
 
-// function initialize() {
-//   return new Promise(function (resolve, reject) {
-//     // let db = mongoose.createConnection(process.env.MONGODB);
-//     let db = mongoose.createConnection("mongodb+srv://r4a_admin:kxGoJtwA8WdlNF6v@roof4all.cwys7ka.mongodb.net/?retryWrites=true&w=majority&appName=roof4all");
-//     db.on("error", (err) => {
-//       reject(err);
-//     });
-//     db.once("open", () => {
-//       User = db.model("users", userSchema);
-//       resolve();
-//       console.log(`Connection Successful: Connected to MongoDB.`);
-//     });
-//   });
-// }
+async function initialize() {
+  try {
+    const db = await connectToDatabase("list-service");
+    Property = db.model("Property", propertySchema);
+  } catch (error) {
+    console.error("Service initialization failed", error);
+    process.exit(1);
+  }
+}
+
+async function getAllProperties() {
+  try {
+    let properties = await Property.findAll({});
+    return properties;
+  } catch (err) {
+    console.error("Error finding properties", err);
+    return null;
+  }
+}
+
+module.exports = {
+  initialize,
+  getAllProperties
+};

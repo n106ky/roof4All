@@ -35,7 +35,7 @@ let guestSchema = new Schema({
   purpose: { type: String },
   doc_type: { type: String },
   upload_doc: { type: String }, // change if have time
-  guest_rating: { type: Number },
+  guest_rating: { type: Number, default: null },
 });
 
 let hostSchema = new Schema({
@@ -48,7 +48,7 @@ let hostSchema = new Schema({
   purpose: { type: String },
   doc_type: { type: String },
   upload_doc: { type: String }, // change if have time
-  host_rating: { type: Number },
+  host_rating: { type: Number, default: null },
   property: [{ type: ObjectId, ref: "Property" }],
 });
 
