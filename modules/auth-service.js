@@ -114,10 +114,20 @@ function checkUser(userData) {
   });
 }
 
+async function getUser(userID) {
+  try {
+    let user = await User.findOne({ _id: userID });
+    return user;
+  } catch (err) {
+    console.error("Error finding user", err);
+  }
+}
+
 module.exports = {
   initialize,
   registerUser,
   checkUser,
+  getUser
 };
 
 

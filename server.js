@@ -12,7 +12,6 @@
 // 5. npm i client-sessions
 // 6. npm i dotenv
 
-
 const authData = require("./modules/auth-service.js");
 
 const express = require("express");
@@ -40,97 +39,117 @@ app.use(
   })
 );
 
-
 // USER LOGIN
 app.use(
-    clientSessions({
-      cookieName: "session", // Name of the cookie
-      // secret: process.env.CLIENT_SESSION_SECRET, // Secret key for signing the cookie
-      secret: "DH3AJ-EJ2AN-OD0UD-VB8DE",
-      duration: 2 * 60 * 1000, // Total duration of the session (2 minutes in this case)
-      activeDuration: 3 * 60 * 1000, // Active duration extension (3 minutes in this case)
-    })
-  );
-  
-  app.use((req, res, next) => {
-    res.locals.session = req.session; // contains data like user information, preferences
-    next(); //  If the user is logged in (i.e., req.session.user is set), it calls the next function to pass control to the next middleware or route handler. This means the user can continue to access the route that is protected by this middleware.
-  });
-  
-  // Custom middleware, used to protect a route from unauthorized access:
-  function ensureLogin(req, res, next) {
-    if (!req.session.user) {
-      res.redirect("/login");
-    } else {
-      next();
-    }
-  }
-  
+  clientSessions({
+    cookieName: "session", // Name of the cookie
+    // secret: process.env.CLIENT_SESSION_SECRET, // Secret key for signing the cookie
+    secret: "DH3AJ-EJ2AN-OD0UD-VB8DE",
+    duration: 2 * 60 * 1000, // Total duration of the session (2 minutes in this case)
+    activeDuration: 3 * 60 * 1000, // Active duration extension (3 minutes in this case)
+  })
+);
 
-  // HOME
+app.use((req, res, next) => {
+  res.locals.session = req.session; // contains data like user information, preferences
+  next(); //  If the user is logged in (i.e., req.session.user is set), it calls the next function to pass control to the next middleware or route handler. This means the user can continue to access the route that is protected by this middleware.
+});
+
+// Custom middleware, used to protect a route from unauthorized access:
+function ensureLogin(req, res, next) {
+  if (!req.session.user) {
+    res.redirect("/login");
+  } else {
+    next();
+  }
+}
+
+// HOME
 app.get("/", (req, res) => {
   res.render("home");
 });
 
+app.get("/login", (req, res) => {
+  res.render("login", { errorMessage: null, userName: null });
+});
 
-  app.get("/login", (req, res) => {
-    res.render("login", { errorMessage: null, userName: null });
-  });
-  
-  app.post("/login", (req, res) => {
+app.get("/emailSent", (req, res) => {
+  res.render("emailSent");
+});
+
+
+app.post("/login", async (req, res) => {
+  try {
     req.body.userAgent = req.get("User-Agent");
-  
-    authData
-      .checkUser(req.body)
-      .then((user) => {
-        req.session.user = {
-          userName: user.userName,
-          email: user.email,
-          loginHistory: user.loginHistory,
-        };
-        res.redirect("/");
-      })
-      .catch((err) => {
-        res.render("login", { errorMessage: err, userName: req.body.userName });
-      });
+    const user = await authData.checkUser(req.body);
+
+    req.session.user = {
+      userName: user.userName,
+      email: user.email,
+      loginHistory: user.loginHistory,
+      userType: user.userType,
+      verified: user.verified,
+    };
+    const userID = req.session.userID;
+    const userDetails = await authData.getUser(userID);
+    console.log("LOGIN USER: ", userDetails);
+    res.render("member", { user: userDetails });
+  } catch (err) {
+    res.render("login", { errorMessage: err, userName: req.body.userName });
+  }
+});
+
+app.get("/register", (req, res) => {
+  res.render("register", {
+    successMessage: null,
+    errorMessage: null,
+    userName: null,
   });
-  
-  app.get("/register", (req, res) => {
-    res.render("register", {
-      successMessage: null,
-      errorMessage: null,
-      userName: null,
+});
+
+app.post("/register", (req, res) => {
+  authData
+    .registerUser(req.body)
+    .then(() => {
+      res.render("register", {
+        successMessage:
+          "Successfully registered! Sending comfirmation email...",
+        errorMessage: null,
+        userName: req.body.userName,
+      });
+    })
+    .catch((err) => {
+      console.log("reqbody in Register: ", req.body);
+      res.render("register", {
+        successMessage: null,
+        errorMessage: err,
+        userName: req.body.userName,
+      });
     });
+});
+
+app.get("/member", ensureLogin, async (req, res) => {
+  try {
+  const userID = req.session.userID;
+  const userData = await authData.getUser(userID);
+  res.render("member", { user: userData });
+} catch (err) {
+  console.log(err);
+  res.status(500).render("500", {
+    message: `I'm sorry, but we've encountered the following error: ${err}`,
   });
-  
-  app.post("/register", (req, res) => {
-    authData
-      .registerUser(req.body)
-      .then(() => {
-        res.render("register", {
-          successMessage: "Successfully registered! Redirecting to login in 3s...",
-          errorMessage: null,
-          userName: req.body.userName,
-        });
-      })
-      .catch((err) => {
-        console.log("reqbody in Register: ", req.body);
-        res.render("register", {
-          successMessage: null,
-          errorMessage: err,
-          userName: req.body.userName,
-        });
-      });
+}
+});
+
+app.get("/logout", function (req, res) {
+  req.session.destroy(function (err) {
+    if (err) {
+      console.error("Error destroying session:", err);
+      return res.status(500).send("Could not logout.");
+    }
+    res.redirect("/home");
   });
-  
-  app.get("/logout", (req, res) => {
-    req.session.reset();
-    res.redirect("/");
-  });
-  
-  app.get("/userHistory", ensureLogin, (req, res) => {
-    res.render("userHistory");
-  });
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 app.use((req, res, next) => {
