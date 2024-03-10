@@ -23,13 +23,48 @@ let userSchema = new Schema({
   user_img: String,
   verified: { type: Boolean, default: false },
 });
-  
-let User;
+
+let guestSchema = new Schema({
+  user: { type: ObjectId, ref: "User" },
+  fname: { type: String },
+  lname: { type: String },
+  dob: { type: Date },
+  gender: { type: String },
+  employment_status: { type: String },
+  purpose: { type: String },
+  doc_type: { type: String },
+  upload_doc: { type: String }, // change if have time
+  guest_rating: { type: Number },
+});
+
+let hostSchema = new Schema({
+  user: { type: ObjectId, ref: "User" },
+  fname: { type: String },
+  lname: { type: String },
+  dob: { type: Date },
+  gender: { type: String },
+  employment_status: { type: String },
+  purpose: { type: String },
+  doc_type: { type: String },
+  upload_doc: { type: String }, // change if have time
+  host_rating: { type: Number },
+  property: [{ type: ObjectId, ref: "Property" }],
+});
+
+let businessSchema = new Schema({
+  user: { type: ObjectId, ref: "User" },
+  companyName: { type: String },
+  license_url: { type: String },
+});
+
+let User, Guest, Host, Business;
 
 function initialize() {
   return new Promise(function (resolve, reject) {
     // let db = mongoose.createConnection(process.env.MONGODB);
-    let db = mongoose.createConnection("mongodb+srv://r4a_admin:kxGoJtwA8WdlNF6v@roof4all.cwys7ka.mongodb.net/?retryWrites=true&w=majority&appName=roof4all");
+    let db = mongoose.createConnection(
+      "mongodb+srv://r4a_admin:kxGoJtwA8WdlNF6v@roof4all.cwys7ka.mongodb.net/?retryWrites=true&w=majority&appName=roof4all"
+    );
     db.on("error", (err) => {
       reject(err);
     });
@@ -127,9 +162,8 @@ module.exports = {
   initialize,
   registerUser,
   checkUser,
-  getUser
+  getUser,
 };
-
 
 //////
 

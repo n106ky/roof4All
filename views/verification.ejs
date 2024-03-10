@@ -15,7 +15,7 @@
         <p>Account</p>
         <hr />
         <div>
-          <a href="#" id="a_aboutYou">About you</a>
+          <a href="#" class="a_aboutYou">About you</a>
           <a href="#" class="a_KYCVerification">KYC Verification</a>
         </div>
         <hr />
@@ -110,20 +110,29 @@
             <input required type="file" name="upload_file" />
           </div>
 
-          <button type="submit">Submit</button>
+          <div class="checkbox-container">
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms">I accept all <a href="#">terms and conditions</a></label>
+          </div>
+          <a href="#" class="a_aboutYou"
+          ><button type="button">Previous</button></a
+        >
+          <button type="submit">Complete registration</button>
         </div>
       </form>
     </main>
     <script>
-      const a_aboutYou = document.getElementById("a_aboutYou");
+      const a_aboutYou = document.querySelectorAll(".a_aboutYou");
       const div_aboutYou = document.getElementById("aboutYou");
       const a_KYCV = document.querySelectorAll(".a_KYCVerification");
       const div_KYCV = document.getElementById("KYCVerification");
 
-      a_aboutYou.addEventListener("click", function (e) {
-        e.preventDefault();
-        div_aboutYou.style.display = "block";
-        div_KYCV.style.display = "none";
+      a_aboutYou.forEach((link) => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          div_aboutYou.style.display = "block";
+          div_KYCV.style.display = "none";
+        });
       });
 
       a_KYCV.forEach((link) => {
