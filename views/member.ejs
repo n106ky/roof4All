@@ -10,19 +10,23 @@
     <!-- Navbar -->
     <header><%- include('partials/navbar', {page: '/member'}) %></header>
     <main>
-        <div>THIS IS YOUR INFO</div>
-        <% if(session.user.verified == true) { %>
-            <p>The membership has been verified.</p>
-            <p>Member details as follow:</p>
-            <p>User name: <%= user.userName %> </p>
-            <p>User Type: <%= user.userType %> </p>
-            
-        <% } else { %>
-            <p>The membership has not been verified.</p>
-            <a href="/verification"><button>Verify your identity now</button></a>
-        <% } %>
+      <div>THIS IS YOUR INFO</div>
+      <p>User name: <%= user.userName %></p>
+      <p>User Type: <%= user.userType %></p>
+      <% if(session.user.verified == true) { %>
+        <p>The membership has been verified.</p>
+        <p>Member details as follow:</p>
+        <p>Verified status: Success %></p>
+      <% } else { %>
+        <p>The membership has not been verified.</p>
+      <% if(session.user.userType == 'business') { %>
+        <a href="/verificationBusAcc"
+          ><button>Verify your identity now</button></a
+        >
+      <% } else { %>
+      <a href="/verification"><button>Verify your identity now</button></a>
+      <% } %> <% } %>
     </main>
-  
   </body>
   <%- include('partials/footer', {page: '/member'}) %>
 </html>

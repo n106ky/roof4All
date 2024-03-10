@@ -13,6 +13,7 @@
 // 6. npm i dotenv
 
 const authData = require("./modules/auth-service.js");
+const listData = require("./modules/list-service.js");
 
 const express = require("express");
 const clientSessions = require("client-sessions");
@@ -64,6 +65,22 @@ function ensureLogin(req, res, next) {
   }
 }
 
+async function ensureHostVerified(req, res, next) {
+  console.log(req.session.user);
+  if (!req.session.user) {
+    res.redirect("/login");
+  }
+  const user = await authData.getUser(req.session.user.userID);
+  console.log("USER", user);
+  if (user.userType != "host" || user.verified == false) {
+    res
+      .status(403)
+      .render("403", { message: `ERROR: You need to be a verified host to post property` });
+  } else {
+    next();
+  }
+}
+
 app.get("/register", (req, res) => {
   res.render("register", {
     successMessage: null,
@@ -97,11 +114,11 @@ app.get("/emailSent", (req, res) => {
   res.render("emailSent");
 });
 
-app.get("/verification", (req, res) => {
+app.get("/verification", ensureLogin, (req, res) => {
   res.render("verification", { successMessage: null, errorMessage: null });
 });
 
-app.post("/verification", (req, res) => {
+app.post("/verification", ensureLogin, (req, res) => {
   const userID = req.session.user.userID
   authData
   .verifyUser(userID, req.body)
@@ -114,8 +131,34 @@ app.post("/verification", (req, res) => {
     });
   })
   .catch((err) => {
-    console.log("reqbody in Register: ", req.body);
-    res.render("register", {
+    console.log("reqbody in Individual Verification: ", req.body);
+    res.render("verification", {
+      successMessage: null,
+      errorMessage: err,
+      userName: req.body.userName,
+    });
+  });
+});
+
+app.get("/verificationBusAcc", ensureLogin, (req, res) => {
+  res.render("verificationBusAcc", { successMessage: null, errorMessage: null });
+});
+
+app.post("/verificationBusAcc", ensureLogin, (req, res) => {
+  const userID = req.session.user.userID
+  authData
+  .verifyUser(userID, req.body)
+  .then(() => {
+    res.render("verificationBusAcc", {
+      successMessage:
+        "Successfully verified",
+      errorMessage: null,
+      userName: req.body.userName,
+    });
+  })
+  .catch((err) => {
+    console.log("reqbody in Business verification: ", req.body);
+    res.render("verificationBusAcc", {
       successMessage: null,
       errorMessage: err,
       userName: req.body.userName,
@@ -152,10 +195,9 @@ app.post("/login", async (req, res) => {
 });
 
 
-
 app.get("/member", ensureLogin, async (req, res) => {
   try {
-    const userID = req.session.userID;
+    const userID = req.session.user.userID;
     const userData = await authData.getUser(userID);
     res.render("member", { user: userData });
   } catch (err) {
@@ -172,11 +214,39 @@ app.get("/logout", function (req, res) {
       console.error("Error destroying session:", err);
       return res.status(500).send("Could not logout.");
     }
-    res.redirect("/home");
+    res.redirect("/");
   });
 });
 
-/////// HOME
+////// HOST FUNCTIONS
+app.get("/postProperty", ensureHostVerified, (req, res) => {
+  res.render("postProperty");
+});
+
+app.post("/postProperty", (req, res) => {
+  try{
+    const userID = req.session.user.userID
+    const prop = listData.postProperty(userID, req.body);
+    res.render("postProperty", {
+      successMessage:
+        "Successfully listed",
+      errorMessage: null,
+      userName: req.body.userName,
+    });
+  }
+  catch(err){
+    console.log("reqbody in postProperty: ", req.body);
+    res.render("postProperty", {
+      successMessage: null,
+      errorMessage: err,
+      userName: req.body.userName,
+    });
+  }
+});
+
+
+
+////// HOME
 app.get("/", (req, res) => {
   res.render("home");
 });
@@ -186,8 +256,17 @@ app.use((req, res, next) => {
   res.status(404).render("404", { title: "404: Page Not Found" });
 });
 
-authData.initialize().then(() => {
-  app.listen(HTTP_PORT, () =>
-    console.log(`server listening on: http://localhost:${HTTP_PORT}`)
-  );
-});
+Promise.all([
+  authData.initialize(),
+  listData.initialize(),
+])
+  .then(() => {
+    app.listen(HTTP_PORT, () => {
+      console.log(`Server listening on: http://localhost:${HTTP_PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Initialization failed", error);
+    process.exit(1);
+  });
+

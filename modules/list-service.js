@@ -1,7 +1,9 @@
 require("dotenv").config();
 
-const mongoose = require("mongoose");
+const { connectToDatabase, mongoose } = require("./dbConnection");
+
 let Schema = mongoose.Schema;
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 let propertySchema = new Schema({
   propertyName: { type: String },
@@ -27,6 +29,11 @@ async function initialize() {
     console.error("Service initialization failed", error);
     process.exit(1);
   }
+}
+
+function postProperty(userID, propData){
+
+
 }
 
 async function getAllProperties() {

@@ -54,8 +54,15 @@ let hostSchema = new Schema({
 
 let businessSchema = new Schema({
   user: { type: ObjectId, ref: "User" },
+  fname: { type: String },
+  lname: { type: String },
+  dob: { type: Date },
+  gender: { type: String },
+  employment_title: {type: String},
+  purpose: { type: String },
   companyName: { type: String },
-  license_url: { type: String },
+  doc_type: { type: String },
+  upload_doc: { type: String }, // change if have time
 });
 
 let User, Guest, Host, Business;
@@ -180,6 +187,9 @@ async function verifyUser(userID, userData) {
     }
     verifiedUser.user = userID;
     await verifiedUser.save();
+    user.verified = true;
+    await user.save();
+    console.log("Verification complete.");
     return verifiedUser;
   } catch (err) {
     console.error("An error occurred:", err);
