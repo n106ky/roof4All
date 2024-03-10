@@ -23,12 +23,13 @@ let userSchema = new Schema({
   user_img: String,
   verified: { type: Boolean, default: false },
 });
-
+  
 let User;
 
 function initialize() {
   return new Promise(function (resolve, reject) {
-    let db = mongoose.createConnection(process.env.MONGODB);
+    // let db = mongoose.createConnection(process.env.MONGODB);
+    let db = mongoose.createConnection("mongodb+srv://r4a_admin:kxGoJtwA8WdlNF6v@roof4all.cwys7ka.mongodb.net/?retryWrites=true&w=majority&appName=roof4all");
     db.on("error", (err) => {
       reject(err);
     });

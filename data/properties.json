@@ -1,0 +1,54 @@
+[
+    {
+      "price(CAD)": "CAD 2500/month",
+      "property_name": "Maple Leaf Square",
+      "address": "55 Bremner Blvd, Toronto, ON M5J 0A6",
+      "room_size": "850 sqft",
+      "no_of_rooms": 2,
+      "no_of_guest": 4,
+      "host": "https://examplehost.com/mapleleafsquare",
+      "duration_start": "2024-04-01",
+      "duration_end": "2025-04-01",
+      "amenities": ["Gym", "Pool", "24hr Security", "Underground Parking"],
+      "policies": ["No Smoking", "No Pets", "Maximum 30 days booking"]
+    },
+    {
+      "price(CAD)": "CAD 3200/month",
+      "property_name": "The Waterfront Condo",
+      "address": "228 Queens Quay W, Toronto, ON M5J 2X1",
+      "room_size": "920 sqft",
+      "no_of_rooms": 3,
+      "no_of_guest": 5,
+      "host": "https://examplehost.com/waterfrontcondo",
+      "duration_start": "2024-11-01",
+      "duration_end": "2026-03-31",
+      "amenities": ["Sauna", "Fitness Center", "Rooftop Terrace", "Party Room"],
+      "policies": ["No Smoking", "Pet Friendly", "References Required"]
+    },
+    {
+      "price(CAD)": "CAD 1800/month",
+      "property_name": "Downtown Studio",
+      "address": "101 Peter St, Toronto, ON M5V 2G9",
+      "room_size": "500 sqft",
+      "no_of_rooms": 1,
+      "no_of_guest": 2,
+      "host": "https://examplehost.com/downtownstudio",
+      "duration_start": "2024-03-20",
+      "duration_end": "2025-03-20",
+      "amenities": ["Concierge", "Bicycle Storage", "Public Transit Access", "Balcony"],
+      "policies": ["No Smoking", "No Pets"]
+    },
+    {
+      "price(CAD)": "CAD 4000/month",
+      "property_name": "Yorkville Luxury Suite",
+      "address": "155 Yorkville Ave, Toronto, ON M5R 1C4",
+      "room_size": "1100 sqft",
+      "no_of_rooms": 3,
+      "no_of_guest": 6,
+      "host": "https://examplehost.com/yorkvilleluxury",
+      "duration_start": "2024-06-01",
+      "duration_end": "2025-06-01",
+      "amenities": ["Indoor Pool", "Gym", "Valet Parking", "Spa"],
+      "policies": ["No Smoking", "Small Pets Allowed", "Minimum 6 months lease"]
+    }
+  ]

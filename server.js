@@ -3,10 +3,10 @@
 // ======
 // npm i express
 
-// TO USE .EJS:
+// .EJS:
 // 2. npm i ejs
 
-// TO USE MONGO DB:
+// MONGO DB:
 // 3. npm i mongoose
 // 4. npm i bcryptjs
 // 5. npm i client-sessions
@@ -27,7 +27,8 @@ app.use(express.static("public"));
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET, // A secret key for signing the cookie
+    // secret: process.env.SESSION_SECRET, // A secret key for signing the cookie
+    secret: "SB9AO-DB5YS-QF5DS-NC6GD",
     resave: false, // Don't save session if unmodified
     saveUninitialized: false, // Don't create session until something stored
     cookie: {
@@ -44,7 +45,8 @@ app.use(
 app.use(
     clientSessions({
       cookieName: "session", // Name of the cookie
-      secret: process.env.CLIENT_SESSION_SECRET, // Secret key for signing the cookie
+      // secret: process.env.CLIENT_SESSION_SECRET, // Secret key for signing the cookie
+      secret: "DH3AJ-EJ2AN-OD0UD-VB8DE",
       duration: 2 * 60 * 1000, // Total duration of the session (2 minutes in this case)
       activeDuration: 3 * 60 * 1000, // Active duration extension (3 minutes in this case)
     })
