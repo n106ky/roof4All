@@ -64,7 +64,34 @@ function ensureLogin(req, res, next) {
   }
 }
 
+app.get("/register", (req, res) => {
+  res.render("register", {
+    successMessage: null,
+    errorMessage: null,
+    userName: null,
+  });
+});
 
+app.post("/register", (req, res) => {
+  authData
+    .registerUser(req.body)
+    .then(() => {
+      res.render("register", {
+        successMessage:
+          "Successfully registered! Sending comfirmation email...",
+        errorMessage: null,
+        userName: req.body.userName,
+      });
+    })
+    .catch((err) => {
+      console.log("reqbody in Register: ", req.body);
+      res.render("register", {
+        successMessage: null,
+        errorMessage: err,
+        userName: req.body.userName,
+      });
+    });
+});
 
 app.get("/emailSent", (req, res) => {
   res.render("emailSent");
@@ -72,6 +99,28 @@ app.get("/emailSent", (req, res) => {
 
 app.get("/verification", (req, res) => {
   res.render("verification", { successMessage: null, errorMessage: null });
+});
+
+app.post("/verification", (req, res) => {
+  const userID = req.session.user.userID
+  authData
+  .verifyUser(userID, req.body)
+  .then(() => {
+    res.render("verification", {
+      successMessage:
+        "Successfully verified",
+      errorMessage: null,
+      userName: req.body.userName,
+    });
+  })
+  .catch((err) => {
+    console.log("reqbody in Register: ", req.body);
+    res.render("register", {
+      successMessage: null,
+      errorMessage: err,
+      userName: req.body.userName,
+    });
+  });
 });
 
 
@@ -102,34 +151,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/register", (req, res) => {
-  res.render("register", {
-    successMessage: null,
-    errorMessage: null,
-    userName: null,
-  });
-});
 
-app.post("/register", (req, res) => {
-  authData
-    .registerUser(req.body)
-    .then(() => {
-      res.render("register", {
-        successMessage:
-          "Successfully registered! Sending comfirmation email...",
-        errorMessage: null,
-        userName: req.body.userName,
-      });
-    })
-    .catch((err) => {
-      console.log("reqbody in Register: ", req.body);
-      res.render("register", {
-        successMessage: null,
-        errorMessage: err,
-        userName: req.body.userName,
-      });
-    });
-});
 
 app.get("/member", ensureLogin, async (req, res) => {
   try {

@@ -150,11 +150,26 @@ function checkUser(userData) {
   });
 }
 
-async function verifyUser(userID) {
+async function verifyUser(userID, userData) {
   try {
-
-  } catch {
-
+    let user = await User.findOne({ _id: userID });
+    if (!user) {
+      console.error("User not found");
+      return;
+    }
+    let verifiedUser;
+    if (user.userType == "guest") {
+      verifiedUser = new Guest(userData);
+    } else if (user.userType == "host") {
+      verifiedUser = new Host(userData);
+    } else if (user.userType == "business") {
+      verifiedUser = new Business(userData);
+    }
+    await verifiedUser.save();
+    return verifiedUser;
+  } catch (err) {
+    console.error("An error occurred:", err);
+    throw err;
   }
 }
 
