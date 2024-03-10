@@ -12,15 +12,6 @@
 // 5. npm i client-sessions
 // 6. npm i dotenv
 
-// sendGrid
-// 7. Install the SendGrid API module: npm install “@sendgrid/mail”
-
-const path = require("path");
-
-// Set up dotenv
-const dotenv = require("dotenv");
-dotenv.config({ path: "./config/keys.env" });
-
 const authData = require("./modules/auth-service.js");
 
 const express = require("express");
@@ -73,88 +64,7 @@ function ensureLogin(req, res, next) {
   }
 }
 
-// Setup a route to return the signup page
-app.get("/register", (req, res) => {
-  res.render("register", {
-      title: "Sign-Up Page",
-      validationSignUpMessage: {},
-    values: {
-         userName:"",
-         email: "",
-          password:""
-      }   
-  });
-});
 
-
-app.post("/register", (req, res) => {
-  let { userName,email, password } = req.body;
-  let validationSignUpPassed = true;
-  let validationSignUpMessage = {};
-
-  // validate userName (not null and not empty)
-  if (typeof (userName) !== "string") {
-      validationSignUpPassed = false;
-      validationSignUpMessage.userName = "Please enter your user name";
-  }
-  else if (userName.trim().length === 0 || userName==="" || userName===null) {
-      validationSignUpMessage.userName = "user name must contain at least 1 character";
-      validationSignUpPassed = false;
-  }
-  if (typeof (email) !== "string") {
-      validationSignUpPassed = false;
-      validationSignUpMessage.email = "email is required";
-  }
-  else if (email.trim().length === 0 || email===null) {
-      validationSignUpPassed = false;
-      validationSignUpMessage.email = "email must contain at least 1 character";
-  }
-  
-  
- 
-  if (password === null) {
-      validationSignUpPassed = false;
-      validationSignUpMessage.password = "password is required";
-  }
-  else if (password.trim().length === 0) {
-      validationSignUpPassed = false;
-      validationSignUpMessage.password = "password must contain at least 1 character";
-  }
-  // output
-  if (validationSignUpPassed) {
-      // set up email
-      const sgMail = require("@sendgrid/mail");
-      sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
-      // construct an email structure
-      const msg = {
-      to: email,
-      from:"naomiran1989@gmail.com",
-      subject: "Welcome to register",
-      html:
-          `Hi, ${userName}, congratuate to become a member of ROOF4ALL<br>
-           Your Email Address:${email}<br>`   
-      };
-// send the email
-      sgMail.send(msg)
-          .then(() => {
-            res.send("Welcome to roof4all");
-          })
-          .catch(err => {
-              console.log(err);
-              res.render("register", {
-                  title: "register page",
-                  validationSignUpMessage,
-                  values: req.body
-              });
-          });
-  } else {
-      res.render("register", {
-          title: "register page",
-          validationSignUpMessage,
-          values: req.body
-      });
-  }
-});
 
 app.get("/emailSent", (req, res) => {
   res.render("emailSent");
@@ -198,6 +108,27 @@ app.get("/register", (req, res) => {
     errorMessage: null,
     userName: null,
   });
+});
+
+app.post("/register", (req, res) => {
+  authData
+    .registerUser(req.body)
+    .then(() => {
+      res.render("register", {
+        successMessage:
+          "Successfully registered! Sending comfirmation email...",
+        errorMessage: null,
+        userName: req.body.userName,
+      });
+    })
+    .catch((err) => {
+      console.log("reqbody in Register: ", req.body);
+      res.render("register", {
+        successMessage: null,
+        errorMessage: err,
+        userName: req.body.userName,
+      });
+    });
 });
 
 app.get("/member", ensureLogin, async (req, res) => {

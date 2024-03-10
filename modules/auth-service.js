@@ -171,6 +171,7 @@ module.exports = {
   initialize,
   registerUser,
   checkUser,
+  verifyUser,
   getUser,
 };
 

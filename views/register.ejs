@@ -18,13 +18,16 @@
       <form action="/register" method="POST" class="">
        <!--Email-->
        <div>
-        <label for="email">Email</label>
-        <input type="text" id="email" name="email" placeholder="name@example.com" value="<%=values.email%>" ><br>
-        <% if(validationSignUpMessage.email){%>
-            <span style="color:red"><%= validationSignUpMessage.email%></span><br/><br/>
-         <% } %>
-        </div>
-        <!-- Password -->
+        <div class="">
+          <label class="">Username</label>
+          <input
+            required
+            type="userName"
+            name="userName"
+            placeholder="text"
+            class=""
+          />
+
         <div class="">
           <label class="">Password</label>
           <input
@@ -34,9 +37,7 @@
             placeholder="password"
             class=""
           />
-          <% if(validationSignUpMessage.password){%>
-            <span style="color:red"><%= validationSignUpMessage.password%></span><br/><br/>
-         <% } %>
+
         </div>
         <div class="">
           <label class="">Re-eneter Password</label>
@@ -48,6 +49,9 @@
             class=""
           />
         </div>
+
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" placeholder="name@example.com" ><br>
         
         <div class="black-frame">
           <!-- GUEST -->
