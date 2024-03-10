@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs"); //  used for hashing and comparing passwords
 const mongoose = require("mongoose");
 
 let Schema = mongoose.Schema;
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 let userSchema = new Schema({
   userName: { type: String, unique: true },
