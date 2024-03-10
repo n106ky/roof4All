@@ -60,17 +60,21 @@ let businessSchema = new Schema({
 
 let User, Guest, Host, Business;
 
-async function initialize() {
-  try {
-    const db = await connectToDatabase("auth-service");
-    User = db.model("user", userSchema);
-    Guest = db.model("guest", guestSchema);
-    Host = db.model("host", hostSchema);
-    Business = db.model("business", businessSchema);
-  } catch (error) {
-    console.error("Service initialization failed", error);
-    process.exit(1);
-  }
+function initialize() {
+  return new Promise(function (resolve, reject) {
+    // let db = mongoose.createConnection(process.env.MONGODB);
+    let db = mongoose.createConnection(
+      "mongodb+srv://r4a_admin:kxGoJtwA8WdlNF6v@roof4all.cwys7ka.mongodb.net/?retryWrites=true&w=majority&appName=roof4all"
+    );
+    db.on("error", (err) => {
+      reject(err);
+    });
+    db.once("open", () => {
+      User = db.model("users", userSchema);
+      resolve();
+      console.log(`Connection Successful: Connected to MongoDB.`);
+    });
+  });
 }
 
 function registerUser(userData) {
@@ -167,7 +171,6 @@ module.exports = {
   initialize,
   registerUser,
   checkUser,
-  verifyUser,
   getUser,
 };
 
