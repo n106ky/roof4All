@@ -21,6 +21,7 @@ let userSchema = new Schema({
     },
   ],
   user_img: String,
+  verified: { type: Boolean, default: false },
 });
 
 let User;
@@ -117,3 +118,20 @@ module.exports = {
   registerUser,
   checkUser,
 };
+
+
+//////
+
+/*
+function verifyBusinessAcc(userData) {
+  return new Promise((resolve, reject) => {});
+}
+
+function verifyGuestAcc(userData) {
+  return new Promise((resolve, reject) => {});
+}
+
+function veriftHostAcc(userData) {
+  return new Promise((resolve, reject) => {});
+}
+*/
