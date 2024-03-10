@@ -190,18 +190,3 @@ module.exports = {
   getUser,
 };
 
-//////
-
-/*
-function verifyBusinessAcc(userData) {
-  return new Promise((resolve, reject) => {});
-}
-
-function verifyGuestAcc(userData) {
-  return new Promise((resolve, reject) => {});
-}
-
-function veriftHostAcc(userData) {
-  return new Promise((resolve, reject) => {});
-}
-*/
