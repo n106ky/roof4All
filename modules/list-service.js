@@ -12,6 +12,7 @@ let listSchema = new Schema({
   room_size_sqft: { type: Number },
   no_of_rooms: { type: Number },
   no_of_guest: { type: Number },
+  price: { type: Number },
   price_space: { type: Number },
   duration_start: { type: Date },
   duration_end: { type: Date },
@@ -39,7 +40,30 @@ async function initialize() {
   }
 }
 
-function postProperty(userID, propData) {}
+async function postProperty(userID, propData) {
+  try {
+    const newList = new List({
+      host: userID,
+      propertyName: propData.propertyName,
+      address: propData.address,
+      room_size_sqft: propData.room_size_sqft,
+      no_of_rooms: propData.no_of_rooms,
+      no_of_guest: propData.no_of_guest,
+      price: propData.price,
+      duration_start: propData.duration_start,
+      duration_end: propData.duration_end,
+      amenities: propData.amenities,
+      policies: propData.policies,
+      img_url: propData.img_url,
+    });
+    // console.log("New list: \n", newList);
+    newList.price_space = propData.price / propData.no_of_rooms;
+    await newList.save();
+
+  } catch (err) {
+    console.log(`(postProperty) Error in creating new list: ${err}`);
+  }
+}
 
 async function getAllProperties() {
   try {
@@ -54,4 +78,5 @@ async function getAllProperties() {
 module.exports = {
   initialize,
   getAllProperties,
+  postProperty,
 };

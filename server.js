@@ -22,10 +22,14 @@ Bugs fix:
 2. dob
 3. options in verification
 4. turn to another page after verication
+5. list properties: start day, end day
+6. home page writing
+7. list - mutiple img urls
 ----------
 Functions to implement:
 1. get listing done.
 2. render listing to page.
+
 */
 
 const authData = require("./modules/auth-service.js");
@@ -243,19 +247,19 @@ app.post("/postProperty", (req, res) => {
   try{
     const userID = req.session.user.userID
     const prop = listData.postProperty(userID, req.body);
-    res.render("postProperty", {
-      successMessage:
-        "Successfully listed",
-      errorMessage: null,
-      userName: req.body.userName,
+    res.render("home", { // postProperty
+      // successMessage:
+      //   "Successfully listed",
+      // errorMessage: null,
+      // userName: req.body.userName,
     });
   }
   catch(err){
     console.log("reqbody in postProperty: ", req.body);
-    res.render("postProperty", {
-      successMessage: null,
-      errorMessage: err,
-      userName: req.body.userName,
+    res.render("home", {
+      // successMessage: null,
+      // errorMessage: err,
+      // userName: req.body.userName,
     });
   }
 });
