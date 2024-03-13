@@ -15,6 +15,7 @@ let userSchema = new Schema({
     enum: ["guest", "host", "business", "admin"],
     default: "guest",
   },
+  roleID: {type: ObjectId},
   loginHistory: [
     {
       dateTime: { type: Date },
@@ -203,6 +204,7 @@ async function verifyUser(userID, userData) {
     }
     verifiedUser.user = userID;
     await verifiedUser.save();
+    user.roleID = verifiedUser._id;
     user.verified = true;
     await user.save();
     console.log("Verification complete.");
@@ -222,11 +224,22 @@ async function getUser(userID) {
   }
 }
 
+async function getHost(hostID) {
+  try {
+    let host = await Host.findOne({ _id: hostID });
+    return host;
+  } catch (err) {
+    console.error("Error finding host", err);
+  }
+}
+
+
 module.exports = {
   initialize,
   registerUser,
   checkUser,
   verifyUser,
   getUser,
+  getHost,
 };
 

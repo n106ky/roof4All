@@ -1,11 +1,15 @@
 require("dotenv").config();
 
+// Import the User model
+const authData = require('./auth-service');
+
 const { connectToDatabase, mongoose } = require("./dbConnection");
 
 let Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
-let listSchema = new Schema({
+// keep it simple for now, do not need to verify listing at this stage.
+let propertySchema = new Schema({ 
   host: { type: ObjectId, ref: "Host" },
   propertyName: { type: String },
   address: { type: String },
@@ -19,21 +23,17 @@ let listSchema = new Schema({
   amenities: { type: String },
   policies: { type: String },
   img_url: [{ type: String }],
-});
-
-let propertySchema = new Schema({
-  host: { type: ObjectId, ref: "Host" },
-  properties: [listSchema],
   status: { type: Boolean }, // active vs inactive
 });
 
-let List, Property;
+let Property;
+// let List;
 
 async function initialize() {
   try {
     const db = await connectToDatabase("list-service");
     Property = db.model("Property", propertySchema);
-    List = db.model("List", listSchema);
+    // List = db.model("List", listSchema);
   } catch (error) {
     console.error("Service initialization failed", error);
     process.exit(1);
@@ -42,8 +42,8 @@ async function initialize() {
 
 async function postProperty(userID, propData) {
   try {
-    const newList = new List({
-      host: userID,
+    // get data from req.body, push to db - list
+    const newList = new Property({
       propertyName: propData.propertyName,
       address: propData.address,
       room_size_sqft: propData.room_size_sqft,
@@ -57,8 +57,16 @@ async function postProperty(userID, propData) {
       img_url: propData.img_url,
     });
     // console.log("New list: \n", newList);
-    newList.price_space = propData.price / propData.no_of_rooms;
+    newList.price_space = +(propData.price / propData.no_of_rooms).toFixed(2);
+    propData.status == 'on'? newList.status = true: newList.status = false;
     await newList.save();
+
+    // list -> properties.
+    let user = await authData.getUser(userID);
+    let host = await authData.getHost(user.roleID);
+    // console.log("host found: \n", host, "\nnewList.id: \n", newList._id);
+    host.property.push(newList._id);
+    await host.save();
 
   } catch (err) {
     console.log(`(postProperty) Error in creating new list: ${err}`);
