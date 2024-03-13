@@ -1,4 +1,5 @@
 <h1>Set up for running this project</h1>
+<p><b>Back-End</b></p>
 <ul>
   <li>npm i express</li>
   <li>npm i ejs</li>
@@ -6,6 +7,10 @@
   <li>npm i bcryptjs</li>
   <li>npm i client-sessions</li>
   <li>npm i dotenv</li>
+</ul>
+<p><b>Front-End</b></p>
+<ul>
+  <li> TBC </li>
 </ul>
 
 <h1>roof4all</h1>
