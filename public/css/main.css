@@ -1,6 +1,18 @@
 .black-frame{
     border: solid 1px black;
 }
+.red-frame{
+    border: solid 1px red;
+}
+.blue-frame{
+    border: solid 1px blue;
+}
+.green-frame{
+    border: solid 1px green;
+}
+.yellow-frame{
+    border: solid 1px yellow;
+}
 
 #aboutYou{
     display: block;

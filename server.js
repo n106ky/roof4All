@@ -29,7 +29,7 @@ Bugs fix:
 Functions to implement:
 1. get listing done.
 2. render listing to page.
-
+3. search engine
 */
 
 const authData = require("./modules/auth-service.js");
@@ -208,18 +208,18 @@ app.post("/login", async (req, res) => {
     // console.log("SESSION USER: ",  userID);
     const userDetails = await authData.getUser(userID);
     // console.log("LOGIN USER: ", userDetails);
-    res.render("member", { user: userDetails });
+    res.render("dashboard", { user: userDetails });
   } catch (err) {
     res.render("login", { errorMessage: err, userName: req.body.userName });
   }
 });
 
 
-app.get("/member", ensureLogin, async (req, res) => {
+app.get("/dashboard", ensureLogin, async (req, res) => {
   try {
     const userID = req.session.user.userID;
     const userData = await authData.getUser(userID);
-    res.render("member", { user: userData });
+    res.render("dashboard", { user: userData });
   } catch (err) {
     console.log(err);
     res.status(500).render("500", {
