@@ -1,8 +1,10 @@
-Set up for running this project
+<h1>Set up for running this project</h1>
 <hr>
-npm i express
-npm i ejs
-npm i mongoose
-npm i bcryptjs
-npm i client-sessions
-npm i dotenv
+<ul>
+  <li>npm i express</li>
+  <li>npm i ejs</li>
+  <li>npm i mongoose</li>
+  <li>npm i bcryptjs</li>
+  <li>npm i client-sessions</li>
+  <li>npm i dotenv</li>
+</ul>
