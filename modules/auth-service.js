@@ -52,6 +52,19 @@ let hostSchema = new Schema({
   property: [{ type: ObjectId, ref: "Property" }],
 });
 
+let employeeSchema = new Schema({
+  user: { type: ObjectId, ref: "User" },
+  fname: { type: String },
+  lname: { type: String },
+  dob: { type: Date },
+  gender: { type: String },
+  role: {type: String},
+  // employer: { type: ObjectId, ref: "Business" },
+  branch: {type: String},
+  status: {type: Boolean, default: false}, // "Unallocated" vs "Allocated"
+  assign_date: {type: Date},
+})
+
 let businessSchema = new Schema({
   user: { type: ObjectId, ref: "User" },
   fname: { type: String },
@@ -61,11 +74,13 @@ let businessSchema = new Schema({
   employment_title: {type: String},
   purpose: { type: String },
   companyName: { type: String },
+  employees: [employeeSchema],
   doc_type: { type: String },
   upload_doc: { type: String }, // change if have time
 });
 
-let User, Guest, Host, Business;
+
+let User, Guest, Host, Business, Employee;
 
 // function initialize() {
 //   return new Promise(function (resolve, reject) {
@@ -87,10 +102,11 @@ let User, Guest, Host, Business;
 async function initialize() {
   try {
     const db = await connectToDatabase("auth-service");
-    User = db.model("user", userSchema);
-    Guest = db.model("guest", guestSchema);
-    Host = db.model("host", hostSchema);
-    Business = db.model("business", businessSchema);
+    User = db.model("User", userSchema);
+    Guest = db.model("Guest", guestSchema);
+    Host = db.model("Host", hostSchema);
+    Business = db.model("Business", businessSchema);
+    Employee = db.model("Employee", employeeSchema);
   } catch (error) {
     console.error("Service initialization failed", error);
     process.exit(1); 

@@ -1,16 +1,32 @@
-// ======
-// SETUP:
-// ======
-// npm i express
+/*
+======
+SETUP:
+======
+npm i express
 
-// .EJS:
-// 2. npm i ejs
+.EJS:
+2. npm i ejs
 
-// MONGO DB:
-// 3. npm i mongoose
-// 4. npm i bcryptjs
-// 5. npm i client-sessions
-// 6. npm i dotenv
+MONGO DB:
+3. npm i mongoose
+4. npm i bcryptjs
+5. npm i client-sessions
+6. npm i dotenv
+*/
+
+/* 
+TO DO LIST
+==========
+Bugs fix:
+1. password
+2. dob
+3. options in verification
+4. turn to another page after verication
+----------
+Functions to implement:
+1. get listing done.
+2. render listing to page.
+*/
 
 const authData = require("./modules/auth-service.js");
 const listData = require("./modules/list-service.js");

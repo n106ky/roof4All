@@ -10,7 +10,7 @@ async function connectToDatabase(serviceName) {
     return database;
   }
   try {
-    database = await mongoose.createConnection("mongodb+srv://r4a_admin:kxGoJtwA8WdlNF6v@roof4all.cwys7ka.mongodb.net/?retryWrites=true&w=majority&appName=roof4all");
+    database = await mongoose.createConnection("mongodb+srv://r4a_admin:kxGoJtwA8WdlNF6v@roof4all.cwys7ka.mongodb.net/?retryWrites=true&w=majority&appName=roof4all"); // for collab purpose, the connection string will not be put into .env. 
     database.on("error", console.error.bind(console, "MongoDB connection error:"));
     console.log(`Connection Successful: ${serviceName} connected to MongoDB`);
   } catch (error) {
