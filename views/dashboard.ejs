@@ -41,7 +41,7 @@
       <div class="blue-frame">
         <h2>My listings</h2>
         <div>
-          Change View / Sort by / Most recent
+          <span>Change View / Sort by / Most recent</span>
           <a href="/postProperty"><button>List space for free</button></a>
         </div>
         <table>
@@ -106,6 +106,7 @@
     </main>
     <% } else { %>
       <main>
+        <%- include('partials/dashboardPanel', {page: '/dashboard'}) %>
         <p>The membership has not been verified.</p>
         <% if(session.user.userType == 'business') { %>
         <a href="/verificationBusAcc"
