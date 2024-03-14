@@ -27,6 +27,7 @@ Functions to implement:
 1. get listing done.
 2. render listing to page.
 3. search engine
+4. dashboard "Recent Activities" (databse base)
 */
 
 const authData = require("./modules/auth-service.js");
