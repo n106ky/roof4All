@@ -15,14 +15,13 @@ npm i dotenv
 TO DO LIST
 ==========
 Bugs fix:
-1. password
-2. dob
-3. options in verification
-4. turn to another page after verication
-5. list properties: start day, end day
+1. password verify
+2. dob verify
+5. list properties: start day, end day verify
 6. home page writing
 7. list - mutiple img urls
 8. new listing address details, listing price, amenities, interest
+9. one person 2 hosts?
 ----------
 Functions to implement:
 1. get listing done.
@@ -35,7 +34,6 @@ p.s.:
 2. host: can host
 3. business: can rent, can assign to employees
 */
-
 
 const authData = require("./modules/auth-service.js");
 const listData = require("./modules/list-service.js");
@@ -55,7 +53,7 @@ app.use(
     // secret: process.env.SESSION_SECRET, // A secret key for signing the cookie
     secret: "SB9AO-DB5YS-QF5DS-NC6GD",
     resave: false, // Don't save session if unmodified
-    saveUninitialized: false, 
+    saveUninitialized: false,
     cookie: {
       httpOnly: true, // Prevents client side JS from reading the cookie
       secure: false, // true: Ensures the cookie is sent over HTTPS
@@ -252,7 +250,7 @@ app.get("/mylistings/:propertyID", ensureLogin, async (req, res) => {
     const userID = req.session.user.userID;
     const userData = await authData.getUser(userID);
     const properties = await listData.getPropertyDetails(req.params.propertyID);
-    res.render("listingDetails", { user: userData, prop: properties });
+    res.render("listingDetails", { userID: userID, user: userData, prop: properties });
   } catch (err) {
     res.status(500).render("500", {
       message: `I'm sorry, but we've encountered the following error: ${err}`,
@@ -263,7 +261,7 @@ app.get("/mylistings/:propertyID", ensureLogin, async (req, res) => {
 app.get("/allListings", ensureLogin, async (req, res) => {
   try {
     const properties = await listData.getAllProperties();
-    res.render("allListings", { prop: properties }); // user: userData, 
+    res.render("allListings", { prop: properties }); // user: userData,
   } catch (err) {
     res.status(500).render("500", {
       message: `I'm sorry, but we've encountered the following error: ${err}`,
@@ -273,11 +271,10 @@ app.get("/allListings", ensureLogin, async (req, res) => {
 
 app.get("/allListings/:propertyID", ensureLogin, async (req, res) => {
   try {
-    // console.log(`req.params.propertyID: ${req.params.propertyID}`);
-    // const userID = req.session.user.userID;
-    // const userData = await authData.getUser(userID);
+    const userID = req.session.user.userID;
+    const userData = await authData.getUser(userID);
     const properties = await listData.getPropertyDetails(req.params.propertyID);
-    res.render("listingDetails", { prop: properties }); // user: userData, 
+    res.render("listingDetails", { userID: userID, user: userData, prop: properties });
   } catch (err) {
     res.status(500).render("500", {
       message: `I'm sorry, but we've encountered the following error: ${err}`,
@@ -304,23 +301,21 @@ app.post("/postProperty", async (req, res) => {
   try {
     const userID = req.session.user.userID;
     await listData.postProperty(userID, req.body);
-    
+
     const userData = await authData.getUser(userID);
     const properties = await listData.getHostProperties(userID);
     res.render("mylistings", { user: userData, prop: properties });
   } catch (err) {
-    console.log("reqbody in postProperty: ", req.body);
-    res.render("home", {
-      // successMessage: null,
-      // errorMessage: err,
-      // userName: req.body.userName,
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
     });
   }
 });
 
-////// HOME
+////// HOME -> Login
 app.get("/", (req, res) => {
-  res.render("home");
+  // res.render("home");
+  res.render("login", { errorMessage: null, userName: null });
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
