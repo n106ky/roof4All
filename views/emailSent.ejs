@@ -10,8 +10,17 @@
     <!-- Navbar -->
     <header><%- include('partials/navbar', {page: '/emailSent'}) %></header>
     <main>
-        <div>An email has been sent to your mailbox!</div>
-        <a href="/"><button>Back to Home</button></a>
+        <h1>Your email had been confirmed</h1>
+        <p>You will be redirected back to login page 5s...</p>
+  
+          <script>
+            setTimeout(function () {
+              window.location.href = "/login"; // Redirect to the emailSent page.
+            }, 5000);
+          </script>
+        </div>
+
+        <a href="/login">Click to login now</a>
     </main>
   
   </body>

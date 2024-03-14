@@ -12,7 +12,7 @@
       <div class="">
         <div class="">
           <h1 class="">Register</h1>
-          <p class="">Get a roof over your head</p>
+          <p class="">Sign up to begin using the rent4all product</p>
         </div>
       </div>
       <form action="/register" method="POST" class="">
@@ -37,6 +37,7 @@
             placeholder="password"
             class=""
           />
+          <p>Choose a password between 8 to 16 characters</p>
 
         </div>
         <div class="">
@@ -88,7 +89,7 @@
         </div>
 
         <div class="">
-          <button type="submit" class="">Confirm</button>
+          <button type="submit" class="">Sign up</button>
         </div>
       </form>
       <!-- ERROR MESSAGE -->
@@ -106,6 +107,7 @@
 
         <% } %>
       </div>
+      <p class="">Already have an account? <a href="/login">Log in</a></p>
     </main>
   </body>
   <%- include('partials/footer', {page: '/register'}) %>

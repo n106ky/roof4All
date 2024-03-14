@@ -14,9 +14,7 @@
       <div class="">
         <div class="">
           <h1 class="">Login</h1>
-          <p class="">
-            Welcome back
-          </p>
+          <p class="">Sign in to your account</p>
         </div>
       </div>
       <form action="/login" method="POST" class="">
@@ -44,14 +42,15 @@
           />
         </div>
         <div class="">
-          <button type="submit" class="">Confirm</button>
+          <button type="submit" class="">Sign in</button>
         </div>
       </form>
-      <div class="message">
+      <div class="">
         <% if(errorMessage) { %>
         <p><%= errorMessage %></p>
         <% } %>
       </div>
+      <p class="">New to rent4all? <a href="/register">Create a free account</a></p>
     </main>
   </body>
   <%- include('partials/footer', {page: '/login'}) %>

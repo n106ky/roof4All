@@ -55,7 +55,7 @@ app.use(
     // secret: process.env.SESSION_SECRET, // A secret key for signing the cookie
     secret: "SB9AO-DB5YS-QF5DS-NC6GD",
     resave: false, // Don't save session if unmodified
-    saveUninitialized: false, // Don't create session until something stored
+    saveUninitialized: false, 
     cookie: {
       httpOnly: true, // Prevents client side JS from reading the cookie
       secure: false, // true: Ensures the cookie is sent over HTTPS
@@ -68,17 +68,17 @@ app.use(
 // USER LOGIN
 app.use(
   clientSessions({
-    cookieName: "session", // Name of the cookie
+    cookieName: "session",
     // secret: process.env.CLIENT_SESSION_SECRET, // Secret key for signing the cookie
     secret: "DH3AJ-EJ2AN-OD0UD-VB8DE",
-    duration: 2 * 60 * 1000, // Total duration of the session (2 minutes in this case)
-    activeDuration: 3 * 60 * 1000, // Active duration extension (3 minutes in this case)
+    duration: 2 * 60 * 1000,
+    activeDuration: 3 * 60 * 1000,
   })
 );
 
 app.use((req, res, next) => {
-  res.locals.session = req.session; // contains data like user information, preferences
-  next(); //  If the user is logged in (i.e., req.session.user is set), it calls the next function to pass control to the next middleware or route handler. This means the user can continue to access the route that is protected by this middleware.
+  res.locals.session = req.session;
+  next();
 });
 
 // Custom middleware, used to protect a route from unauthorized access:
