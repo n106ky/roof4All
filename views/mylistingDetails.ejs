@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>rent4all</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header>
+      <%- include('partials/navbar', {page: '/mylistingDetails'}) %>
+    </header>
+    <main>
+      <div>
+        <h2><%= prop.propertyName %></h2>
+        <div>
+          <a href="#"><button>Delist this property</button></a>
+          <a href="#"><button>Modify this listing</button></a>
+        </div>
+      </div>
+      <div class="blue-frame">
+        <div>
+          <img src="<%= prop.img_url %>" alt="property-img" />
+        </div>
+        <div>
+          <div class="green-frame">
+            <div>
+              <p><%= prop.address %></p>
+              <span
+                ><% if(prop.status==true) { %>Space avaliable<% }else{ %>Sapce
+                unavaliable<% } %></span
+              >
+            </div>
+            <p><%= prop.no_of_guest %> 3 bed 2 baths 3 parking</p>
+          </div>
+          <hr />
+          <div class="green-frame">
+            <img src="<% user.user_img %>" alt="host-icon" />
+            <table>
+                <tr>
+                    <th><%= user.userName %></th>
+                    <th>CAD</th>
+                    <th>Total spaces</th>
+                    <th>Avaliable spaces</th>
+                </tr>
+                <tr>
+                    <th><%= user.rating %></th>
+                    <th><%= prop.price_space %></th>
+                    <th><%= prop.no_of_rooms %></th>
+                    <th><%= prop.no_of_rooms -1 %></th>
+                </tr>
+            </table>
+            <div class="yellow-frame"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+  <%- include('partials/footer', {page: '/mylistingDetails'}) %>
+</html>

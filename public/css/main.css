@@ -1,17 +1,22 @@
 .black-frame{
     border: solid 1px black;
+    width: fit-content;
 }
 .red-frame{
     border: solid 1px red;
+    width: fit-content;
 }
 .blue-frame{
     border: solid 1px blue;
+    width: fit-content;
 }
 .green-frame{
     border: solid 1px green;
+    width: fit-content;
 }
 .yellow-frame{
     border: solid 1px yellow;
+    width: fit-content;
 }
 
 #aboutYou{
