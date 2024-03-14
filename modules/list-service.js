@@ -23,6 +23,7 @@ let propertySchema = new Schema({
   amenities: { type: String },
   policies: { type: String },
   img_url: [{ type: String }],
+  list_date: { type: Date, default: Date.now },
   status: { type: Boolean }, // active vs inactive
 });
 
@@ -61,6 +62,7 @@ async function postProperty(userID, propData) {
     propData.status == "on"
       ? (newList.status = true)
       : (newList.status = false);
+
     await newList.save();
 
     // list -> properties.
@@ -80,9 +82,12 @@ async function getHostProperties(userID) {
   try {
     const user = await authData.getUser(userID);
     const host = await authData.getHost(user.roleID);
-    const properties = host.property;
-    console.log("(getHostProperties) properties: \n", properties);
-    return properties;
+    const properties = host.property; // array of propertyID
+    const propDetails = await Promise.all(properties.map(async (p) => {
+      return getPropertyDetails(p); // returns a promise
+    }));
+    // console.log("(getHostProperties) properties: \n", properties);
+    return propDetails;
   } catch (err) {
     console.log(`(getHostProperties) Error in getting host properties: ${err}`);
     return null;
