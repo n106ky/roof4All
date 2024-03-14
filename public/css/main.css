@@ -1,21 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+/* Raleway, Nunito Sans*/
+
+html, body, * {
+    font-family: "Nunito Sans", sans-serif;
+}
 .black-frame{
-    border: solid 1px black;
+    border: solid 2px black;
+    border-radius: 3px;
     width: fit-content;
 }
 .red-frame{
-    border: solid 1px red;
+    border: solid 2px red;
+    border-radius: 3px;
     width: fit-content;
 }
 .blue-frame{
-    border: solid 1px blue;
+    border: solid 2px blue;
+    border-radius: 3px;
     width: fit-content;
 }
 .green-frame{
-    border: solid 1px green;
+    border: solid 2px green;
+    border-radius: 3px;
     width: fit-content;
 }
 .yellow-frame{
-    border: solid 1px yellow;
+    border: solid 2px yellow;
+    border-radius: 3px;
     width: fit-content;
 }
 

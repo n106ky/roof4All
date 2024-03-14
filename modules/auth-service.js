@@ -77,6 +77,7 @@ let businessSchema = new Schema({
   employees: [employeeSchema],
   doc_type: { type: String },
   upload_doc: { type: String }, // change if have time
+  property: [{ type: ObjectId, ref: "Property" }],
 });
 
 

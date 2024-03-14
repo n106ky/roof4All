@@ -1,6 +1,9 @@
 <nav class="yellow-frame">
-  <a href="/" class="">Home</a>
-
+  <a href="/" class="">Rent4All</a>
+  <form action="search.php" method="get">
+    <input type="text" name="query" placeholder="Search property location" />
+    <!-- <input type="submit" value="Search" /> -->
+  </form>
   <% if (session.user) { %>
   <div class="dropdown">
     <a href="/dashboard" class="dropbtn">Hello, <%= session.user.userName %></a>
@@ -79,8 +82,5 @@
   </div>
   <% } %>
   <!-- Search engine: back-end not avaliable -->
-  <form action="search.php" method="get">
-    <input type="text" name="query" placeholder="Search property location" />
-    <!-- <input type="submit" value="Search" /> -->
-  </form>
+
 </nav>

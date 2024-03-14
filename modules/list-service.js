@@ -11,7 +11,8 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 // keep it simple for now, do not need to verify listing at this stage.
 let propertySchema = new Schema({
-  host: { type: ObjectId, ref: "Host" },
+  host: { type: ObjectId, ref: "Host" }, // host - user is one-to-one relationship.
+  user: { type: ObjectId, ref: "User" }, // host = user, provide different way to search. Easier to code.
   propertyName: { type: String },
   address: { type: String },
   room_size_sqft: { type: Number },
@@ -63,7 +64,6 @@ async function postProperty(userID, propData) {
     propData.status == "on"
       ? (newList.status = true)
       : (newList.status = false);
-
     await newList.save();
 
     // list -> properties.
@@ -72,6 +72,11 @@ async function postProperty(userID, propData) {
     // console.log("host found: \n", host, "\nnewList.id: \n", newList._id);
     host.property.push(newList._id);
     await host.save();
+
+    newList.host = host._id;
+    newList.user = user._id;
+    await newList.save();
+
     return host;
   } catch (err) {
     console.log(`(postProperty) Error in creating new list: ${err}`);
@@ -84,6 +89,9 @@ async function getHostProperties(userID) {
     const user = await authData.getUser(userID);
     const host = await authData.getHost(user.roleID);
     const properties = host.property; // array of propertyID
+    if(!properties){
+      return null;
+    }
     const propDetails = await Promise.all(
       properties.map(async (p) => {
         return getPropertyDetails(p); // returns a promise
@@ -116,7 +124,8 @@ async function getPropertyDetails(propertyID) {
 
 async function getAllProperties() {
   try {
-    let properties = await Property.findAll({});
+    let properties = await Property.find({});
+    console.log()
     return properties;
   } catch (err) {
     console.error("(getAllProperties) Error finding all properties", err);

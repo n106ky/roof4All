@@ -22,13 +22,20 @@ Bugs fix:
 5. list properties: start day, end day
 6. home page writing
 7. list - mutiple img urls
+8. new listing address details, listing price, amenities, interest
 ----------
 Functions to implement:
 1. get listing done.
 2. render listing to page.
 3. search engine
 4. dashboard "Recent Activities" (databse base)
+----------
+p.s.: 
+1. Do not register as guest account, there's nothing.
+2. host: can host
+3. business: can rent, can assign to employees
 */
+
 
 const authData = require("./modules/auth-service.js");
 const listData = require("./modules/list-service.js");
@@ -90,12 +97,15 @@ async function ensureHostVerified(req, res, next) {
   }
   const user = await authData.getUser(req.session.user.userID);
   console.log("USER", user);
-  if (user.userType != "host" || user.verified == false) {
+  if (
+    (user.userType == "host" || user.userType == "business") &&
+    user.verified == true
+  ) {
+    next();
+  } else {
     res.status(403).render("403", {
       message: `ERROR: You need to be a verified host to post property`,
     });
-  } else {
-    next();
   }
 }
 
@@ -169,19 +179,11 @@ app.post("/verificationBusAcc", ensureLogin, (req, res) => {
   authData
     .verifyUser(userID, req.body)
     .then(() => {
-      res.render("verificationBusAcc", {
-        successMessage: "Successfully verified",
-        errorMessage: null,
-        userName: req.body.userName,
-      });
+      res.render("emailSent");
     })
     .catch((err) => {
       console.log("reqbody in Business verification: ", req.body);
-      res.render("verificationBusAcc", {
-        successMessage: null,
-        errorMessage: err,
-        userName: req.body.userName,
-      });
+      res.render("emailSent");
     });
 });
 
@@ -203,9 +205,15 @@ app.post("/login", async (req, res) => {
       verified: user.verified,
     };
     const userID = req.session.user.userID;
-    const userData = await authData.getUser(userID);
-    const properties = await listData.getHostProperties(userID);
-    res.render("dashboard", { user: userData, prop: properties });
+    const type = req.session.user.userType;
+    if (type == "host" || type == "business") {
+      const userData = await authData.getUser(userID);
+      const properties = await listData.getHostProperties(userID);
+      res.render("dashboard", { user: userData, prop: properties });
+    } else {
+      const userData = await authData.getUser(userID);
+      res.render("dashboard", { user: userData });
+    }
   } catch (err) {
     res.render("login", { errorMessage: err, userName: req.body.userName });
   }
@@ -244,7 +252,32 @@ app.get("/mylistings/:propertyID", ensureLogin, async (req, res) => {
     const userID = req.session.user.userID;
     const userData = await authData.getUser(userID);
     const properties = await listData.getPropertyDetails(req.params.propertyID);
-    res.render("mylistingDetails", { user: userData, prop: properties });
+    res.render("listingDetails", { user: userData, prop: properties });
+  } catch (err) {
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+});
+
+app.get("/allListings", ensureLogin, async (req, res) => {
+  try {
+    const properties = await listData.getAllProperties();
+    res.render("allListings", { prop: properties }); // user: userData, 
+  } catch (err) {
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+});
+
+app.get("/allListings/:propertyID", ensureLogin, async (req, res) => {
+  try {
+    // console.log(`req.params.propertyID: ${req.params.propertyID}`);
+    // const userID = req.session.user.userID;
+    // const userData = await authData.getUser(userID);
+    const properties = await listData.getPropertyDetails(req.params.propertyID);
+    res.render("listingDetails", { prop: properties }); // user: userData, 
   } catch (err) {
     res.status(500).render("500", {
       message: `I'm sorry, but we've encountered the following error: ${err}`,
@@ -267,17 +300,14 @@ app.get("/postProperty", ensureHostVerified, (req, res) => {
   res.render("postProperty");
 });
 
-app.post("/postProperty", (req, res) => {
+app.post("/postProperty", async (req, res) => {
   try {
     const userID = req.session.user.userID;
-    const prop = listData.postProperty(userID, req.body);
-    res.render("home", {
-      // postProperty
-      // successMessage:
-      //   "Successfully listed",
-      // errorMessage: null,
-      // userName: req.body.userName,
-    });
+    await listData.postProperty(userID, req.body);
+    
+    const userData = await authData.getUser(userID);
+    const properties = await listData.getHostProperties(userID);
+    res.render("mylistings", { user: userData, prop: properties });
   } catch (err) {
     console.log("reqbody in postProperty: ", req.body);
     res.render("home", {
