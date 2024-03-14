@@ -3,15 +3,12 @@
 SETUP:
 ======
 npm i express
-
-.EJS:
-2. npm i ejs
-
-MONGO DB:
-3. npm i mongoose
-4. npm i bcryptjs
-5. npm i client-sessions
-6. npm i dotenv
+npm i moment
+npm i ejs
+npm i mongoose
+npm i bcryptjs
+npm i client-sessions
+npm i dotenv
 */
 
 /* 
@@ -30,6 +27,7 @@ Functions to implement:
 1. get listing done.
 2. render listing to page.
 3. search engine
+4. dashboard "Recent Activities" (databse base)
 */
 
 const authData = require("./modules/auth-service.js");
@@ -221,6 +219,33 @@ app.get("/dashboard", ensureLogin, async (req, res) => {
     res.render("dashboard", { user: userData, prop: properties });
   } catch (err) {
     console.log(err);
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+});
+
+app.get("/mylistings", ensureLogin, async (req, res) => {
+  try {
+    const userID = req.session.user.userID;
+    const userData = await authData.getUser(userID);
+    const properties = await listData.getHostProperties(userID);
+    res.render("mylistings", { user: userData, prop: properties });
+  } catch (err) {
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+});
+
+app.get("/mylistings/:propertyID", ensureLogin, async (req, res) => {
+  try {
+    // console.log(`req.params.propertyID: ${req.params.propertyID}`);
+    const userID = req.session.user.userID;
+    const userData = await authData.getUser(userID);
+    const properties = await listData.getPropertyDetails(req.params.propertyID);
+    res.render("mylistingDetails", { user: userData, prop: properties });
+  } catch (err) {
     res.status(500).render("500", {
       message: `I'm sorry, but we've encountered the following error: ${err}`,
     });

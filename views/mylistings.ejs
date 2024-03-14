@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>rent4all</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header><%- include('partials/navbar', {page: '/mylistings'}) %></header>
+    <main>
+      <div>
+        <h2>My listings</h2>
+        <div>
+          <span>Change View / Sort by / Most recent</span>
+          <a href="/postProperty"><button>List space for free</button></a>
+        </div>
+      </div>
+      <% prop.forEach((p)=> { %>
+      <div class="black-frame">
+        <a href="/mylistings/<%= p._id %>">
+          <img src="<%= p.img_url %>" alt="property-img" />
+          <p><%= p.propertyName %> $<%= p.price_space %></p>
+          <p><%= p.address %></p>
+          <p>Space for <%= p.no_of_guest %> Bath 2 Car 3</p>
+        </a>
+        <hr />
+        <p>
+          Price indicated are for one person, not the whole apartment. Open the
+          property page to read more details.
+        </p>
+      </div>
+      <% }) %>
+    </main>
+  </body>
+  <%- include('partials/footer', {page: '/mylistings'}) %>
+</html>
