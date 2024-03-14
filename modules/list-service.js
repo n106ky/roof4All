@@ -84,6 +84,9 @@ async function getHostProperties(userID) {
     const user = await authData.getUser(userID);
     const host = await authData.getHost(user.roleID);
     const properties = host.property; // array of propertyID
+    if(!properties){
+      return null;
+    }
     const propDetails = await Promise.all(
       properties.map(async (p) => {
         return getPropertyDetails(p); // returns a promise

@@ -90,12 +90,15 @@ async function ensureHostVerified(req, res, next) {
   }
   const user = await authData.getUser(req.session.user.userID);
   console.log("USER", user);
-  if (user.userType != "host" || user.verified == false) {
+  if (
+    (user.userType == "host" || user.userType == "business") &&
+    user.verified == true
+  ) {
+    next();
+  } else {
     res.status(403).render("403", {
       message: `ERROR: You need to be a verified host to post property`,
     });
-  } else {
-    next();
   }
 }
 
@@ -203,9 +206,15 @@ app.post("/login", async (req, res) => {
       verified: user.verified,
     };
     const userID = req.session.user.userID;
-    const userData = await authData.getUser(userID);
-    const properties = await listData.getHostProperties(userID);
-    res.render("dashboard", { user: userData, prop: properties });
+    const type = req.session.user.userType;
+    if (type == "host" || type == "business") {
+      const userData = await authData.getUser(userID);
+      const properties = await listData.getHostProperties(userID);
+      res.render("dashboard", { user: userData, prop: properties });
+    } else {
+      const userData = await authData.getUser(userID);
+      res.render("dashboard", { user: userData });
+    }
   } catch (err) {
     res.render("login", { errorMessage: err, userName: req.body.userName });
   }
