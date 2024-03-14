@@ -179,19 +179,11 @@ app.post("/verificationBusAcc", ensureLogin, (req, res) => {
   authData
     .verifyUser(userID, req.body)
     .then(() => {
-      res.render("verificationBusAcc", {
-        successMessage: "Successfully verified",
-        errorMessage: null,
-        userName: req.body.userName,
-      });
+      res.render("emailSent");
     })
     .catch((err) => {
       console.log("reqbody in Business verification: ", req.body);
-      res.render("verificationBusAcc", {
-        successMessage: null,
-        errorMessage: err,
-        userName: req.body.userName,
-      });
+      res.render("emailSent");
     });
 });
 
