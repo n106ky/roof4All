@@ -3,15 +3,12 @@
 SETUP:
 ======
 npm i express
-
-.EJS:
-2. npm i ejs
-
-MONGO DB:
-3. npm i mongoose
-4. npm i bcryptjs
-5. npm i client-sessions
-6. npm i dotenv
+npm i moment
+npm i ejs
+npm i mongoose
+npm i bcryptjs
+npm i client-sessions
+npm i dotenv
 */
 
 /* 

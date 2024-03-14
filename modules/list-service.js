@@ -1,4 +1,5 @@
 require("dotenv").config();
+const moment = require("moment");
 
 // Import the User model
 const authData = require("./auth-service");
@@ -83,10 +84,19 @@ async function getHostProperties(userID) {
     const user = await authData.getUser(userID);
     const host = await authData.getHost(user.roleID);
     const properties = host.property; // array of propertyID
-    const propDetails = await Promise.all(properties.map(async (p) => {
-      return getPropertyDetails(p); // returns a promise
-    }));
-    // console.log("(getHostProperties) properties: \n", properties);
+    const propDetails = await Promise.all(
+      properties.map(async (p) => {
+        return getPropertyDetails(p); // returns a promise
+      })
+    );
+    propDetails.forEach((p) => {
+      // console.log(p._id, typeof(p._id));
+      p.shortened_id = p._id.toString().substr(0, 7);
+      p.transformed_listDate = moment(p.list_date).format(
+        "MMM D, YYYY hh:mm A"
+      );
+    });
+
     return propDetails;
   } catch (err) {
     console.log(`(getHostProperties) Error in getting host properties: ${err}`);

@@ -55,7 +55,10 @@
       <% if(session.user.verified == true) { %>
       <div class="blue-frame">
         <h2>My listings</h2>
-        <div>Change View / Sort by / Most recent <a href="/postProperty"><button>List space for free</button></a></div>
+        <div>
+          Change View / Sort by / Most recent
+          <a href="/postProperty"><button>List space for free</button></a>
+        </div>
         <table>
           <tr>
             <th>ID</th>
@@ -65,16 +68,48 @@
             <th>Price per space</th>
             <th>Status</th>
           </tr>
-          <% prop.forEach((p)=>{  %>
-            <tr>
-              <td><%= p._id %></td>
-              <td><%= p.propertyName %></td>
-              <td><%= p.list_date %></td>
-              <td><%= p.no_of_rooms %></td>
-              <td><%= p.price_space %></td>
-              <td><%= p.status %></td>
-            </tr>
-            <% }) %>
+          <% prop.forEach((p)=>{ %>
+          <tr>
+            <td><%= p.shortened_id %></td>
+            <td><%= p.propertyName %></td>
+            <td><%= p.transformed_listDate %></td>
+            <td><%= p.no_of_rooms %></td>
+            <td><%= p.price_space %></td>
+            <td>
+              <% if(p.status==true) { %>Active<% } else { %>Inactive<% } %>
+            </td>
+          </tr>
+          <% }) %>
+        </table>
+      </div>
+      <div class="blue-frame">
+        <h2>Recent activities</h2>
+        <div>Sort by / Most recent</div>
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Time</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>IXCBA01BA1</td>
+            <td>Income on Spacious near stop...</td>
+            <td>Mar 2, 2024 10:41 AM</td>
+            <td>Rent</td>
+            <td>$650</td>
+            <td><a href="#"><button>View receipt</button></a></td>
+          </tr>
+          <tr>
+            <td>000133BAFC</td>
+            <td>Income on Spacious near stop...</td>
+            <td>Feb 14, 2024 06:13 PM</td>
+            <td>Rent</td>
+            <td>$650</td>
+            <td><a href="#"><button>View receipt</button></a></td>
+          </tr>
         </table>
       </div>
       <% } %>
