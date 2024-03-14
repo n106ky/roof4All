@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/main.css" />
-    <title>HVME</title>
+    <title>rent4all</title>
   </head>
   <body>
     <!-- Navbar -->
@@ -41,6 +41,12 @@
               <label for="no_of_guest" class="">Maximum Guest</label>
               <input required type="number" name="no_of_guest" />
             </div>
+
+          </div>
+          <label for="price" class="">Rental Price</label>
+          <input required type="number" name="price" min="1"/>
+          <div>
+
           </div>
 
           <div>
@@ -68,6 +74,11 @@
           <div>
             <label for="img_url">Property Image</label>
             <input type="url" name="img_url" placeholder="[URL of Image]" />
+          </div>
+
+          <div>
+            <label for="status">Allow everyone to see this listing?</label>
+            <input type="checkbox" name="status" />
           </div>
 
           <div class="checkbox-container">

@@ -1,16 +1,36 @@
-// ======
-// SETUP:
-// ======
-// npm i express
+/*
+======
+SETUP:
+======
+npm i express
 
-// .EJS:
-// 2. npm i ejs
+.EJS:
+2. npm i ejs
 
-// MONGO DB:
-// 3. npm i mongoose
-// 4. npm i bcryptjs
-// 5. npm i client-sessions
-// 6. npm i dotenv
+MONGO DB:
+3. npm i mongoose
+4. npm i bcryptjs
+5. npm i client-sessions
+6. npm i dotenv
+*/
+
+/* 
+TO DO LIST
+==========
+Bugs fix:
+1. password
+2. dob
+3. options in verification
+4. turn to another page after verication
+5. list properties: start day, end day
+6. home page writing
+7. list - mutiple img urls
+----------
+Functions to implement:
+1. get listing done.
+2. render listing to page.
+3. search engine
+*/
 
 const authData = require("./modules/auth-service.js");
 const listData = require("./modules/list-service.js");
@@ -73,9 +93,9 @@ async function ensureHostVerified(req, res, next) {
   const user = await authData.getUser(req.session.user.userID);
   console.log("USER", user);
   if (user.userType != "host" || user.verified == false) {
-    res
-      .status(403)
-      .render("403", { message: `ERROR: You need to be a verified host to post property` });
+    res.status(403).render("403", {
+      message: `ERROR: You need to be a verified host to post property`,
+    });
   } else {
     next();
   }
@@ -119,53 +139,53 @@ app.get("/verification", ensureLogin, (req, res) => {
 });
 
 app.post("/verification", ensureLogin, (req, res) => {
-  const userID = req.session.user.userID
+  const userID = req.session.user.userID;
   authData
-  .verifyUser(userID, req.body)
-  .then(() => {
-    res.render("verification", {
-      successMessage:
-        "Successfully verified",
-      errorMessage: null,
-      userName: req.body.userName,
+    .verifyUser(userID, req.body)
+    .then(() => {
+      res.render("verification", {
+        successMessage: "Successfully verified",
+        errorMessage: null,
+        userName: req.body.userName,
+      });
+    })
+    .catch((err) => {
+      console.log("reqbody in Individual Verification: ", req.body);
+      res.render("verification", {
+        successMessage: null,
+        errorMessage: err,
+        userName: req.body.userName,
+      });
     });
-  })
-  .catch((err) => {
-    console.log("reqbody in Individual Verification: ", req.body);
-    res.render("verification", {
-      successMessage: null,
-      errorMessage: err,
-      userName: req.body.userName,
-    });
-  });
 });
 
 app.get("/verificationBusAcc", ensureLogin, (req, res) => {
-  res.render("verificationBusAcc", { successMessage: null, errorMessage: null });
-});
-
-app.post("/verificationBusAcc", ensureLogin, (req, res) => {
-  const userID = req.session.user.userID
-  authData
-  .verifyUser(userID, req.body)
-  .then(() => {
-    res.render("verificationBusAcc", {
-      successMessage:
-        "Successfully verified",
-      errorMessage: null,
-      userName: req.body.userName,
-    });
-  })
-  .catch((err) => {
-    console.log("reqbody in Business verification: ", req.body);
-    res.render("verificationBusAcc", {
-      successMessage: null,
-      errorMessage: err,
-      userName: req.body.userName,
-    });
+  res.render("verificationBusAcc", {
+    successMessage: null,
+    errorMessage: null,
   });
 });
 
+app.post("/verificationBusAcc", ensureLogin, (req, res) => {
+  const userID = req.session.user.userID;
+  authData
+    .verifyUser(userID, req.body)
+    .then(() => {
+      res.render("verificationBusAcc", {
+        successMessage: "Successfully verified",
+        errorMessage: null,
+        userName: req.body.userName,
+      });
+    })
+    .catch((err) => {
+      console.log("reqbody in Business verification: ", req.body);
+      res.render("verificationBusAcc", {
+        successMessage: null,
+        errorMessage: err,
+        userName: req.body.userName,
+      });
+    });
+});
 
 app.get("/login", (req, res) => {
   res.render("login", { errorMessage: null, userName: null });
@@ -185,21 +205,20 @@ app.post("/login", async (req, res) => {
       verified: user.verified,
     };
     const userID = req.session.user.userID;
-    // console.log("SESSION USER: ",  userID);
-    const userDetails = await authData.getUser(userID);
-    // console.log("LOGIN USER: ", userDetails);
-    res.render("member", { user: userDetails });
+    const userData = await authData.getUser(userID);
+    const properties = await listData.getHostProperties(userID);
+    res.render("dashboard", { user: userData, prop: properties });
   } catch (err) {
     res.render("login", { errorMessage: err, userName: req.body.userName });
   }
 });
 
-
-app.get("/member", ensureLogin, async (req, res) => {
+app.get("/dashboard", ensureLogin, async (req, res) => {
   try {
     const userID = req.session.user.userID;
     const userData = await authData.getUser(userID);
-    res.render("member", { user: userData });
+    const properties = await listData.getHostProperties(userID);
+    res.render("dashboard", { user: userData, prop: properties });
   } catch (err) {
     console.log(err);
     res.status(500).render("500", {
@@ -224,27 +243,25 @@ app.get("/postProperty", ensureHostVerified, (req, res) => {
 });
 
 app.post("/postProperty", (req, res) => {
-  try{
-    const userID = req.session.user.userID
+  try {
+    const userID = req.session.user.userID;
     const prop = listData.postProperty(userID, req.body);
-    res.render("postProperty", {
-      successMessage:
-        "Successfully listed",
-      errorMessage: null,
-      userName: req.body.userName,
+    res.render("home", {
+      // postProperty
+      // successMessage:
+      //   "Successfully listed",
+      // errorMessage: null,
+      // userName: req.body.userName,
     });
-  }
-  catch(err){
+  } catch (err) {
     console.log("reqbody in postProperty: ", req.body);
-    res.render("postProperty", {
-      successMessage: null,
-      errorMessage: err,
-      userName: req.body.userName,
+    res.render("home", {
+      // successMessage: null,
+      // errorMessage: err,
+      // userName: req.body.userName,
     });
   }
 });
-
-
 
 ////// HOME
 app.get("/", (req, res) => {
@@ -256,10 +273,7 @@ app.use((req, res, next) => {
   res.status(404).render("404", { title: "404: Page Not Found" });
 });
 
-Promise.all([
-  authData.initialize(),
-  listData.initialize(),
-])
+Promise.all([authData.initialize(), listData.initialize()])
   .then(() => {
     app.listen(HTTP_PORT, () => {
       console.log(`Server listening on: http://localhost:${HTTP_PORT}`);
@@ -269,4 +283,3 @@ Promise.all([
     console.error("Initialization failed", error);
     process.exit(1);
   });
-

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>rent4all</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header><%- include('partials/navbar', {page: '/dashboard'}) %></header>
+    <main>
+      <!-- Dashboard Panel -->
+      <%- include('partials/dashboardPanel', {page: '/dashboard'}) %>
+      <hr />
+      <!-- Info div -->
+      <div class="green-frame">
+        <div class="black-frame">
+          <p>Total income</p>
+        </div>
+        <div class="black-frame">
+          <p>Total expenses</p>
+        </div>
+        <div class="black-frame">
+          <p>Total listed spaces</p>
+        </div>
+        <div class="black-frame">
+          <p>Total guests</p>
+        </div>
+      </div>
+      <hr />
+
+      <!-- We need to ask member to verify their account for all functions. -->
+      <div class="red-frame">
+        <div>Info div, will be <b>CHANGED</b> later</div>
+        <!-- <p>User name: <%= user.userName %></p>
+        <p>User Type: <%= user.userType %></p> -->
+        <% if(session.user.verified == true) { %>
+        <p>The membership has been verified.</p>
+        <p>Member details as follow:</p>
+        <p>Verified status: Success %></p>
+        <% } else { %>
+        <p>The membership has not been verified.</p>
+        <% if(session.user.userType == 'business') { %>
+        <a href="/verificationBusAcc"
+          ><button>Verify your identity now</button></a
+        >
+        <% } else { %>
+        <a href="/verification"><button>Verify your identity now</button></a>
+        <% } %> <% } %>
+      </div>
+      <hr />
+
+      <!-- We need to ask member to verify their account for all functions. -->
+      <% if(session.user.verified == true) { %>
+      <div class="blue-frame">
+        <h2>My listings</h2>
+        <div>Change View / Sort by / Most recent <a href="/postProperty"><button>List space for free</button></a></div>
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Property title</th>
+            <th>Date</th>
+            <th>Spaces</th>
+            <th>Price per space</th>
+            <th>Status</th>
+          </tr>
+          <% prop.forEach((p)=>{  %>
+            <tr>
+              <td><%= p._id %></td>
+            </tr>
+            <% }) %>
+        </table>
+      </div>
+      <% } %>
+    </main>
+  </body>
+  <%- include('partials/footer', {page: '/dashboard'}) %>
+</html>
