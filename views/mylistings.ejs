@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>rent4all</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header><%- include('partials/navbar', {page: '/mylistings'}) %></header>
+    <main>
+        <div>
+            <h2>My listings</h2>
+            <div>
+              <span>Change View / Sort by / Most recent</span>
+              <a href="/postProperty"><button>List space for free</button></a>
+            </div>
+        </div>
+    </main>
+  </body>
+  <%- include('partials/footer', {page: '/mylistings'}) %>
+</html>

@@ -2,80 +2,85 @@
   <a href="/" class="">Home</a>
 
   <% if (session.user) { %>
-    <div class="dropdown">
-      <a href="/dashboard" class="dropbtn">Hello, <%= session.user.userName %></a>
-      <ul class="dropdown-content">
-        <li>
-          <a
-            href="/dashboard"
-            class=""
-            role="menuitem"
-            tabindex="-1"
-            id="menu-item-dashboard"
-            >Your Account</a
-          >
-        </li>
-        <% if (session.user.userType == 'host') { %>
-        <hr />
-        <li>
-          <a
-            href="/postProperty"
-            class=""
-            role="menuitem"
-            tabindex="-1"
-            id="menu-item-postProperty"
-            >List Property</a
-          >
-        </li>
-        <li>
-          <a
-            href="/manageProperty"
-            class=""
-            role="menuitem"
-            tabindex="-1"
-            id="menu-item-manageProperty"
-            >Manage Property</a
-          >
-        </li>
-        <hr />
-        <% } %>
-        <li>
-          <a
-            href="/logout"
-            class=""
-            role="menuitem"
-            tabindex="-1"
-            id="menu-item-logout"
-            >Logout</a
-          >
-        </li>
-      </ul>
-    </div>
-    <% } else { %>
-    <div class="dropdown right mg-r-l">
-      <a href="/login" class="dropbtn">Account</a>
-      <ul class="dropdown-content">
-        <li>
-          <a
-            href="/login"
-            class=""
-            role="menuitem"
-            tabindex="-1"
-            id="menu-item-login"
-            >Login</a
-          >
-        </li>
-        <li>
-          <a
-            href="/register"
-            class=""
-            role="menuitem"
-            tabindex="-1"
-            id="menu-item-register"
-            >Register</a
-          >
-        </li>
-      </ul>
-    </div>
-    <% } %>
+  <div class="dropdown">
+    <a href="/dashboard" class="dropbtn">Hello, <%= session.user.userName %></a>
+    <ul class="dropdown-content">
+      <li>
+        <a
+          href="/dashboard"
+          class=""
+          role="menuitem"
+          tabindex="-1"
+          id="menu-item-dashboard"
+          >Your Account</a
+        >
+      </li>
+      <% if (session.user.userType == 'host') { %>
+      <hr />
+      <li>
+        <a
+          href="/postProperty"
+          class=""
+          role="menuitem"
+          tabindex="-1"
+          id="menu-item-postProperty"
+          >List Property</a
+        >
+      </li>
+      <li>
+        <a
+          href="/manageProperty"
+          class=""
+          role="menuitem"
+          tabindex="-1"
+          id="menu-item-manageProperty"
+          >Manage Property</a
+        >
+      </li>
+      <hr />
+      <% } %>
+      <li>
+        <a
+          href="/logout"
+          class=""
+          role="menuitem"
+          tabindex="-1"
+          id="menu-item-logout"
+          >Logout</a
+        >
+      </li>
+    </ul>
+  </div>
+  <% } else { %>
+  <div class="dropdown right mg-r-l">
+    <a href="/login" class="dropbtn">Account</a>
+    <ul class="dropdown-content">
+      <li>
+        <a
+          href="/login"
+          class=""
+          role="menuitem"
+          tabindex="-1"
+          id="menu-item-login"
+          >Login</a
+        >
+      </li>
+      <li>
+        <a
+          href="/register"
+          class=""
+          role="menuitem"
+          tabindex="-1"
+          id="menu-item-register"
+          >Register</a
+        >
+      </li>
+    </ul>
+  </div>
+  <% } %>
+  <!-- Search engine: back-end not avaliable -->
+  <form action="search.php" method="get">
+    <input type="text" name="query" placeholder="Search property location" />
+    <!-- <input type="submit" value="Search" /> -->
+  </form>
 </nav>

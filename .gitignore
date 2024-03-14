@@ -1,3 +1,4 @@
 /node_modules
 .env
 useful_code.js
+*.php

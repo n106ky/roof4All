@@ -225,6 +225,20 @@ app.get("/dashboard", ensureLogin, async (req, res) => {
   }
 });
 
+app.get("/mylistings", ensureLogin, async(req,res)=>{
+  try{
+    const userID = req.session.user.userID;
+    const userData = await authData.getUser(userID);
+    const properties = await listData.getHostProperties(userID);
+    res.render("mylistings", { user: userData, prop: properties });
+  }
+  catch(err){
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+})
+
 app.get("/logout", function (req, res) {
   req.session.destroy(function (err) {
     if (err) {
