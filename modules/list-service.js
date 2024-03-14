@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 // Import the User model
-const authData = require('./auth-service');
+const authData = require("./auth-service");
 
 const { connectToDatabase, mongoose } = require("./dbConnection");
 
@@ -9,7 +9,7 @@ let Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 // keep it simple for now, do not need to verify listing at this stage.
-let propertySchema = new Schema({ 
+let propertySchema = new Schema({
   host: { type: ObjectId, ref: "Host" },
   propertyName: { type: String },
   address: { type: String },
@@ -58,7 +58,9 @@ async function postProperty(userID, propData) {
     });
     // console.log("New list: \n", newList);
     newList.price_space = +(propData.price / propData.no_of_rooms).toFixed(2);
-    propData.status == 'on'? newList.status = true: newList.status = false;
+    propData.status == "on"
+      ? (newList.status = true)
+      : (newList.status = false);
     await newList.save();
 
     // list -> properties.
@@ -67,9 +69,33 @@ async function postProperty(userID, propData) {
     // console.log("host found: \n", host, "\nnewList.id: \n", newList._id);
     host.property.push(newList._id);
     await host.save();
-
+    return host;
   } catch (err) {
     console.log(`(postProperty) Error in creating new list: ${err}`);
+    return null;
+  }
+}
+
+async function getHostProperties(userID) {
+  try {
+    const user = await authData.getUser(userID);
+    const host = await authData.getHost(user.roleID);
+    const properties = host.property;
+    console.log("(getHostProperties) properties: \n", properties);
+    return properties;
+  } catch (err) {
+    console.log(`(getHostProperties) Error in getting host properties: ${err}`);
+    return null;
+  }
+}
+
+async function getPropertyDetails(propertyID) {
+  try {
+    let properties = await Property.findOne({ _id: propertyID });
+    return properties;
+  } catch (err) {
+    console.error("(getPropertyDetails) Error finding property's details", err);
+    return null;
   }
 }
 
@@ -78,13 +104,15 @@ async function getAllProperties() {
     let properties = await Property.findAll({});
     return properties;
   } catch (err) {
-    console.error("Error finding properties", err);
+    console.error("(getAllProperties) Error finding all properties", err);
     return null;
   }
 }
 
 module.exports = {
   initialize,
-  getAllProperties,
   postProperty,
+  getAllProperties,
+  getHostProperties,
+  getPropertyDetails,
 };

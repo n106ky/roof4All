@@ -3,15 +3,15 @@
 
   <% if (session.user) { %>
     <div class="dropdown">
-      <a href="/member" class="dropbtn">Hello, <%= session.user.userName %></a>
+      <a href="/dashboard" class="dropbtn">Hello, <%= session.user.userName %></a>
       <ul class="dropdown-content">
         <li>
           <a
-            href="/member"
+            href="/dashboard"
             class=""
             role="menuitem"
             tabindex="-1"
-            id="menu-item-member"
+            id="menu-item-dashboard"
             >Your Account</a
           >
         </li>
