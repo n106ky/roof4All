@@ -22,13 +22,20 @@ Bugs fix:
 5. list properties: start day, end day
 6. home page writing
 7. list - mutiple img urls
+8. new listing address details, listing price, amenities, interest
 ----------
 Functions to implement:
 1. get listing done.
 2. render listing to page.
 3. search engine
 4. dashboard "Recent Activities" (databse base)
+----------
+p.s.: 
+1. Do not register as guest account, there's nothing.
+2. host: can host
+3. business: can rent, can assign to employees
 */
+
 
 const authData = require("./modules/auth-service.js");
 const listData = require("./modules/list-service.js");
@@ -253,7 +260,32 @@ app.get("/mylistings/:propertyID", ensureLogin, async (req, res) => {
     const userID = req.session.user.userID;
     const userData = await authData.getUser(userID);
     const properties = await listData.getPropertyDetails(req.params.propertyID);
-    res.render("mylistingDetails", { user: userData, prop: properties });
+    res.render("listingDetails", { user: userData, prop: properties });
+  } catch (err) {
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+});
+
+app.get("/allListings", ensureLogin, async (req, res) => {
+  try {
+    const properties = await listData.getAllProperties();
+    res.render("allListings", { prop: properties }); // user: userData, 
+  } catch (err) {
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+});
+
+app.get("/allListings/:propertyID", ensureLogin, async (req, res) => {
+  try {
+    // console.log(`req.params.propertyID: ${req.params.propertyID}`);
+    // const userID = req.session.user.userID;
+    // const userData = await authData.getUser(userID);
+    const properties = await listData.getPropertyDetails(req.params.propertyID);
+    res.render("listingDetails", { prop: properties }); // user: userData, 
   } catch (err) {
     res.status(500).render("500", {
       message: `I'm sorry, but we've encountered the following error: ${err}`,
@@ -276,17 +308,14 @@ app.get("/postProperty", ensureHostVerified, (req, res) => {
   res.render("postProperty");
 });
 
-app.post("/postProperty", (req, res) => {
+app.post("/postProperty", async (req, res) => {
   try {
     const userID = req.session.user.userID;
-    const prop = listData.postProperty(userID, req.body);
-    res.render("home", {
-      // postProperty
-      // successMessage:
-      //   "Successfully listed",
-      // errorMessage: null,
-      // userName: req.body.userName,
-    });
+    await listData.postProperty(userID, req.body);
+    
+    const userData = await authData.getUser(userID);
+    const properties = await listData.getHostProperties(userID);
+    res.render("mylistings", { user: userData, prop: properties });
   } catch (err) {
     console.log("reqbody in postProperty: ", req.body);
     res.render("home", {

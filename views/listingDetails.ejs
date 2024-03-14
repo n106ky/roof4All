@@ -9,15 +9,18 @@
   <body>
     <!-- Navbar -->
     <header>
-      <%- include('partials/navbar', {page: '/mylistingDetails'}) %>
+      <%- include('partials/navbar', {page: '/listingDetails'}) %>
     </header>
     <main>
       <div>
         <h2><%= prop.propertyName %></h2>
+        <!--If user is the host, they will see these two buttons-->
+        
         <div>
           <a href="#"><button>Delist this property</button></a>
           <a href="#"><button>Modify this listing</button></a>
         </div>
+
       </div>
       <div class="blue-frame">
         <div>
@@ -66,5 +69,5 @@
       </div>
     </main>
   </body>
-  <%- include('partials/footer', {page: '/mylistingDetails'}) %>
+  <%- include('partials/footer', {page: '/listingDetails'}) %>
 </html>
