@@ -10,6 +10,7 @@
     <!-- Navbar -->
     <header><%- include('partials/navbar', {page: '/mylistings'}) %></header>
     <main>
+      <% if(prop) { %>
       <div>
         <h2>My listings</h2>
         <div>
@@ -33,6 +34,18 @@
       </div>
       <% }) %>
     </main>
+    <% } else { %>
+<main>
+  <div>
+    <h2>My listings</h2>
+  </div>
+  <div>
+    <p>Property activities and summary will show up here</p>
+    <a href="/postProperty"><button>List space for free</button></a>
+  </div>
+
+</main>
+      <% } %>
   </body>
   <%- include('partials/footer', {page: '/mylistings'}) %>
 </html>
