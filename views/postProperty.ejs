@@ -19,16 +19,16 @@
             <input
               required
               type="text"
-              name="address.addressline1"
+              name="address[addressline1]"
               placeholder="Address line1"
             />
             <input
               type="text"
-              name="address.addressline2"
+              name="address[addressline2]"
               placeholder="Address line2 (optional)"
             />
-            <input required type="text" name="city" placeholder="City" />
-            <input required type="text" name="zipCode" placeholder="Zip code" />
+            <input required type="text" name="address[city]" placeholder="City" />
+            <input required type="text" name="address[zipCode]" placeholder="Zip code" />
           </div>
 
           <div class="">
@@ -36,13 +36,14 @@
             <input
               required
               type="number"
-              name="listing_price.no_of_rooms"
+              min="1"
+              name="listing_price[no_of_rooms]"
               placeholder="Available individual spaces"
             />
             <input
               required
               type="number"
-              name="listing_price.price_space"
+              name="listing_price[price_space]"
               placeholder="Price per space"
             />
           </div>
@@ -52,22 +53,25 @@
             <input
               required
               type="number"
-              name="amenities.individual_space_size"
+              min="100"
+              name="amenities[individual_space_size]"
               placeholder="Individual space size (sqft)"
             />
             <input
               required
               type="number"
-              name="amenities.no_bathrooms"
+              min="1"
+              name="amenities[no_bathrooms]"
               placeholder="Number of bathrooms"
             />
             <input
               required
               type="number"
-              name="amenities.no_parking"
+              min="0"
+              name="amenities[no_parking]"
               placeholder="Available parkings"
             />
-            <select name="amenities.pet_allowed">
+            <select name="amenities[pet_allowed]">
               <option selected disabled value="">Pets allowed?</option>
               <option value="1">Yes</option>
               <option value="0">No</option>
@@ -96,7 +100,7 @@
           </div>
 
           <div class="">
-          <label for="propertyName" class="">PROPERTY TITLE</label>
+          <label>PROPERTY TITLE</label>
             <input
               required
               type="text"
@@ -106,7 +110,7 @@
           </div>
 
           <div class="">
-            <label for="propertyName" class="">INTERESTS</label>
+            <label>INTERESTS</label>
               <input
                 required
                 type="text"

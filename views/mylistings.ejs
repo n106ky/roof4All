@@ -24,9 +24,9 @@
       <div class="black-frame">
         <a href="/mylistings/<%= p._id %>">
           <img src="<%= p.img_url %>" alt="property-img" />
-          <p><%= p.propertyName %> $<%= p.price_space %></p>
+          <p><%= p.propertyName %> $<%= p.listing_price.price_space %></p>
           <p><%= p.address %></p>
-          <p>Space for <%= p.no_of_guest %> Bath 2 Car 3</p>
+          <p>Space for <%= p.listing_price.no_of_rooms %></p>
         </a>
         <hr />
         <p>
