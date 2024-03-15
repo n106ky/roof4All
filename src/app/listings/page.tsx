@@ -146,7 +146,7 @@ const data: Payment[] = [
   }
 ];
 
-export default function UsersPage({}: Props) {
+export default function listingsPage({}: Props) {
   return (
     <div className="flex flex-col gap-5  w-full">
       <PageTitle title="Users" />

@@ -9,10 +9,13 @@ type Props = {};
 
 import {
   ShoppingCart,
-  LayoutDashboard,
-  UsersRound,
+  List,
+  Library,
   Settings,
-  ChevronRight
+  ChevronRight,
+  Inbox,
+  Home,
+  User,
 } from "lucide-react";
 import { Button } from "./ui/button";
 
@@ -45,29 +48,41 @@ export default function SideNavbar({}: Props) {
         isCollapsed={mobileWidth ? true : isCollapsed}
         links={[
           {
-            title: "Dashboard",
+            title: "All listings",
             href: "/",
-            icon: LayoutDashboard,
-            variant: "default"
+            icon: List,
+            variant: "default",
           },
           {
-            title: "Users",
-            href: "/users",
-            icon: UsersRound,
-            variant: "ghost"
+            title: "Dashboard",
+            href: "/dashboard",
+            icon: Library,
+            variant: "ghost",
           },
           {
-            title: "Ordrs",
-            href: "/orders",
-            icon: ShoppingCart,
-            variant: "ghost"
+            title: "My listings",
+            href: "/listings",
+            icon: Inbox,
+            variant: "ghost",
+          },
+          {
+            title: "My rentals",
+            href: "/rentals",
+            icon: Home,
+            variant: "ghost",
           },
           {
             title: "Settings",
             href: "/settings",
             icon: Settings,
-            variant: "ghost"
-          }
+            variant: "ghost",
+          },
+          {
+            title: "My people",
+            href: "/people",
+            icon: User,
+            variant: "ghost",
+          },
         ]}
       />
     </div>

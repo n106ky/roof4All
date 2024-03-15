@@ -8,13 +8,10 @@ export function TopNavbar({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <nav
-      className={cn("", className)}
-      {...props}
-    >
-      <div className="navbar bg-base-100">
+    <nav className={cn("", className)} {...props}>
+      <div className="navbar bg-white">
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">Roof4all</a>
+          <a className="btn btn-content text-xl">Roof4all</a>
         </div>
         <div className="flex-none gap-2">
           <div className="form-control">
@@ -39,7 +36,7 @@ export function TopNavbar({
             </div>
             <ul
               tabIndex={0}
-              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content  rounded-box w-52"
             >
               <li>
                 <a className="justify-between">
