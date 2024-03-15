@@ -1,13 +1,13 @@
 /** @format */
 
 "use client";
-
+import React from "react";
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
-  useReactTable
+  useReactTable,
 } from "@tanstack/react-table";
 
 import {
@@ -16,8 +16,8 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
-} from "@/components/ui/table";
+  TableRow,
+} from "./ui/table";
 import { Button } from "./ui/button";
 
 interface DataTableProps<TData, TValue> {
@@ -27,13 +27,13 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({
   columns,
-  data
+  data,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel()
+    getPaginationRowModel: getPaginationRowModel(),
   });
 
   return (
