@@ -35,12 +35,46 @@
             <td><%= r.space_rented %></td>
             <td><%= r.allocated %></td>
             <td><%= r.price_space %></td>
-            <td>:</td>
+            <td><a onclick="allocateSpace('<%= r._id %>')"
+              ><button class="">Allocate</button></a
+            ></td>
           </tr>
           <% }) %>
         </table>
       </div>
     </main>
+    <div id="confirmationMessage" class="message-bkg">
+      <div class="message-content">
+        <p>Allocate space to employees</p>
+        <div>
+          <p>Property: <%= rs.propertyName %></p>
+          <hr>
+          <p>Which employee would you like to allocate space to?</p>
+          <a href=""><button>Employee 1</button></a>
+          <a href=""><button>Employee 2</button></a>
+        </div>
+        <hr>
+        <button id="confirmAllocate">Confirm</button>
+        <button id="cancelAllocate">Cancel</button>
+      </div>
+    </div>
     <%- include('partials/footer', {page: '/myrentals'}) %>
   </body>
+  <script>
+    function allocateSpace(rentSpaceID) {
+      document.getElementById("confirmationMessage").style.display = "flex";
+      document.getElementById("confirmAllocate").onclick = function () {
+        fetch(`/allocateSpace/${rentSpaceID}`, { method: "GET" })
+          .then((response) => {
+            window.location.href = "/myrentals";
+          })
+          .catch((error) => console.error("Error:", error));
+        document.getElementById("confirmationMessage").style.display = "none";
+      };
+
+      document.getElementById("cancelAllocate").onclick = function () {
+        document.getElementById("confirmationMessage").style.display = "none";
+      };
+    }
+  </script>
 </html>
