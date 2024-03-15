@@ -21,8 +21,6 @@ let propertySchema = new Schema({
     city: {type: String},
     zipCode: {type: String},
   },
-  current_guest_no: { type: Number },
-  current_room_avaliable: { type: Number },
   duration_start: { type: Date },
   duration_end: { type: Date },
   listing_price: {
@@ -40,6 +38,8 @@ let propertySchema = new Schema({
   list_date: { type: Date, default: Date.now },
   interest: { type: String },
   status: { type: Boolean }, // active vs inactive
+  current_guest_no: { type: Number },
+  current_room_avaliable: { type: Number },
 });
 
 let rentSchema = new Schema({
@@ -96,13 +96,14 @@ async function postProperty(userID, propData) {
       policies: propData.policies,
       img_url: propData.img_url,
       interest: propData.interest,
+      current_guest_no: propData.listing_price.no_of_rooms,
+      current_room_avaliable: propData.listing_price.no_of_rooms,
     });
-
     // console.log("New list: \n", newList);
-    newList.price_space = +(propData.price / propData.no_of_rooms).toFixed(2);
     propData.status == "on"
       ? (newList.status = true)
       : (newList.status = false);
+
     await newList.save();
 
     // list -> properties.

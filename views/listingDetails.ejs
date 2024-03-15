@@ -36,13 +36,21 @@
         <div>
           <div class="green-frame">
             <div>
-              <p><%= prop.address %></p>
+              <p>
+                <%= prop.address.addressline1 %>, <%= prop.address.addressline2
+                %>, <%= prop.address.city %>
+              </p>
               <span
                 ><% if(prop.status==true) { %>Space avaliable<% }else{ %>Sapce
                 unavaliable<% } %></span
               >
             </div>
-            <p><%= prop.no_of_guest %> 3 bed 2 baths 3 parking</p>
+            <p>
+              <%= prop.listing_price.no_of_rooms %> guest <%=
+              prop.listing_price.no_of_rooms %> bed <%=
+              prop.amenities.no_bathrooms %> baths <%= prop.amenities.no_parking
+              %> parking
+            </p>
           </div>
           <hr />
           <div class="green-frame">
@@ -56,24 +64,69 @@
               </tr>
               <tr>
                 <th><%= user.rating %></th>
-                <th><%= prop.price_space %></th>
-                <th><%= prop.no_of_rooms %></th>
-                <th><%= prop.no_of_rooms -1 %></th>
+                <th><%= prop.listing_price.price_space %></th>
+                <th><%= prop.listing_price.no_of_rooms %></th>
+                <th><%= prop.current_room_avaliable %></th>
               </tr>
             </table>
             <div class="yellow-frame">
               <div>
                 <h3>AMENITIES</h3>
-                <p>Amenity, Amenity, Amenity, Amenity, Amenity</p>
+                <p>bathrooms: <%= prop.amenities.no_bathrooms %></p>
+                <p>parking: <%= prop.amenities.no_parking %></p>
+                <p>
+                  pets allowed: <% if(prop.amenities.pet_allowed) { %> Yes <% }
+                  else { %> No <% } %>
+                </p>
               </div>
               <div>
                 <h3>RENTAL POLICY</h3>
                 <p>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book.
+                  <strong>1. Payment Policy</strong><br> 
+                  Rent Due Date: Rent is due on the 1st of
+                  each month without exception. A grace period of 5 days is
+                  allowed, after which a late fee of $50 will be applied, plus
+                  an additional $5 per day until the rent is paid in full.<br>
+                  Payment Methods: Acceptable payment methods include online
+                  bank transfer, check, or through our designated payment
+                  portal. Cash payments are not accepted. <br><br>
+                  <strong>2. Occupancy Limits</strong><br>
+                  Maximum Occupancy: The premises shall not be occupied by more
+                  than two persons per bedroom plus one additional person per
+                  rental unit. Guest Stays: Guests may stay for a maximum of 14
+                  consecutive days in any 6-month period. Longer stays require
+                  written approval from the landlord. <br><br>
+                  <strong>3. Maintenance and Repairs</strong><br>
+                  Tenant Responsibilities: Tenants are responsible for keeping
+                  the premises clean and sanitary. Minor repairs, such as
+                  replacing light bulbs and unclogging drains, are the tenant's
+                  responsibility. <br>
+                  Landlord Responsibilities: The landlord will
+                  handle major repairs and maintenance issues, such as heating,
+                  plumbing, and electrical problems. Tenants must report such
+                  issues within 48 hours of occurrence. <br><br>
+                  <strong>4. Pets Policy Allowed</strong><br>
+                  Pets: Small dogs and cats are permitted within the property. A
+                  maximum of 2 pets per unit is allowed. <br>
+                  Pet Deposit: A
+                  refundable pet deposit of $300 per pet is required, along with
+                  a monthly pet fee of $30. <br>
+                  Restrictions: Aggressive breeds are
+                  prohibited. Pets must be registered with the landlord,
+                  including proof of vaccinations. <br><br>
+                  <strong>5. Alterations to the
+                  Premises</strong><br> Restrictions: Tenants shall not make any alterations,
+                  additions, or improvements to the premises without prior
+                  written consent from the landlord. Decorations: Non-permanent
+                  decorations are allowed but must not damage the walls or
+                  require extensive repairs upon removal. <br><br>
+                  <strong>6. Noise and Conduct</strong>
+                  Quiet Hours: Quiet hours are from 10 PM to 7 AM on weekdays
+                  and 12 AM to 8 AM on weekends. Tenants are expected to respect
+                  these hours to maintain a peaceful living environment.
+                  Prohibited Activities: Illegal activities, including but not
+                  limited to drug use and distribution, are strictly prohibited
+                  on the premises.
                 </p>
               </div>
             </div>
@@ -86,7 +139,10 @@
         <p>Confirm renting this property?</p>
         <div>
           <p>Property: <%= prop.propertyName %></p>
-          <p>Address: <%= prop.address %></p>
+          <p>
+            Address: <%= prop.address.addressline1 %>, <%=
+            prop.address.addressline2 %>, <%= prop.address.city %>
+          </p>
           <p>Price: <%= prop.price_space %></p>
         </div>
         <button id="confirmRent">Rent</button>
@@ -108,7 +164,7 @@
       };
 
       document.getElementById("cancelRent").onclick = function () {
-        document.getElementById("confirmationMessage").style.display = "none"; 
+        document.getElementById("confirmationMessage").style.display = "none";
       };
     }
   </script>
