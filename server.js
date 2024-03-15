@@ -237,6 +237,7 @@ app.get("/mylistings", ensureLogin, async (req, res) => {
     const properties = await listData.getHostProperties(userID);
     res.render("mylistings", { user: userData, prop: properties });
   } catch (err) {
+    console.log(err);
     res.status(500).render("500", {
       message: `I'm sorry, but we've encountered the following error: ${err}`,
     });
@@ -249,8 +250,13 @@ app.get("/mylistings/:propertyID", ensureLogin, async (req, res) => {
     const userID = req.session.user.userID;
     const userData = await authData.getUser(userID);
     const properties = await listData.getPropertyDetails(req.params.propertyID);
-    res.render("listingDetails", { userID: userID, user: userData, prop: properties });
+    res.render("listingDetails", {
+      userID: userID,
+      user: userData,
+      prop: properties,
+    });
   } catch (err) {
+    console.log(err);
     res.status(500).render("500", {
       message: `I'm sorry, but we've encountered the following error: ${err}`,
     });
@@ -262,6 +268,7 @@ app.get("/allListings", ensureLogin, async (req, res) => {
     const properties = await listData.getAllProperties();
     res.render("allListings", { prop: properties }); // user: userData,
   } catch (err) {
+    console.log(err);
     res.status(500).render("500", {
       message: `I'm sorry, but we've encountered the following error: ${err}`,
     });
@@ -273,8 +280,38 @@ app.get("/allListings/:propertyID", ensureLogin, async (req, res) => {
     const userID = req.session.user.userID;
     const userData = await authData.getUser(userID);
     const properties = await listData.getPropertyDetails(req.params.propertyID);
-    res.render("listingDetails", { userID: userID, user: userData, prop: properties });
+    res.render("listingDetails", {
+      userID: userID,
+      user: userData,
+      prop: properties,
+    });
   } catch (err) {
+    console.log(err);
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+});
+
+app.get("/myrentals", ensureLogin, async (req, res) => {
+  try {
+    let rentals = await getRentalsByTenant();
+    res.render("myrentals");
+  } catch (err) {
+    console.log(err);
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+});
+
+app.get("/rentSpace/:propID", ensureLogin, async (req, res) => {
+  try {
+    await listData.rentSpace();
+    let rentals = await getRentalsByTenant();
+    res.render("");
+  } catch (err) {
+    console.log(err);
     res.status(500).render("500", {
       message: `I'm sorry, but we've encountered the following error: ${err}`,
     });

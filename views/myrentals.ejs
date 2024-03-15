@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>rent4all</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header><%- include('partials/navbar', {page: '/myrentals'}) %></header>
+    <main>
+      <%- include('partials/dashboardPanel', {page: '/myrentals'}) %> <%
+      <div>
+        <h2>My rentals</h2>
+        <span>Change View</span>
+      </div>
+      <div>
+        if(prop) { %>
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Property name</th>
+            <th>Rent date</th>
+            <th>Space rented</th>
+            <th>Allocated</th>
+            <th>Price per space</th>
+            <th></th>
+          </tr>
+          <% prop.forEach((p)=> { %> 
+            <tr>
+               <td><%= p._id %></td>
+               <td><%= p.propertyName %></td>
+               <td><%= p.rent_date %></td>
+               <td><%= p._id %></td>
+               <td><%= p._id %></td>
+               <td>:</td>
+            </tr>
+            <% }) %>
+        </table>
+        <% } else { %>
+
+        <div>
+          <p>You haven't rented any spaces yet</p>
+          <a href="/allListings">Explore our property listings</a>
+        </div>
+      </div>
+    </main>
+    <% } %> <%- include('partials/footer', {page: '/myrentals'}) %>
+  </body>
+</html>

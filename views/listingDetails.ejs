@@ -89,28 +89,26 @@
           <p>Address: <%= prop.address %></p>
           <p>Price: <%= prop.price_space %></p>
         </div>
-        <button id="confirmDelete">OK</button>
-        <button id="cancelDelete">Cancel</button>
+        <button id="confirmRent">Rent</button>
+        <button id="cancelRent">Cancel</button>
       </div>
     </div>
     <%- include('partials/footer', {page: '/listingDetails'}) %>
   </body>
   <script>
-    function confirmDeletion(unitID) {
+    function confirmRent(propID) {
       document.getElementById("confirmationMessage").style.display = "flex";
-
-      document.getElementById("confirmDelete").onclick = function () {
-        // Perform the deletion logic here
-        fetch(`/deleteUnit/${unitID}`, { method: "GET" })
+      document.getElementById("confirmRent").onclick = function () {
+        fetch(`/rentSpace/${propID}`, { method: "GET" })
           .then((response) => {
-            window.location.href = "/units";
+            window.location.href = "/myrental";
           })
           .catch((error) => console.error("Error:", error));
-        document.getElementById("confirmationMessage").style.display = "none"; // close <div> after confirmation
+        document.getElementById("confirmationMessage").style.display = "none";
       };
 
-      document.getElementById("cancelDelete").onclick = function () {
-        document.getElementById("confirmationMessage").style.display = "none"; // close <div> after confirmation
+      document.getElementById("cancelRent").onclick = function () {
+        document.getElementById("confirmationMessage").style.display = "none"; 
       };
     }
   </script>

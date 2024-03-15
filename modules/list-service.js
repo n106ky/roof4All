@@ -13,12 +13,14 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 let propertySchema = new Schema({
   host: { type: ObjectId, ref: "Host" }, // host - user is one-to-one relationship.
   user: { type: ObjectId, ref: "User" }, // host = user, provide different way to search. Easier to code.
+  tenant: { type: ObjectId, red: "User" },
   propertyName: { type: String },
   address: { type: String },
   room_size_sqft: { type: Number },
   no_of_rooms: { type: Number },
   no_of_guest: { type: Number },
-  price: { type: Number },
+  current_guest_no: { type: Number },
+  current_room_avaliable: { type: Number },
   price_space: { type: Number },
   duration_start: { type: Date },
   duration_end: { type: Date },
@@ -26,16 +28,36 @@ let propertySchema = new Schema({
   policies: { type: String },
   img_url: [{ type: String }],
   list_date: { type: Date, default: Date.now },
+  interest: { type: String },
   status: { type: Boolean }, // active vs inactive
 });
 
-let Property;
+let rentSchema = new Schema({
+  host: { type: ObjectId, ref: "Host" },
+  host_user: { type: ObjectId, ref: "User" },
+  tenant: { type: ObjectId, red: "User" },
+  guests: [{ type: ObjectId, red: "User" }],
+  propertyName: { type: String },
+  address: { type: String },
+  room_size_sqft: { type: Number },
+  no_of_rooms: { type: Number },
+  no_of_guest: { type: Number },
+  price_space: { type: Number },
+  rent_date: { type: Date },
+  rent_due: { type: Date },
+  space_rented: { type: Number },
+  allocated: { type: Number },
+  status: { type: Boolean }, // active vs inactive
+});
+
+let Property, Rent;
 // let List;
 
 async function initialize() {
   try {
     const db = await connectToDatabase("list-service");
     Property = db.model("Property", propertySchema);
+    Rent = db.model("Rent", rentSchema);
     // List = db.model("List", listSchema);
   } catch (error) {
     console.error("Service initialization failed", error);
@@ -58,6 +80,8 @@ async function postProperty(userID, propData) {
       amenities: propData.amenities,
       policies: propData.policies,
       img_url: propData.img_url,
+      interest: propData.interest
+      ,
     });
     // console.log("New list: \n", newList);
     newList.price_space = +(propData.price / propData.no_of_rooms).toFixed(2);
@@ -89,7 +113,7 @@ async function getHostProperties(userID) {
     const user = await authData.getUser(userID);
     const host = await authData.getHost(user.roleID);
     const properties = host.property; // array of propertyID
-    if(!properties){
+    if (!properties) {
       return null;
     }
     const propDetails = await Promise.all(
@@ -125,10 +149,27 @@ async function getPropertyDetails(propertyID) {
 async function getAllProperties() {
   try {
     let properties = await Property.find({});
-    console.log()
     return properties;
   } catch (err) {
     console.error("(getAllProperties) Error finding all properties", err);
+    return null;
+  }
+}
+
+async function rentSpace(propID, tenantID) {
+  try {
+    let prop = await Property.findOne({_id: propID});
+    let tenant = await User.findOne({_id: tenantID});
+    tenant.rent
+  } catch (err) {}
+}
+
+async function getRentalsByTenant(tenantID) {
+  try {
+    let rentals = await Rent.find({ tenant: tenantID });
+    return rentals;
+  } catch (err) {
+    console.error("(getRentalsByTenant) Error finding all retnals", err);
     return null;
   }
 }
@@ -139,4 +180,6 @@ module.exports = {
   getAllProperties,
   getHostProperties,
   getPropertyDetails,
+  rentSpace,
+  getRentalsByTenant,
 };

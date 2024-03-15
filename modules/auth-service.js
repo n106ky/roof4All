@@ -15,7 +15,7 @@ let userSchema = new Schema({
     enum: ["guest", "host", "business", "admin"],
     default: "guest",
   },
-  roleID: {type: ObjectId},
+  roleID: { type: ObjectId },
   loginHistory: [
     {
       dateTime: { type: Date },
@@ -23,8 +23,14 @@ let userSchema = new Schema({
     },
   ],
   user_img: String,
-  rating: {type: Number, default: 5},
+  rating: { type: Number, default: 5 },
   verified: { type: Boolean, default: false },
+  dashboard: {
+    total_income: { type: Number, default: 0 },
+    total_expenses: { type: Number, default: 0 },
+    total_listed_spaces: { type: Number, default: 0 },
+    total_guests: { type: Number, default: 0 },
+  },
 });
 
 let guestSchema = new Schema({
@@ -37,6 +43,7 @@ let guestSchema = new Schema({
   purpose: { type: String },
   doc_type: { type: String },
   upload_doc: { type: String }, // change if have time
+  rentedSpaces: [{ type: ObjectId, ref: "Property" }],
 });
 
 let hostSchema = new Schema({
@@ -50,6 +57,7 @@ let hostSchema = new Schema({
   doc_type: { type: String },
   upload_doc: { type: String }, // change if have time
   property: [{ type: ObjectId, ref: "Property" }],
+  rentedSpaces: [{ type: ObjectId, ref: "Property" }],
 });
 
 let employeeSchema = new Schema({
@@ -58,12 +66,12 @@ let employeeSchema = new Schema({
   lname: { type: String },
   dob: { type: Date },
   gender: { type: String },
-  role: {type: String},
+  role: { type: String },
   // employer: { type: ObjectId, ref: "Business" },
-  branch: {type: String},
-  status: {type: Boolean, default: false}, // "Unallocated" vs "Allocated"
-  assign_date: {type: Date},
-})
+  branch: { type: String },
+  status: { type: Boolean, default: false }, // "Unallocated" vs "Allocated"
+  assign_date: { type: Date },
+});
 
 let businessSchema = new Schema({
   user: { type: ObjectId, ref: "User" },
@@ -71,15 +79,15 @@ let businessSchema = new Schema({
   lname: { type: String },
   dob: { type: Date },
   gender: { type: String },
-  employment_title: {type: String},
+  employment_title: { type: String },
   purpose: { type: String },
   companyName: { type: String },
   employees: [employeeSchema],
   doc_type: { type: String },
   upload_doc: { type: String }, // change if have time
   property: [{ type: ObjectId, ref: "Property" }],
+  rentedSpaces: [{ type: ObjectId, ref: "Property" }],
 });
-
 
 let User, Guest, Host, Business, Employee;
 
@@ -110,7 +118,7 @@ async function initialize() {
     Employee = db.model("Employee", employeeSchema);
   } catch (error) {
     console.error("Service initialization failed", error);
-    process.exit(1); 
+    process.exit(1);
   }
 }
 
@@ -233,7 +241,6 @@ async function getHost(hostID) {
   }
 }
 
-
 module.exports = {
   initialize,
   registerUser,
@@ -242,4 +249,3 @@ module.exports = {
   getUser,
   getHost,
 };
-
