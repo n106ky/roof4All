@@ -16,10 +16,10 @@ let propertySchema = new Schema({
   tenant: { type: ObjectId, red: "User" },
   propertyName: { type: String },
   address: {
-    addressline1: {type: String},
-    addressline2: {type: String},
-    city: {type: String},
-    zipCode: {type: String},
+    addressline1: { type: String },
+    addressline2: { type: String },
+    city: { type: String },
+    zipCode: { type: String },
   },
   duration_start: { type: Date },
   duration_end: { type: Date },
@@ -53,9 +53,9 @@ let rentSchema = new Schema({
   individual_space_size: { type: Number },
   price_space: { type: Number },
   rent_date: { type: Date, default: Date.now },
-  rent_due: { type: Date},
+  rent_due: { type: Date },
   space_rented: { type: Number },
-  allocated: { type: Number },
+  allocated: { type: Number, default: 0 },
   status: { type: Boolean }, // active vs inactive
 });
 
@@ -125,6 +125,7 @@ async function postProperty(userID, propData) {
 }
 
 async function getHostProperties(userID) {
+  console.log("(getHostProperties) received userID: \n", userID);
   try {
     const user = await authData.getUser(userID);
     const host = await authData.getHost(user.typeID);
@@ -173,12 +174,6 @@ async function getAllProperties() {
 }
 
 async function rentSpace(propID, tenantID) {
-  console.log(
-    "received propID: \n",
-    propID,
-    "\nreceived tenantID: \n",
-    tenantID
-  );
   try {
     let tenant = await authData.getUser(tenantID);
     if (!tenant.rentedSpaces) {
@@ -189,17 +184,21 @@ async function rentSpace(propID, tenantID) {
     await tenant.save();
     let prop = await Property.findOne({ _id: propID });
     const newRent = new Rent({
+      prop_id: propID,
       host: prop.host,
       host_user: prop.user,
       tenant: tenantID,
       propertyName: prop.propertyName,
       address: prop.address,
-      rent_due: prop.duration_end,
       price_space: prop.listing_price.price_space,
       individual_space_size: prop.individual_space_size,
       status: true,
+      space_rented: prop.listing_price.no_of_rooms - 1,
+      rent_due: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
     });
+
     await newRent.save();
+    return newRent;
   } catch (err) {
     console.error("(rentSpace) Error finding renting spaces", err);
     return null;

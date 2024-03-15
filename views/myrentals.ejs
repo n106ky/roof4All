@@ -15,7 +15,30 @@
         <h2>My rentals</h2>
         <span>Change View</span>
       </div>
-     
+
+      <div>
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Property title</th>
+            <th>Rent date</th>
+            <th>Space rented</th>
+            <th>Allocated</th>
+            <th>Price per space</th>
+            <th></th>
+          </tr>
+          <% rs.forEach((r)=> { %>
+          <tr>
+            <td><%= r. propertyName%></td>
+            <td><%= r.rent_date %></td>
+            <td><%= r.rent_due %></td>
+            <td><%= r.space_rented %></td>
+            <td><%= r.allocated %></td>
+            <td><%= r.price_space %></td>
+            <td>:</td>
+          </tr>
+          <% }) %>
+        </table>
       </div>
     </main>
     <%- include('partials/footer', {page: '/myrentals'}) %>
