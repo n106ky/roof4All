@@ -21,7 +21,6 @@ let propertySchema = new Schema({
     city: {type: String},
     zipCode: {type: String},
   },
-  no_of_guest: { type: Number },
   current_guest_no: { type: Number },
   current_room_avaliable: { type: Number },
   duration_start: { type: Date },
@@ -51,7 +50,6 @@ let rentSchema = new Schema({
   propertyName: { type: String },
   address: { type: String },
   no_of_rooms: { type: Number },
-  no_of_guest: { type: Number },
   individual_space_size: { type: Number },
   price_space: { type: Number },
   rent_date: { type: Date, default: Date.now },
@@ -78,22 +76,22 @@ async function initialize() {
 async function postProperty(userID, propData) {
   try {
     // get data from req.body, push to db - list
+    console.log("postProperty RECEIVED: \n", propData);
     const newList = new Property({
       propertyName: propData.propertyName,
       address: propData.address,
       room_size_sqft: propData.room_size_sqft,
-      no_of_guest: propData.no_of_guest,
       duration_start: propData.duration_start,
       duration_end: propData.duration_end,
       listing_price: {
-        no_of_rooms: prop.listing_price.no_of_rooms,
-        price_space: prop.listing_price.price_space,
+        no_of_rooms: propData.listing_price.no_of_rooms,
+        price_space: propData.listing_price.price_space,
       },
       amenities: {
-        individual_space_size: prop.amenities.individual_space_size,
-        no_bathrooms: prop.amenities.no_bathrooms,
-        no_parking: prop.amenities.no_parking,
-        pet_allowed: prop.amenities.allowed,
+        individual_space_size: propData.amenities.individual_space_size,
+        no_bathrooms: propData.amenities.no_bathrooms,
+        no_parking: propData.amenities.no_parking,
+        pet_allowed: propData.amenities.allowed,
       },
       policies: propData.policies,
       img_url: propData.img_url,
