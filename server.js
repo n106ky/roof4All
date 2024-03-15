@@ -143,25 +143,27 @@ app.get("/verification", ensureLogin, (req, res) => {
   res.render("verification", { successMessage: null, errorMessage: null });
 });
 
-app.post("/verification", ensureLogin, (req, res) => {
+app.post("/verification", ensureLogin, async (req, res) => {
   const userID = req.session.user.userID;
-  authData
-    .verifyUser(userID, req.body)
-    .then(() => {
-      res.render("verification", {
-        successMessage: "Successfully verified",
-        errorMessage: null,
-        userName: req.body.userName,
-      });
-    })
-    .catch((err) => {
-      console.log("reqbody in Individual Verification: ", req.body);
-      res.render("verification", {
-        successMessage: null,
-        errorMessage: err,
-        userName: req.body.userName,
-      });
+  const type = req.session.user.userType;
+  try {
+    await authData.verifyUser(userID, req.body);
+    if (type == "host" || type == "business") {
+      const userData = await authData.getUser(userID);
+      const properties = await listData.getHostProperties(userID);
+      res.render("dashboard", { user: userData, prop: properties });
+    } else {
+      const userData = await authData.getUser(userID);
+      res.render("dashboard", { user: userData });
+    }
+  } catch (err) {
+    console.log("reqbody in Individual Verification: ", req.body);
+    res.render("verification", {
+      successMessage: null,
+      errorMessage: err,
+      userName: req.body.userName,
     });
+  }
 });
 
 app.get("/verificationBusAcc", ensureLogin, (req, res) => {
@@ -295,21 +297,23 @@ app.get("/allListings/:propertyID", ensureLogin, async (req, res) => {
 
 app.get("/myrentals", ensureLogin, async (req, res) => {
   try {
-    let rentals = await getRentalsByTenant();
-    res.render("myrentals");
+    const tenantID = req.session.user.userID;
+    let rentals = await listData.getRentalsByTenant(tenantID);
+    res.render("myrentals", { rs: rentals });
   } catch (err) {
-    console.log(err);
     res.status(500).render("500", {
       message: `I'm sorry, but we've encountered the following error: ${err}`,
     });
   }
 });
 
-app.get("/rentSpace/:propID", ensureLogin, async (req, res) => {
+app.get("/rentSpace/:propertyID", ensureLogin, async (req, res) => {
   try {
-    await listData.rentSpace();
-    let rentals = await getRentalsByTenant();
-    res.render("");
+    const propID = req.params.propertyID;
+    const tenantID = req.session.user.userID;
+    await listData.rentSpace(propID, tenantID);
+    let rentals = await listData.getRentalsByTenant(tenantID);
+    res.render("myrentals", { rs: rentals });
   } catch (err) {
     console.log(err);
     res.status(500).render("500", {

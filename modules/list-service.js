@@ -36,14 +36,14 @@ let rentSchema = new Schema({
   host: { type: ObjectId, ref: "Host" },
   host_user: { type: ObjectId, ref: "User" },
   tenant: { type: ObjectId, red: "User" },
-  guests: [{ type: ObjectId, red: "User" }],
+  guests: [{ type: ObjectId, red: "User" }], // will be assigned when employee assigned guest
   propertyName: { type: String },
   address: { type: String },
   room_size_sqft: { type: Number },
   no_of_rooms: { type: Number },
   no_of_guest: { type: Number },
   price_space: { type: Number },
-  rent_date: { type: Date },
+  rent_date: { type: Date, default: Date.now },
   rent_due: { type: Date },
   space_rented: { type: Number },
   allocated: { type: Number },
@@ -51,7 +51,6 @@ let rentSchema = new Schema({
 });
 
 let Property, Rent;
-// let List;
 
 async function initialize() {
   try {
@@ -80,8 +79,7 @@ async function postProperty(userID, propData) {
       amenities: propData.amenities,
       policies: propData.policies,
       img_url: propData.img_url,
-      interest: propData.interest
-      ,
+      interest: propData.interest,
     });
     // console.log("New list: \n", newList);
     newList.price_space = +(propData.price / propData.no_of_rooms).toFixed(2);
@@ -92,7 +90,7 @@ async function postProperty(userID, propData) {
 
     // list -> properties.
     let user = await authData.getUser(userID);
-    let host = await authData.getHost(user.roleID);
+    let host = await authData.getHost(user.typeID);
     // console.log("host found: \n", host, "\nnewList.id: \n", newList._id);
     host.property.push(newList._id);
     await host.save();
@@ -111,11 +109,11 @@ async function postProperty(userID, propData) {
 async function getHostProperties(userID) {
   try {
     const user = await authData.getUser(userID);
-    const host = await authData.getHost(user.roleID);
-    const properties = host.property; // array of propertyID
-    if (!properties) {
+    const host = await authData.getHost(user.typeID);
+    if (host.property.length == 0) {
       return null;
     }
+    const properties = host.property; // array of propertyID
     const propDetails = await Promise.all(
       properties.map(async (p) => {
         return getPropertyDetails(p); // returns a promise
@@ -128,13 +126,40 @@ async function getHostProperties(userID) {
         "MMM D, YYYY hh:mm A"
       );
     });
-
     return propDetails;
   } catch (err) {
     console.log(`(getHostProperties) Error in getting host properties: ${err}`);
     return null;
   }
 }
+// async function getHostProperties(userID) {
+//   try {
+//     const user = await authData.getUser(userID);
+//     const host = await authData.getHost(user.typeID);
+//     if (!host || !host.property || host.property.length === 0) {
+//       return null;
+//     }
+//     const properties = host.property;
+//     properties, proceed;
+
+//     const propDetails = await Promise.all(
+//       properties.map(async (p) => {
+//         return getPropertyDetails(p);
+//       })
+//     );
+
+//     propDetails.forEach((p) => {
+//       p.shortened_id = p._id.toString().substr(0, 7);
+//       p.transformed_listDate = moment(p.list_date).format(
+//         "MMM D, YYYY hh:mm A"
+//       );
+//     });
+//     return propDetails;
+//   } catch (err) {
+//     console.log(`(getHostProperties) Error in getting host properties: ${err}`);
+//     return null;
+//   }
+// }
 
 async function getPropertyDetails(propertyID) {
   try {
@@ -157,11 +182,34 @@ async function getAllProperties() {
 }
 
 async function rentSpace(propID, tenantID) {
+  console.log("received propID: \n", propID, "\nreceived tenantID: \n", tenantID);
   try {
-    let prop = await Property.findOne({_id: propID});
-    let tenant = await User.findOne({_id: tenantID});
-    tenant.rent
-  } catch (err) {}
+    let tenant = await authData.getUser(tenantID);
+    if (!tenant.rentedSpaces) {
+      tenant.rentedSpaces = [propID];
+    } else {
+      tenant.rentedSpaces.push(propID);
+    }
+    await tenant.save();
+    let prop = await Property.findOne({ _id: propID });
+    const newRent = new Rent({
+      host: prop.host,
+      host_user: prop.user,
+      tenant: tenantID,
+      propertyName: prop.propertyName,
+      address: prop.address,
+      room_size_sqft: prop.room_size_sqft,
+      no_of_rooms: prop.no_of_rooms,
+      no_of_guest: prop.no_of_guest,
+      price_space: prop.price_space,
+      rent_due: prop.duration_end,
+      status: true,
+    });
+    await newRent.save();
+  } catch (err) {
+    console.error("(rentSpace) Error finding renting spaces", err);
+    return null;
+  }
 }
 
 async function getRentalsByTenant(tenantID) {

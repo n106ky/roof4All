@@ -15,7 +15,7 @@ let userSchema = new Schema({
     enum: ["guest", "host", "business", "admin"],
     default: "guest",
   },
-  roleID: { type: ObjectId },
+  typeID: { type: ObjectId },
   loginHistory: [
     {
       dateTime: { type: Date },
@@ -31,6 +31,7 @@ let userSchema = new Schema({
     total_listed_spaces: { type: Number, default: 0 },
     total_guests: { type: Number, default: 0 },
   },
+  rentedSpaces: [{ type: ObjectId, ref: "Property" }],
 });
 
 let guestSchema = new Schema({
@@ -43,7 +44,6 @@ let guestSchema = new Schema({
   purpose: { type: String },
   doc_type: { type: String },
   upload_doc: { type: String }, // change if have time
-  rentedSpaces: [{ type: ObjectId, ref: "Property" }],
 });
 
 let hostSchema = new Schema({
@@ -57,7 +57,6 @@ let hostSchema = new Schema({
   doc_type: { type: String },
   upload_doc: { type: String }, // change if have time
   property: [{ type: ObjectId, ref: "Property" }],
-  rentedSpaces: [{ type: ObjectId, ref: "Property" }],
 });
 
 let employeeSchema = new Schema({
@@ -86,7 +85,6 @@ let businessSchema = new Schema({
   doc_type: { type: String },
   upload_doc: { type: String }, // change if have time
   property: [{ type: ObjectId, ref: "Property" }],
-  rentedSpaces: [{ type: ObjectId, ref: "Property" }],
 });
 
 let User, Guest, Host, Business, Employee;
@@ -212,7 +210,7 @@ async function verifyUser(userID, userData) {
     }
     verifiedUser.user = userID;
     await verifiedUser.save();
-    user.roleID = verifiedUser._id;
+    user.typeID = verifiedUser._id;
     user.verified = true;
     await user.save();
     console.log("Verification complete.");

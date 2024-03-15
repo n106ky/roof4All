@@ -101,7 +101,7 @@
       document.getElementById("confirmRent").onclick = function () {
         fetch(`/rentSpace/${propID}`, { method: "GET" })
           .then((response) => {
-            window.location.href = "/myrental";
+            window.location.href = "/myrentals";
           })
           .catch((error) => console.error("Error:", error));
         document.getElementById("confirmationMessage").style.display = "none";
