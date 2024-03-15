@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { Nav } from "./ui/nav";
+import React from "react";
 
 type Props = {};
 
@@ -11,7 +12,7 @@ import {
   LayoutDashboard,
   UsersRound,
   Settings,
-  ChevronRight,
+  ChevronRight
 } from "lucide-react";
 import { Button } from "./ui/button";
 
@@ -47,26 +48,26 @@ export default function SideNavbar({}: Props) {
             title: "Dashboard",
             href: "/",
             icon: LayoutDashboard,
-            variant: "default",
+            variant: "default"
           },
           {
             title: "Users",
             href: "/users",
             icon: UsersRound,
-            variant: "ghost",
+            variant: "ghost"
           },
           {
             title: "Ordrs",
             href: "/orders",
             icon: ShoppingCart,
-            variant: "ghost",
+            variant: "ghost"
           },
           {
             title: "Settings",
             href: "/settings",
             icon: Settings,
-            variant: "ghost",
-          },
+            variant: "ghost"
+          }
         ]}
       />
     </div>
