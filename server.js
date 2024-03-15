@@ -322,6 +322,20 @@ app.get("/rentSpace/:propertyID", ensureLogin, async (req, res) => {
   }
 });
 
+app.get("/mypeople", ensureLogin, async (req, res) => {
+  try {
+    const propID = req.params.propertyID;
+    const employerID = req.session.user.userID;
+    let employees = await authData.getEmployees(employerID);
+    res.render("mypeople", { ppl: employees });
+  } catch (err) {
+    console.log(err);
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+});
+
 app.get("/logout", function (req, res) {
   req.session.destroy(function (err) {
     if (err) {

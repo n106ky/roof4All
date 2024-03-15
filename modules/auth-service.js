@@ -239,6 +239,16 @@ async function getHost(hostID) {
   }
 }
 
+async function getEmployees(employerID) {
+  try {
+    let hr = await Business.findOne({ user: employerID });
+    let employees = hr.employees;
+    return employees;
+  } catch (err) {
+    console.error("Error finding host", err);
+  }
+}
+
 module.exports = {
   initialize,
   registerUser,
@@ -246,4 +256,5 @@ module.exports = {
   verifyUser,
   getUser,
   getHost,
+  getEmployees
 };
