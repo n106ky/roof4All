@@ -17,7 +17,10 @@ export default function Nav() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <h1>Roof4all</h1>
-          <Input placeholder="Search property location" />
+
+          <div>
+            <Input placeholder="Search property location" />
+          </div>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

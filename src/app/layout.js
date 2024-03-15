@@ -10,8 +10,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        {/* Navigation bar */}
         <Nav />
-        {children}
+        <p>Sidebar</p>
+        <div className="p-8 w-full">{children}</div>
       </body>
     </html>
   );
