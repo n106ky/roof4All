@@ -48,7 +48,7 @@ export function TopNavbar({
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <a>Sign in</a>
               </li>
             </ul>
           </div>
