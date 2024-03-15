@@ -21,10 +21,13 @@
           <a href="#"><button>Modify this listing</button></a>
         </div>
         <% } else { %>
-          <div>
-            <a href="#"><button>Rent space</button></a>
-          </div>
-          <% } %>
+        <div>
+          <!-- <a href="#"><button>Rent space</button></a> -->
+          <a onclick="confirmRent('<%= prop._id %>')"
+            ><button class="">Rent</button></a
+          >
+        </div>
+        <% } %>
       </div>
       <div class="blue-frame">
         <div>
@@ -78,6 +81,37 @@
         </div>
       </div>
     </main>
+    <div id="confirmationMessage" class="message-bkg">
+      <div class="message-content">
+        <p>Confirm renting this property?</p>
+        <div>
+          <p>Property: <%= prop.propertyName %></p>
+          <p>Address: <%= prop.address %></p>
+          <p>Price: <%= prop.price_space %></p>
+        </div>
+        <button id="confirmDelete">OK</button>
+        <button id="cancelDelete">Cancel</button>
+      </div>
+    </div>
+    <%- include('partials/footer', {page: '/listingDetails'}) %>
   </body>
-  <%- include('partials/footer', {page: '/listingDetails'}) %>
+  <script>
+    function confirmDeletion(unitID) {
+      document.getElementById("confirmationMessage").style.display = "flex";
+
+      document.getElementById("confirmDelete").onclick = function () {
+        // Perform the deletion logic here
+        fetch(`/deleteUnit/${unitID}`, { method: "GET" })
+          .then((response) => {
+            window.location.href = "/units";
+          })
+          .catch((error) => console.error("Error:", error));
+        document.getElementById("confirmationMessage").style.display = "none"; // close <div> after confirmation
+      };
+
+      document.getElementById("cancelDelete").onclick = function () {
+        document.getElementById("confirmationMessage").style.display = "none"; // close <div> after confirmation
+      };
+    }
+  </script>
 </html>

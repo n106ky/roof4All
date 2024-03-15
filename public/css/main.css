@@ -1,38 +1,76 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
 /* Raleway, Nunito Sans*/
 
-html, body, * {
-    font-family: "Nunito Sans", sans-serif;
-}
-.black-frame{
-    border: solid 2px black;
-    border-radius: 3px;
-    width: fit-content;
-}
-.red-frame{
-    border: solid 2px red;
-    border-radius: 3px;
-    width: fit-content;
-}
-.blue-frame{
-    border: solid 2px blue;
-    border-radius: 3px;
-    width: fit-content;
-}
-.green-frame{
-    border: solid 2px green;
-    border-radius: 3px;
-    width: fit-content;
-}
-.yellow-frame{
-    border: solid 2px yellow;
-    border-radius: 3px;
-    width: fit-content;
+html,
+body,
+* {
+  font-family: "Nunito Sans", sans-serif;
 }
 
-#aboutYou{
-    display: block;
+/* WILL BE DELETED / JUST TO SHOW THE DIV CLEARLY */
+.black-frame {
+  border: solid 2px black;
+  border-radius: 3px;
+  width: fit-content;
 }
-#KYCVerification{
-    display: none;
+.red-frame {
+  border: solid 2px red;
+  border-radius: 3px;
+  width: fit-content;
+}
+.blue-frame {
+  border: solid 2px blue;
+  border-radius: 3px;
+  width: fit-content;
+}
+.green-frame {
+  border: solid 2px green;
+  border-radius: 3px;
+  width: fit-content;
+}
+.yellow-frame {
+  border: solid 2px yellow;
+  border-radius: 3px;
+  width: fit-content;
+}
+
+/* FOOTER - CAN BE CHANGED*/
+.footer{
+    font-size: 10px;
+    color: grey;
+    text-align: center;
+    width: 100%;
+}
+
+
+/* IMPOARTANT: THE FOLLOWING CSS ARE RELATED TO JAVASCRIPT FUNCTION */
+#aboutYou {
+  display: block;
+}
+#KYCVerification {
+  display: none;
+}
+
+.message-bkg {
+  display: none;
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+  align-content: center;
+}
+.message-content {
+  width: 40%;
+  height: fit-content;
+  margin: 15% auto;
+  padding: 20px;
+  font-size: larger;
+  text-align: center;
+  border: 1px solid #888;
+  border-radius: 5px;
+  background-color: whitesmoke;
 }
