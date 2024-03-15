@@ -15,11 +15,10 @@ npm i dotenv
 TO DO LIST
 ==========
 Bugs fix:
-1. password verify
-2. dob verify
-5. list properties: start day, end day verify
-6. home page writing
-7. list - mutiple img urls
+1. password verify - Naomi
+2. dob verify - Naomi
+5. list properties: start day, end day verify - Naomi
+7. list - mutiple img urls (not important)
 8. new listing address details, listing price, amenities, interest
 9. one person 2 hosts?
 ----------
