@@ -1,9 +1,13 @@
 <div class="black-frame">
-    <div>
-      <a href="/allListings">All listings</a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/mylistings">My listings</a>
-      <a href="/myrentals">My rentals</a>
-      <a href="#">Settings</a>
-    </div>
+  <div>
+    <a href="/allListings">All listings</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/mylistings">My listings</a>
+    <a href="/myrentals">My rentals</a>
+    <a href="#">Settings</a>
+    <hr />
+    <% if (session.user.userType == 'business') { %>
+    <a href="/mypeople">My people</a>
+    <% } %>
   </div>
+</div>
