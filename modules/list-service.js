@@ -109,13 +109,15 @@ async function postProperty(userID, propData) {
     // list -> properties.
     let user = await authData.getUser(userID);
     let host = await authData.getHost(user.typeID);
-    // console.log("host found: \n", host, "\nnewList.id: \n", newList._id);
+
     host.property.push(newList._id);
     await host.save();
 
     newList.host = host._id;
     newList.user = user._id;
     await newList.save();
+
+    await authData.updateTotalListedSpaces(userID, propData.listing_price.no_of_rooms);
 
     return host;
   } catch (err) {
@@ -176,6 +178,11 @@ async function getAllProperties() {
 async function rentSpace(propID, tenantID) {
   try {
     let tenant = await authData.getUser(tenantID);
+    console.log("(rentSpace) tenant: \n", tenant);
+    let host = await authData.getHostbyPropID(propID);
+    console.log("(rentSpace) host: \n", host);
+    let host_user = await authData.getUserbytypeID(host._id);
+    console.log("(rentSpace) host_user: \n", host_user);
     if (!tenant.rentedSpaces) {
       tenant.rentedSpaces = [propID];
     } else {
@@ -193,14 +200,22 @@ async function rentSpace(propID, tenantID) {
       price_space: prop.listing_price.price_space,
       individual_space_size: prop.individual_space_size,
       status: true,
-      space_rented: prop.listing_price.no_of_rooms - 1,
+      space_rented: prop.listing_price.no_of_rooms,
       rent_due: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
     });
-
     await newRent.save();
+
+    await Property.findByIdAndUpdate(propID, {
+      $inc: { current_room_avaliable: -1 }
+    });
+
+    await authData.updateTotalIncome(host_user._id, prop.listing_price.price_space);
+
+    await authData.updateTotalExpenses(tenant._id, prop.listing_price.price_space);
+    
     return newRent;
   } catch (err) {
-    console.error("(rentSpace) Error finding renting spaces", err);
+    console.error("(rentSpace)", err);
     return null;
   }
 }
@@ -215,6 +230,29 @@ async function getRentalsByTenant(tenantID) {
   }
 }
 
+async function allocateSpace(rentSpaceID, empID) {
+  try {
+    console.log("rentSpaceID: \n", rentSpaceID, "\nempID: \n", empID);
+    let space = await Rent.findOne({ _id: rentSpaceID });
+    let emp = await authData.getEmployee(empID);
+    let emps = await authData.getEmployees();
+    let emps_emp = emps.find((e) => e._id == empID);
+    space.guests = [];
+    space.guests.push(empID);
+    emp.status = true;
+    emps_emp.status = true;
+
+    await space.save();
+    await emp.save();
+    await emps_emp.save();
+
+    // return ;
+  } catch (err) {
+    console.error("(allocateSpace) Error allocating spaces", err);
+    return null;
+  }
+}
+
 module.exports = {
   initialize,
   postProperty,
@@ -223,4 +261,5 @@ module.exports = {
   getPropertyDetails,
   rentSpace,
   getRentalsByTenant,
+  allocateSpace,
 };

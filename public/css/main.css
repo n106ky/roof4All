@@ -42,6 +42,16 @@ body,
     width: 100%;
 }
 
+.flex{
+  display: flex;
+}
+.flex-col{
+  flex-direction: column;
+}
+.flex-row{
+  flex-direction: row;
+}
+
 
 /* IMPOARTANT: THE FOLLOWING CSS ARE RELATED TO JAVASCRIPT FUNCTION */
 #aboutYou {

@@ -231,6 +231,16 @@ async function getUser(userID) {
   }
 }
 
+async function getUserbytypeID(typeID) {
+  try {
+    let user = await User.findOne({ typeID: typeID });
+    return user;
+  } catch (err) {
+    console.error("Error finding user", err);
+    throw err;
+  }
+}
+
 async function getHost(hostID) {
   try {
     let host = await Host.findOne({ _id: hostID });
@@ -241,10 +251,31 @@ async function getHost(hostID) {
   }
 }
 
+async function getHostbyPropID(propID) {
+  try {
+    console.log("(getHostbyPropID) received propID:", propID);
+    let host = await Host.findOne({ property: propID });
+    return host;
+  } catch (err) {
+    console.error("Error finding host", err);
+    throw err;
+  }
+}
+
+async function getEmployee(empID) {
+  try {
+    let emp = await Employee.findOne({ _id: empID });
+    return emp;
+  } catch (err) {
+    console.error("Error finding the employee", err);
+    throw err;
+  }
+}
+
 async function getEmployees(employerID) {
   try {
     let hr = await Business.findOne({ user: employerID });
-    return  hr.employees;
+    return hr.employees;
   } catch (err) {
     console.error("Error finding employees", err);
     throw err;
@@ -293,13 +324,53 @@ async function addEmployeeToList(employerID) {
   }
 }
 
-async function getEmployees(employerID) {
+async function updateTotalIncome(userID, income) {
   try {
-    let hr = await Business.findOne({ user: employerID });
-    let employees = hr.employees;
-    return employees;
+    await User.findByIdAndUpdate(userID, {
+      $inc: { "dashboard.total_income": income },
+    });
   } catch (err) {
-    console.error("Error finding host", err);
+    console.error("(updateTotalIncome): ", err);
+    throw err;
+  }
+}
+
+async function updateTotalExpenses(userID, expenses) {
+  try {
+    await User.findByIdAndUpdate(userID, {
+      $inc: { "dashboard.total_expenses": -expenses },
+    });
+  } catch (err) {
+    console.error("(updateTotalExpenses): ", err);
+    throw err;
+  }
+}
+
+async function updateTotalListedSpaces(userID, spaces) {
+  console.log(
+    "(updateTotalListedSpaces) userID: \n",
+    userID,
+    "spaces: \n",
+    spaces
+  );
+  try {
+    await User.findByIdAndUpdate(userID, {
+      $inc: { "dashboard.total_listed_spaces": spaces },
+    });
+  } catch (err) {
+    console.error("(updateTotalListedSpaces): ", err);
+    throw err;
+  }
+}
+
+async function updateTotalGuest(userID, guest) {
+  try {
+    await User.findByIdAndUpdate(userID, {
+      $inc: { "dashboard.total_guests": 1 },
+    });
+  } catch (err) {
+    console.error("(updateTotalGuest): ", err);
+    throw err;
   }
 }
 
@@ -309,11 +380,14 @@ module.exports = {
   checkUser,
   verifyUser,
   getUser,
+  getUserbytypeID,
   getHost,
-<<<<<<< HEAD
-  getEmployees
-=======
+  getHostbyPropID,
+  getEmployee,
   getEmployees,
   addEmployeeToList,
->>>>>>> nicole
+  updateTotalIncome,
+  updateTotalExpenses,
+  updateTotalListedSpaces,
+  updateTotalGuest,
 };

@@ -15,48 +15,25 @@
       <!-- Dashboard Panel -->
       <%- include('partials/dashboardPanel', {page: '/dashboard'}) %>
       <hr />
-      <% if(user.userType == "host") { %>
       <!-- Info div -->
       <div class="green-frame">
         <div class="black-frame">
           <p>Total income</p>
-          <p>$ 1,300</p>
+          <p><%= user.dashboard.total_income %></p>
         </div>
         <div class="black-frame">
           <p>Total expenses</p>
-          <p>$ 1,190</p>
+          <p><%= user.dashboard.total_expenses %></p>
         </div>
         <div class="black-frame">
           <p>Total listed spaces</p>
-          <p>13</p>
+          <p><%= user.dashboard.total_listed_spaces %></p>
         </div>
         <div class="black-frame">
           <p>Total guests</p>
-          <p>41</p>
+          <p><%= user.dashboard.total_guests %></p>
         </div>
       </div>
-      <% } else if(user.userType == "business") { %>
-      <!-- Info div -->
-      <div class="green-frame">
-        <div class="black-frame">
-          <p>Total income</p>
-          <p>-</p>
-        </div>
-        <div class="black-frame">
-          <p>Total expenses</p>
-          <p>-</p>
-        </div>
-        <div class="black-frame">
-          <p>Total listed spaces</p>
-          <p>-</p>
-        </div>
-        <div class="black-frame">
-          <p>Total guests</p>
-          <p>-</p>
-        </div>
-      </div>
-
-      <% } %>
       <hr />
 
       <!-- We need to ask member to verify their account for all functions. -->
@@ -81,8 +58,8 @@
             <td><%= p.shortened_id %></td>
             <td><%= p.propertyName %></td>
             <td><%= p.transformed_listDate %></td>
-            <td><%= p.no_of_rooms %></td>
-            <td><%= p.price_space %></td>
+            <td><%= p.listing_price.no_of_rooms %></td>
+            <td><%= p.listing_price.price_space %></td>
             <td>
               <% if(p.status==true) { %>Active<% } else { %>Inactive<% } %>
             </td>
@@ -91,7 +68,7 @@
         </table>
       </div>
       <div class="blue-frame">
-        <h2>Recent activities</h2>
+        <h2>Recent activities (demo)</h2>
         <div>Sort by / Most recent</div>
         <table>
           <tr>

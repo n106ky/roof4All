@@ -35,46 +35,79 @@
             <td><%= r.space_rented %></td>
             <td><%= r.allocated %></td>
             <td><%= r.price_space %></td>
-            <td><a onclick="allocateSpace('<%= r._id %>')"
-              ><button class="">Allocate</button></a
-            ></td>
+            <td>
+              <a onclick="openBox()"><button class="">Allocate</button></a>
+            </td>
+            <div id="actionBox" class="message-bkg">
+              <div class="message-content">
+                <% if(emps) { %>
+                <p>Select a perosn to allocate</p>
+                <div>
+                  <% emps.forEach((e)=>{ %>
+                  <a onclick="allocateSpace('<%= r._id %>', '<%= e._id %>')"
+                    ><button><%= e.fname %> <%= e.lname %></button></a
+                  >
+
+                  <div id="confirmationMessage" class="message-bkg">
+                    <p>Please confirm information</p>
+                    <p>Property name: <%= r. propertyName%></p>
+                    <p>Employee: <%= e.fname %> <%= e.lname %></p>
+                    <button id="confirmAllocate">Confirm</button>
+                    <button id="cancelAllocate">Cancel</button>
+                  </div>
+                  <% }) %>
+                </div>
+              </div>
+              <% } else { %>
+              <div class="message-content">
+                <p>
+                  Your list is currently empty.<br />Send an invitation to an
+                  employee within your organization.
+                </p>
+                <a onclick="inviteEmployee()"
+                  ><button class="">Invite employee</button></a
+                >
+              </div>
+              <% } %>
+            </div>
           </tr>
           <% }) %>
         </table>
       </div>
     </main>
-    <div id="confirmationMessage" class="message-bkg">
-      <div class="message-content">
-        <p>Allocate space to employees</p>
-        <div>
-          <p>Property: <%= rs.propertyName %></p>
-          <hr>
-          <p>Which employee would you like to allocate space to?</p>
-          <a href=""><button>Employee 1</button></a>
-          <a href=""><button>Employee 2</button></a>
-        </div>
-        <hr>
-        <button id="confirmAllocate">Confirm</button>
-        <button id="cancelAllocate">Cancel</button>
-      </div>
-    </div>
     <%- include('partials/footer', {page: '/myrentals'}) %>
   </body>
   <script>
-    function allocateSpace(rentSpaceID) {
-      document.getElementById("confirmationMessage").style.display = "flex";
-      document.getElementById("confirmAllocate").onclick = function () {
-        fetch(`/allocateSpace/${rentSpaceID}`, { method: "GET" })
-          .then((response) => {
-            window.location.href = "/myrentals";
-          })
-          .catch((error) => console.error("Error:", error));
-        document.getElementById("confirmationMessage").style.display = "none";
-      };
+    function openBox() {
+      document.getElementById("actionBox").style.display = "flex";
+      document.getElementById("actionBox").onclick = function () {
+        document.getElementById("actionBox").style.display = "none";
+      }.catch((error) => console.error("Error:", error));
+    }
 
-      document.getElementById("cancelAllocate").onclick = function () {
+    function allocateSpace(rentSpaceID, empID) {
+      document.getElementById("confirmationMessage").style.display = "flex";
+    
+      document.getElementById("confirmAllocate").onclick = function() {
+        fetch(`/allocateSpace/${rentSpaceID}?employeeID=${encodeURIComponent(empID)}`, { method: "GET" })
+          .then((response) => {
+            if (response.ok) {
+              window.location.href = "/myrentals";
+            } else {
+              console.error("Error: Server responded with status", response.status);
+              // Optionally handle non-OK responses here
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            // Optionally show an error message to the user here
+          });
+      };
+    
+      document.getElementById("cancelAllocate").onclick = function() {
         document.getElementById("confirmationMessage").style.display = "none";
       };
     }
+    
   </script>
 </html>
