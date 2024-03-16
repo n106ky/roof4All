@@ -327,7 +327,7 @@ app.get("/mypeople", ensureLogin, async (req, res) => {
     const propID = req.params.propertyID;
     const employerID = req.session.user.userID;
     let employees = await authData.getEmployees(employerID);
-    res.render("mypeople", { ppl: employees });
+    res.render("mypeople", { emps: employees });
   } catch (err) {
     console.log(err);
     res.status(500).render("500", {
@@ -338,10 +338,9 @@ app.get("/mypeople", ensureLogin, async (req, res) => {
 
 app.get("/addEmployeeToList", ensureLogin, async (req, res) => {
   try {
-    const propID = req.params.propertyID;
     const employerID = req.session.user.userID;
-    let employees = await authData.getEmployees(employerID);
-    res.render("mypeople", { ppl: employees });
+    let employees = await authData.addEmployeeToList(employerID); // return emps
+    res.render("mypeople", { emps: employees });
   } catch (err) {
     console.log(err);
     res.status(500).render("500", {
@@ -349,6 +348,8 @@ app.get("/addEmployeeToList", ensureLogin, async (req, res) => {
     });
   }
 });
+
+
 
 app.get("/logout", function (req, res) {
   req.session.destroy(function (err) {
