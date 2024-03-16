@@ -241,6 +241,16 @@ async function getHost(hostID) {
   }
 }
 
+async function getEmployee(empID) {
+  try {
+    let emp = await Employee.findOne({ _id: empID });
+    return emp;
+  } catch (err) {
+    console.error("Error finding the employee", err);
+    throw err;
+  }
+}
+
 async function getEmployees(employerID) {
   try {
     let hr = await Business.findOne({ user: employerID });
@@ -300,6 +310,7 @@ module.exports = {
   verifyUser,
   getUser,
   getHost,
+  getEmployee,
   getEmployees,
   addEmployeeToList,
 };

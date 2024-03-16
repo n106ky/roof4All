@@ -298,14 +298,17 @@ app.get("/allListings/:propertyID", ensureLogin, async (req, res) => {
 app.get("/myrentals", ensureLogin, async (req, res) => {
   try {
     const tenantID = req.session.user.userID;
+    const employerID = req.session.user.userID;
     let rentals = await listData.getRentalsByTenant(tenantID);
-    res.render("myrentals", { rs: rentals });
+    let employees = await authData.getEmployees(employerID);
+    res.render("myrentals", { rs: rentals, emps: employees });
   } catch (err) {
     res.status(500).render("500", {
       message: `I'm sorry, but we've encountered the following error: ${err}`,
     });
   }
 });
+
 
 app.get("/rentSpace/:propertyID", ensureLogin, async (req, res) => {
   try {
@@ -324,7 +327,6 @@ app.get("/rentSpace/:propertyID", ensureLogin, async (req, res) => {
 
 app.get("/mypeople", ensureLogin, async (req, res) => {
   try {
-    const propID = req.params.propertyID;
     const employerID = req.session.user.userID;
     let employees = await authData.getEmployees(employerID);
     res.render("mypeople", { emps: employees });
@@ -349,7 +351,24 @@ app.get("/addEmployeeToList", ensureLogin, async (req, res) => {
   }
 });
 
+app.get("/allocateSpace/:rentSpaceID", ensureLogin, async (req, res) => {
+  try {
+    const rentSpaceID = req.params.rentSpaceID; // This gets the rsID
+    const empID = req.query.employeeID; 
+    await listData.allocateSpace(rentSpaceID, empID);
 
+    const tenantID = req.session.user.userID;
+    const employerID = req.session.user.userID;
+    let rentals = await listData.getRentalsByTenant(tenantID);
+    let employees = await authData.getEmployees(employerID);
+    res.render("myrentals", { rs: rentals, emps: employees });
+  } catch (err) {
+    console.log(err);
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+});
 
 app.get("/logout", function (req, res) {
   req.session.destroy(function (err) {
@@ -401,3 +420,22 @@ Promise.all([authData.initialize(), listData.initialize()])
     console.error("Initialization failed", error);
     process.exit(1);
   });
+
+//
+/**
+   * 
+   * 
+   * app.get()
+app.post("/allocateSpace/:rentSpaceID", ensureLogin, async (req, res) => {
+  try {
+    const rsID = req.params.rentSpaceID;
+    const empID = req.body;
+    console.log("rsID: \n", rsID, "\nempID: \n", empID);
+  } catch (err) {
+    console.log(err);
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+});
+   */

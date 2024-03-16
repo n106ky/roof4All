@@ -137,9 +137,9 @@
 
     function actionOnEmps() {
       document.getElementById("actionBox").style.display = "flex";
-      document.getElementById("freeSpace").onclick = function () {};
 
-      document.getElementById("allocateSomeone").onclick = function () {};
+      // document.getElementById("freeSpace").onclick = function () {};
+      // document.getElementById("allocateSomeone").onclick = function () {};
 
       document.getElementById("actionBox").onclick = function () {
         fetch(`/mypeople`, { method: "GET" })
