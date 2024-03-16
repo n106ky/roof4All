@@ -9,6 +9,8 @@ npm i mongoose
 npm i bcryptjs
 npm i client-sessions
 npm i dotenv
+// sendGrid
+// npm install “@sendgrid/mail”
 */
 
 /* 
@@ -33,9 +35,14 @@ p.s.:
 2. host: can host
 3. business: can rent, can assign to employees
 */
-
+const path = require("path");
 const authData = require("./modules/auth-service.js");
 const listData = require("./modules/list-service.js");
+
+// Set up dotenv
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config/keys.env" });
+
 
 const express = require("express");
 const clientSessions = require("client-sessions");
@@ -88,23 +95,24 @@ function ensureLogin(req, res, next) {
 }
 
 async function ensureHostVerified(req, res, next) {
-  console.log(req.session.user);
-  if (!req.session.user) {
-    res.redirect("/login");
-  }
-  const user = await authData.getUser(req.session.user.userID);
-  console.log("USER", user);
-  if (
-    (user.userType == "host" || user.userType == "business") &&
-    user.verified == true
-  ) {
-    next();
-  } else {
-    res.status(403).render("403", {
-      message: `ERROR: You need to be a verified host to post property`,
-    });
-  }
+  
+    if (!req.session.user) {
+      res.redirect("/login");
+    }
+    const user = await authData.getUser(req.session.user.userID);
+  
+    if (
+      (user.userType == "host" || user.userType == "business") &&
+      user.verified == true
+    ) {
+      next();
+    } else {
+      res.status(403).render("403", {
+        message: "ERROR: You need to be a verified host to post property",
+      });
+    }
 }
+
 
 app.get("/register", (req, res) => {
   res.render("register", {
@@ -114,26 +122,76 @@ app.get("/register", (req, res) => {
   });
 });
 
-app.post("/register", (req, res) => {
-  authData
-    .registerUser(req.body)
-    .then(() => {
+
+app.post("/register", async (req, res) => {
+  let { userName, email, password } = req.body;
+  let errorMessage = {};
+  let validationSignUpPassed = true;
+
+  // Validate userName
+  if (!userName || typeof userName !== "string" || userName.trim().length === 0) {
+    errorMessage.userName = "Please enter a valid user name";
+    validationSignUpPassed = false;
+  }
+
+  // Validate email
+  if (!email || typeof email !== "string" || email.trim().length === 0) {
+    errorMessage.email = "Please enter a valid email address";
+    validationSignUpPassed = false;
+  }
+
+  // Validate password
+  if (!password || typeof password !== "string" || password.trim().length === 0) {
+    errorMessage.password = "Please enter a valid password";
+    validationSignUpPassed = false;
+  }
+
+  if (validationSignUpPassed) {
+    try {
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        throw new Error("Invalid email address");
+      }
+
+      // Set up email
+      const sgMail = require("@sendgrid/mail");
+      sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+
+      // Construct email message
+      const msg = {
+        to: email,
+        from: "naomiran1989@gmail.com",
+        subject: "Welcome to ROOF4ALL",
+        html: `Hi, ${userName}, welcome to ROOF4ALL!<br>Your Email Address: ${email}<br>`,
+      };
+
+      // Send email
+      await sgMail.send(msg);
+
+      // Registration success
       res.render("register", {
-        successMessage:
-          "Successfully registered! Sending comfirmation email...",
+        successMessage: "Successfully registered! Confirmation email sent.",
         errorMessage: null,
-        userName: req.body.userName,
+        userName: userName,
       });
-    })
-    .catch((err) => {
-      console.log("reqbody in Register: ", req.body);
+    } catch (err) {
+      console.error("Error registering user or sending email:", err.message);
       res.render("register", {
         successMessage: null,
-        errorMessage: err,
-        userName: req.body.userName,
+        errorMessage: "An error occurred. Please try again later.",
+        userName: userName,
       });
+    }
+  } else {
+    // Validation failed
+    res.render("register", {
+      errorMessage,
+      values: req.body,
     });
+  }
 });
+
 
 app.get("/emailSent", (req, res) => {
   res.render("emailSent");
@@ -148,11 +206,27 @@ app.post("/verification", ensureLogin, (req, res) => {
   authData
     .verifyUser(userID, req.body)
     .then(() => {
-      res.render("verification", {
-        successMessage: "Successfully verified",
-        errorMessage: null,
-        userName: req.body.userName,
-      });
+       // Age verification logic
+       const dob = new Date(req.body.dob);
+       const today = new Date();
+       let age = today.getFullYear() - dob.getFullYear();
+       if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
+         age--;
+       }
+
+      if (age < 19) {
+        res.render("verification", {
+          successMessage: null,
+          errorMessage: "You must be at least 19 years old",
+          userName: req.body.userName,
+        });
+      } else {
+        res.render("verification", {
+          successMessage: "Successfully verified",
+          errorMessage: null,
+          userName: req.body.userName,
+        });
+      }
     })
     .catch((err) => {
       console.log("reqbody in Individual Verification: ", req.body);
@@ -297,8 +371,8 @@ app.get("/postProperty", ensureHostVerified, (req, res) => {
 });
 
 app.post("/postProperty", async (req, res) => {
-  try {
-    const userID = req.session.user.userID;
+  try{
+    // If validation passes, proceed to post the property
     await listData.postProperty(userID, req.body);
 
     const userData = await authData.getUser(userID);

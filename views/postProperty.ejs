@@ -1,99 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/main.css" />
-    <title>rent4all</title>
-  </head>
-  <body>
-    <!-- Navbar -->
-    <header><%- include('partials/navbar', {page: '/postProperty'}) %></header>
-    <main>
-      <div>ADD YOUR PROPERTIES</div>
-      <form action="/postProperty" method="POST" class="">
-        <div>
-          <label for="propertyName" class="">Property Name</label>
-          <div class="">
-            <input
-              required
-              type="text"
-              name="propertyName"
-              placeholder="e.g. Chungking Mansions"
-            />
-          </div>
-
-          <div class="">
-            <label for="address" class="">Address</label>
-            <input type="text" name="address" placeholder="address" />
-          </div>
-
-          <div class="">
-            <div class="">
-              <label for="room_size_sqft" class="">Room Size</label>
-              <input required type="number" name="room_size_sqft" />
-            </div>
-            <div class="">
-              <label for="no_of_rooms" class="">Number of Rooms</label>
-              <input required type="number" name="no_of_rooms" />
-            </div>
-            <div class="">
-              <label for="no_of_guest" class="">Maximum Guest</label>
-              <input required type="number" name="no_of_guest" />
-            </div>
-
-          </div>
-          <label for="price" class="">Rental Price</label>
-          <input required type="number" name="price" min="1"/>
-          <div>
-
-          </div>
-
-          <div>
-            <div class="">
-              <label for="duration_start" class="">Start Date</label>
-              <input required type="date" name="duration_start" />
-            </div>
-            <div class="">
-              <label for="duration_end" class="">End Date</label>
-              <input required type="date" name="duration_end" />
-            </div>
-          </div>
-
-          <div>
-            <div class="">
-              <label for="amenities" class="">Amenities</label>
-              <input required type="text" name="amenities" />
-            </div>
-            <div class="">
-              <label for="policies" class="">Policies</label>
-              <input required type="text" name="policies" />
-            </div>
-          </div>
-
-          <div>
-            <label for="img_url">Property Image</label>
-            <input type="url" name="img_url" placeholder="[URL of Image]" />
-          </div>
-
-          <div>
-            <label for="status">Allow everyone to see this listing?</label>
-            <input type="checkbox" name="status" />
-          </div>
-
-          <div class="checkbox-container">
-            <input type="checkbox" id="terms" name="terms" required />
-            <label for="terms"
-              >I accept all <a href="#">terms and conditions</a></label
-            >
-          </div>
-          <a href="#" class="a_aboutYou"
-            ><button type="button">Previous</button></a
-          >
-          <button type="submit">Post Property</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <title>rent4all</title>
+</head>
+<body>
+  <!-- Navbar -->
+  <header><%- include('partials/navbar', {page: '/postProperty'}) %></header>
+  <main>
+    <div>ADD YOUR PROPERTIES</div>
+    <form action="/postProperty" method="POST" class="">
+      <div>
+        <label for="propertyName" class="">Property Name</label>
+        <div class="">
+          <input
+            required
+            type="text"
+            name="propertyName"
+            placeholder="e.g. Chungking Mansions"
+          />
         </div>
-      </form>
-    </main>
-    <%- include('partials/footer', {page: '/postProperty'}) %>
-  </body>
+
+        <div class="">
+          <label for="address" class="">Address</label>
+          <input type="text" name="address" placeholder="address" />
+        </div>
+
+        <div class="">
+          <div class="">
+            <label for="room_size_sqft" class="">Room Size(sqft)</label>
+            <input required type="text"  name="room_size_sqft" />
+          </div>
+          <div class="">
+            <label for="no_of_rooms" class="">Number of Rooms</label>
+            <input required type="number" min="1" name="no_of_rooms" />
+          </div>
+          <div class="">
+            <label for="no_of_guest" class="">Maximum Guest</label>
+            <input required type="number" min="1" name="no_of_guest" />
+          </div>
+        </div>
+
+        <label for="price" class="">Rental Price(CAD$)</label>
+        <input required type="text"  name="price" />
+        <div></div>
+
+        <div>
+          <div class="">
+            <label for="duration_start" class="">Start Date</label>
+            <input required type="date" name="duration_start" id="duration_start" />
+          </div>
+          <div class="">
+            <label for="duration_end" class="">End Date</label>
+            <input required type="date" name="duration_end" id="duration_end" />
+          </div>
+        </div>
+
+        <div>
+          <div class="">
+            <label for="amenities" class="">Amenities</label>
+            <input required type="text" name="amenities" />
+          </div>
+          <div class="">
+            <label for="policies" class="">Policies</label>
+            <input required type="text" name="policies" />
+          </div>
+        </div>
+
+        <div>
+          <label for="img_url">Property Image</label>
+          <input type="url" name="img_url" placeholder="[URL of Image]" />
+        </div>
+
+        <div>
+          <label for="status">Allow everyone to see this listing?</label>
+          <input type="checkbox" name="status" />
+        </div>
+
+        <div class="checkbox-container">
+          <input type="checkbox" id="terms" name="terms" required />
+          <label for="terms">I accept all <a href="#">terms and conditions</a></label>
+        </div>
+        <a href="#" class="a_aboutYou"><button type="button">Previous</button></a>
+        <button type="submit">Post Property</button>
+      </div>
+    </form>
+  </main>
+  <%- include('partials/footer', {page: '/postProperty'}) %>
+
+  <!-- JavaScript -->
+  <script>
+    // Get references to the date input fields
+    const startDateInput = document.getElementById('duration_start');
+    const endDateInput = document.getElementById('duration_end');
+
+    // Calculate tomorrow's date
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    // Format tomorrow's date in YYYY-MM-DD format
+    const tomorrowFormatted = tomorrow.toISOString().split('T')[0];
+
+    // Set the minimum value of the start date input field to tomorrow's date
+    startDateInput.min = tomorrowFormatted;
+
+    // Add event listener to the start date input field
+    startDateInput.addEventListener('change', function() {
+      // Set the minimum value of the end date input field to the selected start date
+      endDateInput.min = startDateInput.value;
+      // If end date is already selected and less than or equal to the new start date, clear it
+      if (endDateInput.value && endDateInput.value <= startDateInput.value) {
+        endDateInput.value = '';
+      }
+    });
+  </script>
+</body>
 </html>
+

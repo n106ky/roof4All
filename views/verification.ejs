@@ -44,6 +44,9 @@
             <p>Demographics</p>
             <div class="">
               <input required type="date" name="dob" />
+              <% if (errorMessage){ %>
+                <span style="color:red"><%=errorMessage%></span><br/>
+              <%} %>
             </div>
             <div class="">
               <select required name="gender">
