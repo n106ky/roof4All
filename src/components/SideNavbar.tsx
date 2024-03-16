@@ -61,7 +61,7 @@ export default function SideNavbar({}: Props) {
           },
           {
             title: "My listings",
-            href: "/listings",
+            href: "/mylistings",
             icon: Inbox,
             variant: "ghost",
           },
