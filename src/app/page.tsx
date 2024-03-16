@@ -9,5 +9,9 @@ import SalesCard, { SalesProps } from "../components/SalesCard";
 import React from "react";
 
 export default function Home() {
-  return <div>Home page</div>;
+  return (
+    <div>
+      <PageTitle title="My listings"></PageTitle>
+    </div>
+  );
 }

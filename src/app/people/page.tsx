@@ -148,7 +148,7 @@ const data: Payment[] = [
 
 export default function listingsPage({}: Props) {
   return (
-    <div className="flex flex-col gap-5  w-full">
+    <div className="flex flex-col gap-5 w-full">
       <PageTitle title="Users" />
       <DataTable columns={columns} data={data} />
     </div>

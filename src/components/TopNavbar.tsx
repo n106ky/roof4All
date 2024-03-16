@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import Image from "next/image";
 
 import { cn } from "./../lib/utils";
 
@@ -12,14 +11,14 @@ export function TopNavbar({
     <nav className={cn("", className)} {...props}>
       <div className="navbar bg-white">
         <div className="flex-1">
-          <a className="btn btn-content text-xl">Roof4all</a>
+          <a className="p-4 text-2xl font-black">Roof4all</a>
         </div>
         <div className="flex-none gap-2">
           <div className="form-control">
             <input
               type="text"
-              placeholder="Search"
-              className="input input-bordered w-24 md:w-auto"
+              placeholder="Search property location"
+              className="input input-bordered w-60 md:w-auto bg-white"
             />
           </div>
           <div className="dropdown dropdown-end">
@@ -37,7 +36,7 @@ export function TopNavbar({
             </div>
             <ul
               tabIndex={0}
-              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content  rounded-box w-52"
+              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content rounded-box w-52 "
             >
               <li>
                 <a className="justify-between">
