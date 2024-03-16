@@ -4,158 +4,135 @@
  * @format
  */
 
-/**
- * eslint-disable @next/next/no-img-element
- *
- * @format
- */
-
 /** @format */
 "use client";
 
-import { DataTable } from "../../components/DataTable";
+import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
-import PageTitle from "../../components/PageTitle";
-import { cn } from "../../lib/utils";
+import PageTitle from "@/components/PageTitle";
 
 type Props = {};
 type Payment = {
-  order: string;
-  status: string;
-  lastOrder: string;
-  method: string;
+  id: string;
+  propertyTitle: string;
+  rentDate: string;
+  rentDue: string;
+  spaceRented: string;
+  allocated: string;
+  price_per_space: string;
 };
 
 const columns: ColumnDef<Payment>[] = [
   {
-    accessorKey: "order",
-    header: "Order",
+    accessorKey: "id",
+    header: "ID",
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => {
-      return (
-        <div
-          className={cn("font-medium w-fit px-4 py-2 rounded-lg", {
-            "bg-red-200": row.getValue("status") === "Pending",
-            "bg-orange-200": row.getValue("status") === "Processing",
-            "bg-green-200": row.getValue("status") === "Completed",
-          })}
-        >
-          {row.getValue("status")}
-        </div>
-      );
-    },
+    accessorKey: "propertyTitle",
+    header: "Property Title",
   },
   {
-    accessorKey: "lastOrder",
-    header: "Last Order",
+    accessorKey: "rentDate",
+    header: "Rent Date",
   },
   {
-    accessorKey: "method",
-    header: "Method",
+    accessorKey: "rentDue",
+    header: "Rent Due",
+  },
+  {
+    accessorKey: "spaceRented",
+    header: "Space Rented",
+  },
+  {
+    accessorKey: "allocated",
+    header: "Allocated",
+  },
+  {
+    accessorKey: "price_per_space",
+    header: "Price per space",
   },
 ];
 
 const data: Payment[] = [
   {
-    order: "ORD001",
-    status: "Pending",
-    lastOrder: "2023-01-15",
-    method: "Credit Card",
+    id: "00012",
+    propertyTitle: "Spacious near stop room",
+    rentDate: "3/4/2024",
+    rentDue: "3/3/2025",
+    spaceRented: "2",
+    allocated: "0/2",
+    price_per_space: "$ 650",
   },
   {
-    order: "ORD002",
-    status: "Processing",
-    lastOrder: "2023-02-20",
-    method: "PayPal",
+    id: "00013",
+    propertyTitle: "Cozy downtown flat",
+    rentDate: "5/6/2024",
+    rentDue: "5/5/2025",
+    spaceRented: "1",
+    allocated: "1/1",
+    price_per_space: "$ 1200",
   },
   {
-    order: "ORD003",
-    status: "Completed",
-    lastOrder: "2023-03-10",
-    method: "Stripe",
+    id: "00014",
+    propertyTitle: "Modern loft",
+    rentDate: "7/2/2024",
+    rentDue: "7/1/2025",
+    spaceRented: "3",
+    allocated: "1/3",
+    price_per_space: "$ 800",
   },
   {
-    order: "ORD004",
-    status: "Pending",
-    lastOrder: "2023-04-05",
-    method: "Venmo",
+    id: "00015",
+    propertyTitle: "Lakeview house",
+    rentDate: "8/15/2024",
+    rentDue: "8/14/2025",
+    spaceRented: "2",
+    allocated: "2/2",
+    price_per_space: "$ 950",
   },
   {
-    order: "ORD005",
-    status: "Completed",
-    lastOrder: "2023-05-12",
-    method: "Bank Transfer",
+    id: "00016",
+    propertyTitle: "Suburban bungalow",
+    rentDate: "9/10/2024",
+    rentDue: "9/9/2025",
+    spaceRented: "4",
+    allocated: "2/4",
+    price_per_space: "$ 700",
   },
   {
-    order: "ORD006",
-    status: "Processing",
-    lastOrder: "2023-06-18",
-    method: "Apple Pay",
+    id: "00017",
+    propertyTitle: "Studio apartment central",
+    rentDate: "11/1/2024",
+    rentDue: "10/31/2025",
+    spaceRented: "1",
+    allocated: "0/1",
+    price_per_space: "$ 1000",
   },
   {
-    order: "ORD007",
-    status: "Completed",
-    lastOrder: "2023-07-22",
-    method: "Google Pay",
+    id: "00018",
+    propertyTitle: "Vintage charm flat",
+    rentDate: "1/5/2024",
+    rentDue: "1/4/2025",
+    spaceRented: "2",
+    allocated: "1/2",
+    price_per_space: "$ 750",
   },
   {
-    order: "ORD008",
-    status: "Pending",
-    lastOrder: "2023-08-30",
-    method: "Cryptocurrency",
-  },
-  {
-    order: "ORD009",
-    status: "Processing",
-    lastOrder: "2023-09-05",
-    method: "Alipay",
-  },
-  {
-    order: "ORD010",
-    status: "Completed",
-    lastOrder: "2023-10-18",
-    method: "WeChat Pay",
-  },
-  {
-    order: "ORD011",
-    status: "Pending",
-    lastOrder: "2023-11-25",
-    method: "Square Cash",
-  },
-  {
-    order: "ORD012",
-    status: "Completed",
-    lastOrder: "2023-12-08",
-    method: "Zelle",
-  },
-  {
-    order: "ORD013",
-    status: "Processing",
-    lastOrder: "2024-01-15",
-    method: "Stripe",
-  },
-  {
-    order: "ORD014",
-    status: "Completed",
-    lastOrder: "2024-02-20",
-    method: "PayPal",
-  },
-  {
-    order: "ORD015",
-    status: "Pending",
-    lastOrder: "2024-03-30",
-    method: "Credit Card",
+    id: "00019",
+    propertyTitle: "City high-rise suite",
+    rentDate: "2/20/2024",
+    rentDue: "2/19/2025",
+    spaceRented: "2",
+    allocated: "2/2",
+    price_per_space: "$ 1100",
   },
 ];
 
-export default function rentalsPage({}: Props) {
+export default function listingsPage({}: Props) {
   return (
-    <div className="flex flex-col gap-5  w-full">
-      <PageTitle title="Orders" />
+    <div className="flex flex-col gap-5 w-full">
+      <PageTitle title="My Rentals" />
       <DataTable columns={columns} data={data} />
     </div>
   );

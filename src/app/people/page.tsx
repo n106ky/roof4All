@@ -15,9 +15,11 @@ import PageTitle from "@/components/PageTitle";
 type Props = {};
 type Payment = {
   name: string;
-  email: string;
-  lastOrder: string;
-  method: string;
+  employeeRole: string;
+  branch: string;
+  status: string;
+  assigned_on: string;
+  img_url: string;
 };
 
 const columns: ColumnDef<Payment>[] = [
@@ -28,128 +30,76 @@ const columns: ColumnDef<Payment>[] = [
       return (
         <div className="flex gap-2 items-center">
           <img
-            className="h-10 w-10"
-            src={`https://api.dicebear.com/7.x/lorelei/svg?seed=${row.getValue(
-              "name"
-            )}`}
-            alt="user-image"
+            className="h-10 w-10 rounded-full" // You can add 'rounded-full' for round images
+            src={row.original.img_url} // Access img_url directly from the row's original data
+            alt={`${row.original.name}'s avatar`}
           />
-          <p>{row.getValue("name")} </p>
+          <p>{row.getValue("name")}</p>
         </div>
       );
     },
   },
   {
-    accessorKey: "email",
-    header: "Email",
+    accessorKey: "employeeRole",
+    header: "Role",
   },
   {
-    accessorKey: "lastOrder",
-    header: "Last Order",
+    accessorKey: "branch",
+    header: "Branch",
   },
   {
-    accessorKey: "method",
-    header: "Method",
+    accessorKey: "status",
+    header: "Status",
+  },
+  {
+    accessorKey: "assigned_on",
+    header: "Assigned on",
   },
 ];
 
 const data: Payment[] = [
   {
-    name: "John Doe",
-    email: "john@example.com",
-    lastOrder: "2023-01-01",
-    method: "Credit Card",
+    name: "Naomi Ran",
+    employeeRole: "Clerical",
+    branch: "Yonge",
+    status: "Unallocated",
+    assigned_on: "3/5/2024",
+    img_url:
+      "https://images.unsplash.com/photo-1568822617270-2c1579f8dfe2?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    name: "Alice Smith",
-    email: "alice@example.com",
-    lastOrder: "2023-02-15",
-    method: "PayPal",
+    name: "Ethan Stowe",
+    employeeRole: "Manager",
+    branch: "Dundas",
+    status: "Allocated",
+    assigned_on: "6/12/2024",
+    img_url:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    name: "Bob Johnson",
-    email: "bob@example.com",
-    lastOrder: "2023-03-20",
-    method: "Stripe",
+    name: "Olivia Smith",
+    employeeRole: "Sales",
+    branch: "Bloor",
+    status: "Pending",
+    assigned_on: "5/22/2024",
+    img_url:
+      "https://images.unsplash.com/photo-1640960543409-dbe56ccc30e2?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    name: "Emma Brown",
-    email: "emma@example.com",
-    lastOrder: "2023-04-10",
-    method: "Venmo",
-  },
-  {
-    name: "Michael Davis",
-    email: "michael@example.com",
-    lastOrder: "2023-05-05",
-    method: "Cash",
-  },
-  {
-    name: "Sophia Wilson",
-    email: "sophia@example.com",
-    lastOrder: "2023-06-18",
-    method: "Bank Transfer",
-  },
-  {
-    name: "Liam Garcia",
-    email: "liam@example.com",
-    lastOrder: "2023-07-22",
-    method: "Payoneer",
-  },
-  {
-    name: "Olivia Martinez",
-    email: "olivia@example.com",
-    lastOrder: "2023-08-30",
-    method: "Apple Pay",
-  },
-  {
-    name: "Noah Rodriguez",
-    email: "noah@example.com",
-    lastOrder: "2023-09-12",
-    method: "Google Pay",
-  },
-  {
-    name: "Ava Lopez",
-    email: "ava@example.com",
-    lastOrder: "2023-10-25",
-    method: "Cryptocurrency",
-  },
-  {
-    name: "Elijah Hernandez",
-    email: "elijah@example.com",
-    lastOrder: "2023-11-05",
-    method: "Alipay",
-  },
-  {
-    name: "Mia Gonzalez",
-    email: "mia@example.com",
-    lastOrder: "2023-12-08",
-    method: "WeChat Pay",
-  },
-  {
-    name: "James Perez",
-    email: "james@example.com",
-    lastOrder: "2024-01-18",
-    method: "Square Cash",
-  },
-  {
-    name: "Charlotte Carter",
-    email: "charlotte@example.com",
-    lastOrder: "2024-02-22",
-    method: "Zelle",
-  },
-  {
-    name: "Benjamin Taylor",
-    email: "benjamin@example.com",
-    lastOrder: "2024-03-30",
-    method: "Stripe",
+    name: "Amelia Earhart",
+    employeeRole: "Pilot",
+    branch: "Airport",
+    status: "Allocated",
+    assigned_on: "7/30/2024",
+    img_url:
+      "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
 ];
 
 export default function listingsPage({}: Props) {
   return (
     <div className="flex flex-col gap-5 w-full">
-      <PageTitle title="Users" />
+      <PageTitle title="My People" />
       <DataTable columns={columns} data={data} />
     </div>
   );
