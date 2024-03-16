@@ -253,7 +253,8 @@ async function getHost(hostID) {
 
 async function getHostbyPropID(propID) {
   try {
-    let host = await Host.findOne({ propoerty: propID });
+    console.log("(getHostbyPropID) received propID:", propID);
+    let host = await Host.findOne({ property: propID });
     return host;
   } catch (err) {
     console.error("Error finding host", err);
@@ -337,7 +338,7 @@ async function updateTotalIncome(userID, income) {
 async function updateTotalExpenses(userID, expenses) {
   try {
     await User.findByIdAndUpdate(userID, {
-      $inc: { "dashboard.total_expenses": - expenses },
+      $inc: { "dashboard.total_expenses": -expenses },
     });
   } catch (err) {
     console.error("(updateTotalExpenses): ", err);
@@ -346,10 +347,21 @@ async function updateTotalExpenses(userID, expenses) {
 }
 
 async function updateTotalListedSpaces(userID, spaces) {
+  console.log(
+    "(updateTotalListedSpaces) userID: \n",
+    userID,
+    "spaces: \n",
+    spaces
+  );
   try {
     await User.findByIdAndUpdate(userID, {
       $inc: { "dashboard.total_listed_spaces": spaces },
     });
+    let user = User.findOne({ _id: userID });
+    console.log(
+      "(updateTotalListedSpaces) user.dashboard.total_listed_spaces: ",
+      user.dashboard.total_listed_spaces
+    );
   } catch (err) {
     console.error("(updateTotalListedSpaces): ", err);
     throw err;

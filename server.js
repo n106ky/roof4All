@@ -303,7 +303,7 @@ app.get("/myrentals", ensureLogin, async (req, res) => {
     if (req.session.user.userType == "business") {
       let employees = await authData.getEmployees(employerID);
       res.render("myrentals", { rs: rentals, emps: employees });
-    } else{
+    } else {
       res.render("myrentals", { rs: rentals, emps: null });
     }
   } catch (err) {
@@ -317,10 +317,16 @@ app.get("/rentSpace/:propertyID", ensureLogin, async (req, res) => {
   try {
     const propID = req.params.propertyID;
     const tenantID = req.session.user.userID;
+    console.log(
+      "(app.get(/rentSpace/:propertyID): propID\n",
+      propID,
+      "\ntenantID: \n",
+      tenantID
+    );
     await listData.rentSpace(propID, tenantID);
     let rentals = await listData.getRentalsByTenant(tenantID);
     if (req.session.user.userType == "business") {
-    res.render("myrentals", { rs: rentals, emps: employees });
+      res.render("myrentals", { rs: rentals, emps: employees });
     } else {
       res.render("myrentals", { rs: rentals, emps: null });
     }

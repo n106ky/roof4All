@@ -109,11 +109,8 @@ async function postProperty(userID, propData) {
     // list -> properties.
     let user = await authData.getUser(userID);
     let host = await authData.getHost(user.typeID);
-    // console.log("host found: \n", host, "\nnewList.id: \n", newList._id);
-    // await User.findByIdAndUpdate(userID, {
-    //   $inc: { 'dashboard.total_listed_spaces': propData.listing_price.no_of_rooms }
-    // });
-    await updateTotalListedSpaces(userID, propData.listing_price.no_of_rooms);
+
+    await authData.updateTotalListedSpaces(userID, propData.listing_price.no_of_rooms);
 
     host.property.push(newList._id);
     await host.save();
@@ -181,8 +178,11 @@ async function getAllProperties() {
 async function rentSpace(propID, tenantID) {
   try {
     let tenant = await authData.getUser(tenantID);
+    console.log("(rentSpace) tenant: \n", tenant);
     let host = await authData.getHostbyPropID(propID);
+    console.log("(rentSpace) host: \n", host);
     let host_user = await authData.getUserbytypeID(host._id);
+    console.log("(rentSpace) host_user: \n", host_user);
     if (!tenant.rentedSpaces) {
       tenant.rentedSpaces = [propID];
     } else {
@@ -215,7 +215,7 @@ async function rentSpace(propID, tenantID) {
     
     return newRent;
   } catch (err) {
-    console.error("(rentSpace) Error finding renting spaces", err);
+    console.error("(rentSpace)", err);
     return null;
   }
 }
