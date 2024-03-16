@@ -12,6 +12,7 @@
     <main>
       <!-- Dashboard Panel -->
       <%- include('partials/dashboardPanel', {page: '/mypeople'}) %> 
+<<<<<<< HEAD
       <% if(ppl)
       { %>
       <div>
@@ -24,10 +25,46 @@
       <% ppl.forEach((p)=> { %>
       <div class="black-frame"></div>
       <% }) %>
+=======
+      <% if(emps) { %>
+      <div>
+        <h2>My people</h2>
+        <div>
+          <span>Change View / Sort by / Most recent</span>
+          <a onclick="inviteEmployee()"
+            ><button class="">Invite employee</button></a
+          >
+        </div>
+      </div>
+
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Branch</th>
+          <th>Status</th>
+          <th>Assigned on</th>
+          <th></th>
+        </tr>
+        <% emps.forEach((e)=>{ %>
+        <tr>
+          <td><%= e.fname %> <%= e.lname %></td>
+          <td><%= e.role %></td>
+          <td><%= e.branch %></td>
+          <td><% if(e.status) { %>Allocated<% } else { %>Unallocated<% } %></td>
+          <td><% if(e.assign_date) { %><%= e.assign_date %><% } else { %>-<% } %></td>
+          <td>
+            <a href="#"><button>Action</button></a>
+          </td>
+        </tr>
+        <% }) %>
+      </table>
+>>>>>>> nicole
     </main>
     <% } else { %>
     <main>
       <div>
+<<<<<<< HEAD
         <h2>My People</h2>
         <div>
           <span>Change View / Sort by / Most recent</span>
@@ -44,4 +81,84 @@
     <% } %> 
     <%- include('partials/footer', {page: '/mypeople'}) %>
   </body>
+=======
+        <h2>My people</h2>
+        <div>
+          <span>Change View / Sort by / Most recent</span>
+          <a onclick="inviteEmployee()"
+            ><button class="">Invite employee</button></a
+          >
+        </div>
+      </div>
+
+      <p>
+        Your list is currently empty.<br />Send an invitation to an employee
+        within your organization.
+      </p>
+    </main>
+    <% } %> <%- include('partials/footer', {page: '/mypeople'}) %>
+    <div id="confirmationMessage" class="message-bkg">
+      <div class="message-content">
+        <p>Send invitation</p>
+        <div>
+          <p>Name</p>
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter employee full name"
+          />
+          <p>Email</p>
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter employee email address"
+          />
+        </div>
+        <hr />
+        <button id="confirmInvitation">Send invitation</button>
+        <button id="cancelInvitation">Cancel</button>
+      </div>
+    </div>
+    <div id="successfulMessage" class="message-bkg">
+      <div class="message-content">
+        <h1>Success!</h1>
+        <p>The invitation is on its way.</p>
+        <p>click anywhere to close this message</p>
+      </div>
+    </div>
+  </body>
+  <script>
+    function inviteEmployee() {
+      document.getElementById("confirmationMessage").style.display = "flex";
+
+      document.getElementById("confirmInvitation").onclick = function () {
+        fetch(`/inviteEmployee`, { method: "GET" })
+          .then((response) => {
+            // Show the success message
+            document.getElementById("confirmationMessage").style.display =
+              "none";
+            document.getElementById("successfulMessage").style.display = "flex";
+
+            // Wait for the user to click the success message before redirecting
+            document.getElementById("successfulMessage").onclick = function () {
+              // window.location.href = "/mypeople";
+              fetch(`/addEmployeeToList`, { method: "GET" })
+                .then((response) => {
+                  window.location.href = "/mypeople";
+                })
+                .catch((error) => console.error("Error:", error));
+            };
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            // Handle fetch error (optionally show an error message to the user)
+          });
+      };
+
+      document.getElementById("cancelInvitation").onclick = function () {
+        document.getElementById("confirmationMessage").style.display = "none";
+      };
+    }
+  </script>
+>>>>>>> nicole
 </html>

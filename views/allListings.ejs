@@ -10,7 +10,7 @@
     <!-- Navbar -->
     <header><%- include('partials/navbar', {page: '/allListings'}) %></header>
     <main>
-        <%- include('partials/dashboardPanel', {page: '/dashboard'}) %>
+      <%- include('partials/dashboardPanel', {page: '/dashboard'}) %>
       <div>
         <h2>All listings</h2>
         <div>
@@ -21,9 +21,15 @@
       <div class="black-frame">
         <a href="/allListings/<%= p._id %>">
           <img src="<%= p.img_url %>" alt="property-img" />
-          <p><%= p.propertyName %> $<%= p.price_space %></p>
-          <p><%= p.address %></p>
-          <p>Space for <%= p.no_of_guest %> Bath 2 Car 3</p>
+          <p><%= p.propertyName %> $<%= p.listing_price.price_space %></p>
+          <p>
+            <%= p.address.addressline1 %>, <%= p.address.addressline2 %>, <%=
+            p.address.city %>
+          </p>
+          <p>
+            Space for <%= p.listing_price.no_of_rooms %>, Bath: <%=
+            p.amenities.no_bathrooms %>, Parking: <%= p.amenities.no_parking %>
+          </p>
         </a>
         <hr />
         <p>

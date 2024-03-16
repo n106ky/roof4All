@@ -154,7 +154,7 @@ app.post("/verification", ensureLogin, async (req, res) => {
       res.render("dashboard", { user: userData, prop: properties });
     } else {
       const userData = await authData.getUser(userID);
-      res.render("dashboard", { user: userData });
+      res.render("dashboard", { user: userData, prop: null });
     }
   } catch (err) {
     console.log("reqbody in Individual Verification: ", req.body);
@@ -211,7 +211,7 @@ app.post("/login", async (req, res) => {
       res.render("dashboard", { user: userData, prop: properties });
     } else {
       const userData = await authData.getUser(userID);
-      res.render("dashboard", { user: userData });
+      res.render("dashboard", { user: userData, prop: null });
     }
   } catch (err) {
     res.render("login", { errorMessage: err, userName: req.body.userName });
@@ -324,10 +324,17 @@ app.get("/rentSpace/:propertyID", ensureLogin, async (req, res) => {
 
 app.get("/mypeople", ensureLogin, async (req, res) => {
   try {
+<<<<<<< HEAD
     // const propID = req.params.propertyID;
     const employerID = req.session.user.userID;
     let people = await authData.getEmployees(employerID);
     res.render("mypeople", { ppl: people });
+=======
+    const propID = req.params.propertyID;
+    const employerID = req.session.user.userID;
+    let employees = await authData.getEmployees(employerID);
+    res.render("mypeople", { emps: employees });
+>>>>>>> nicole
   } catch (err) {
     console.log(err);
     res.status(500).render("500", {
@@ -336,6 +343,24 @@ app.get("/mypeople", ensureLogin, async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
+=======
+app.get("/addEmployeeToList", ensureLogin, async (req, res) => {
+  try {
+    const employerID = req.session.user.userID;
+    let employees = await authData.addEmployeeToList(employerID); // return emps
+    res.render("mypeople", { emps: employees });
+  } catch (err) {
+    console.log(err);
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+});
+
+
+
+>>>>>>> nicole
 app.get("/logout", function (req, res) {
   req.session.destroy(function (err) {
     if (err) {
@@ -355,7 +380,6 @@ app.post("/postProperty", async (req, res) => {
   try {
     const userID = req.session.user.userID;
     await listData.postProperty(userID, req.body);
-
     const userData = await authData.getUser(userID);
     const properties = await listData.getHostProperties(userID);
     res.render("mylistings", { user: userData, prop: properties });

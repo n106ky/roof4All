@@ -227,6 +227,7 @@ async function getUser(userID) {
     return user;
   } catch (err) {
     console.error("Error finding user", err);
+    throw err;
   }
 }
 
@@ -236,6 +237,59 @@ async function getHost(hostID) {
     return host;
   } catch (err) {
     console.error("Error finding host", err);
+    throw err;
+  }
+}
+
+async function getEmployees(employerID) {
+  try {
+    let hr = await Business.findOne({ user: employerID });
+    return  hr.employees;
+  } catch (err) {
+    console.error("Error finding employees", err);
+    throw err;
+  }
+}
+
+async function addEmployeeToList(employerID) {
+  try {
+    let hr = await Business.findOne({ user: employerID });
+    let newEmp;
+    if (hr.employees.length == 0) {
+      newEmp = new Employee({
+        fname: "Naomi",
+        lname: "Ran",
+        role: "Back-end developer",
+        branch: "Yonge",
+        status: false,
+        // assign_date: Date.now(),
+      });
+    } else if (hr.employees.length == 1) {
+      newEmp = new Employee({
+        fname: "Samridh",
+        lname: "Chawla",
+        role: "Front-end developer",
+        branch: "Yonge",
+        status: false,
+        // assign_date: Date.now(),
+      });
+    } else {
+      newEmp = new Employee({
+        fname: "Demo",
+        lname: "Staff",
+        role: "Tester",
+        branch: "Downtown",
+        status: false,
+        // assign_date: Date.now(),
+      });
+    }
+    await newEmp.save();
+    hr.employees.push(newEmp);
+    await hr.save();
+    return hr.employees;
+  } catch (err) {
+    console.error("Error adding employee to list: ", err);
+    throw err;
   }
 }
 
@@ -256,5 +310,10 @@ module.exports = {
   verifyUser,
   getUser,
   getHost,
+<<<<<<< HEAD
   getEmployees
+=======
+  getEmployees,
+  addEmployeeToList,
+>>>>>>> nicole
 };
