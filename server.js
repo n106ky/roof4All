@@ -154,7 +154,7 @@ app.post("/verification", ensureLogin, async (req, res) => {
       res.render("dashboard", { user: userData, prop: properties });
     } else {
       const userData = await authData.getUser(userID);
-      res.render("dashboard", { user: userData });
+      res.render("dashboard", { user: userData, prop: null });
     }
   } catch (err) {
     console.log("reqbody in Individual Verification: ", req.body);
@@ -211,7 +211,7 @@ app.post("/login", async (req, res) => {
       res.render("dashboard", { user: userData, prop: properties });
     } else {
       const userData = await authData.getUser(userID);
-      res.render("dashboard", { user: userData });
+      res.render("dashboard", { user: userData, prop: null });
     }
   } catch (err) {
     res.render("login", { errorMessage: err, userName: req.body.userName });
@@ -323,6 +323,20 @@ app.get("/rentSpace/:propertyID", ensureLogin, async (req, res) => {
 });
 
 app.get("/mypeople", ensureLogin, async (req, res) => {
+  try {
+    const propID = req.params.propertyID;
+    const employerID = req.session.user.userID;
+    let employees = await authData.getEmployees(employerID);
+    res.render("mypeople", { ppl: employees });
+  } catch (err) {
+    console.log(err);
+    res.status(500).render("500", {
+      message: `I'm sorry, but we've encountered the following error: ${err}`,
+    });
+  }
+});
+
+app.get("/addEmployeeToList", ensureLogin, async (req, res) => {
   try {
     const propID = req.params.propertyID;
     const employerID = req.session.user.userID;
