@@ -12,11 +12,14 @@
 
     <% if(user.verified == true) { %>
     <main>
+      <div class="flex flex-row">
+        <%- include('partials/dashboardPanel', {page: '/dashboard'}) %>
+        <div class="flex flex-col">
+
       <!-- Dashboard Panel -->
-      <%- include('partials/dashboardPanel', {page: '/dashboard'}) %>
       <hr />
       <!-- Info div -->
-      <div class="green-frame">
+      <div class="flex flex-row">
         <div class="black-frame">
           <p>Total income</p>
           <p><%= user.dashboard.total_income %></p>
@@ -120,6 +123,9 @@
       <% } %>
     </main>
     <% } %>
+  </div>
+  </div>
     <%- include('partials/footer', {page: '/dashboard'}) %>
   </body>
+
 </html>

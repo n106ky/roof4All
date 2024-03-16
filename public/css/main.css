@@ -7,32 +7,7 @@ body,
   font-family: "Nunito Sans", sans-serif;
 }
 
-/* WILL BE DELETED / JUST TO SHOW THE DIV CLEARLY */
-.black-frame {
-  border: solid 2px black;
-  border-radius: 3px;
-  width: fit-content;
-}
-.red-frame {
-  border: solid 2px red;
-  border-radius: 3px;
-  width: fit-content;
-}
-.blue-frame {
-  border: solid 2px blue;
-  border-radius: 3px;
-  width: fit-content;
-}
-.green-frame {
-  border: solid 2px green;
-  border-radius: 3px;
-  width: fit-content;
-}
-.yellow-frame {
-  border: solid 2px yellow;
-  border-radius: 3px;
-  width: fit-content;
-}
+
 
 /* FOOTER - CAN BE CHANGED*/
 .footer{
@@ -52,6 +27,13 @@ body,
   flex-direction: row;
 }
 
+.align-center{
+  align-items: center;
+}
+
+.row-gap-xs{
+  row-gap: 5px;
+}
 
 /* IMPOARTANT: THE FOLLOWING CSS ARE RELATED TO JAVASCRIPT FUNCTION */
 #aboutYou {
@@ -83,4 +65,32 @@ body,
   border: 1px solid #888;
   border-radius: 5px;
   background-color: whitesmoke;
+}
+
+
+/* WILL BE DELETED / JUST TO SHOW THE DIV CLEARLY */
+.black-frame {
+  border: solid 2px black;
+  border-radius: 3px;
+  width: fit-content;
+}
+.red-frame {
+  border: solid 2px red;
+  border-radius: 3px;
+  width: fit-content;
+}
+.blue-frame {
+  border: solid 2px blue;
+  border-radius: 3px;
+  width: fit-content;
+}
+.green-frame {
+  border: solid 2px green;
+  border-radius: 3px;
+  width: fit-content;
+}
+.yellow-frame {
+  border: solid 2px yellow;
+  border-radius: 3px;
+  width: fit-content;
 }
