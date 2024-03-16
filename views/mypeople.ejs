@@ -11,8 +11,8 @@
     <header><%- include('partials/navbar', {page: '/mypeople'}) %></header>
     <main>
       <!-- Dashboard Panel -->
-      <%- include('partials/dashboardPanel', {page: '/mypeople'}) %> 
-      <% if(emps) { %>
+      <%- include('partials/dashboardPanel', {page: '/mypeople'}) %> <% if(emps)
+      { %>
       <div>
         <h2>My people</h2>
         <div>
@@ -38,9 +38,11 @@
           <td><%= e.role %></td>
           <td><%= e.branch %></td>
           <td><% if(e.status) { %>Allocated<% } else { %>Unallocated<% } %></td>
-          <td><% if(e.assign_date) { %><%= e.assign_date %><% } else { %>-<% } %></td>
           <td>
-            <a href="#"><button>Action</button></a>
+            <% if(e.assign_date) { %><%= e.assign_date %><% } else { %>-<% } %>
+          </td>
+          <td>
+            <a onclick="actionOnEmps()"><button>Action</button></a>
           </td>
         </tr>
         <% }) %>
@@ -93,6 +95,13 @@
         <p>click anywhere to close this message</p>
       </div>
     </div>
+
+    <div id="actionBox" class="message-bkg">
+      <div class="message-content">
+        <a href="#" id="freeSpace">Free Space</a>
+        <a href="#" id="allocateSomeone">Allocate to someone else</a>
+      </div>
+    </div>
   </body>
   <script>
     function inviteEmployee() {
@@ -121,9 +130,23 @@
             // Handle fetch error (optionally show an error message to the user)
           });
       };
-
       document.getElementById("cancelInvitation").onclick = function () {
         document.getElementById("confirmationMessage").style.display = "none";
+      };
+    }
+
+    function actionOnEmps() {
+      document.getElementById("actionBox").style.display = "flex";
+      document.getElementById("freeSpace").onclick = function () {};
+
+      document.getElementById("allocateSomeone").onclick = function () {};
+
+      document.getElementById("actionBox").onclick = function () {
+        fetch(`/mypeople`, { method: "GET" })
+          .then((response) => {
+            window.location.href = "/mypeople";
+          })
+          .catch((error) => console.error("Error:", error));
       };
     }
   </script>
