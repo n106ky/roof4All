@@ -110,14 +110,14 @@ async function postProperty(userID, propData) {
     let user = await authData.getUser(userID);
     let host = await authData.getHost(user.typeID);
 
-    await authData.updateTotalListedSpaces(userID, propData.listing_price.no_of_rooms);
-
     host.property.push(newList._id);
     await host.save();
 
     newList.host = host._id;
     newList.user = user._id;
     await newList.save();
+
+    await authData.updateTotalListedSpaces(userID, propData.listing_price.no_of_rooms);
 
     return host;
   } catch (err) {
@@ -211,7 +211,7 @@ async function rentSpace(propID, tenantID) {
 
     await authData.updateTotalIncome(host_user._id, prop.listing_price.price_space);
 
-    await authData.updateTotalIncome(tenant._id, prop.listing_price.price_space);
+    await authData.updateTotalExpenses(tenant._id, prop.listing_price.price_space);
     
     return newRent;
   } catch (err) {

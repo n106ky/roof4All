@@ -357,11 +357,6 @@ async function updateTotalListedSpaces(userID, spaces) {
     await User.findByIdAndUpdate(userID, {
       $inc: { "dashboard.total_listed_spaces": spaces },
     });
-    let user = User.findOne({ _id: userID });
-    console.log(
-      "(updateTotalListedSpaces) user.dashboard.total_listed_spaces: ",
-      user.dashboard.total_listed_spaces
-    );
   } catch (err) {
     console.error("(updateTotalListedSpaces): ", err);
     throw err;
