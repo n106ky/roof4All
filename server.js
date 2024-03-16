@@ -370,7 +370,6 @@ app.post("/postProperty", async (req, res) => {
   try {
     const userID = req.session.user.userID;
     await listData.postProperty(userID, req.body);
-
     const userData = await authData.getUser(userID);
     const properties = await listData.getHostProperties(userID);
     res.render("mylistings", { user: userData, prop: properties });
