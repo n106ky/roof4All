@@ -227,6 +227,17 @@ async function getUser(userID) {
     return user;
   } catch (err) {
     console.error("Error finding user", err);
+    throw err;
+  }
+}
+
+async function getUserbytypeID(typeID) {
+  try {
+    let user = await User.findOne({ typeID: typeID });
+    return user;
+  } catch (err) {
+    console.error("Error finding user", err);
+    throw err;
   }
 }
 
@@ -236,6 +247,130 @@ async function getHost(hostID) {
     return host;
   } catch (err) {
     console.error("Error finding host", err);
+    throw err;
+  }
+}
+
+async function getHostbyPropID(propID) {
+  try {
+    console.log("(getHostbyPropID) received propID:", propID);
+    let host = await Host.findOne({ property: propID });
+    return host;
+  } catch (err) {
+    console.error("Error finding host", err);
+    throw err;
+  }
+}
+
+async function getEmployee(empID) {
+  try {
+    let emp = await Employee.findOne({ _id: empID });
+    return emp;
+  } catch (err) {
+    console.error("Error finding the employee", err);
+    throw err;
+  }
+}
+
+async function getEmployees(employerID) {
+  try {
+    let hr = await Business.findOne({ user: employerID });
+    return hr.employees;
+  } catch (err) {
+    console.error("Error finding employees", err);
+    throw err;
+  }
+}
+
+async function addEmployeeToList(employerID) {
+  try {
+    let hr = await Business.findOne({ user: employerID });
+    let newEmp;
+    if (hr.employees.length == 0) {
+      newEmp = new Employee({
+        fname: "Naomi",
+        lname: "Ran",
+        role: "Back-end developer",
+        branch: "Yonge",
+        status: false,
+        // assign_date: Date.now(),
+      });
+    } else if (hr.employees.length == 1) {
+      newEmp = new Employee({
+        fname: "Samridh",
+        lname: "Chawla",
+        role: "Front-end developer",
+        branch: "Yonge",
+        status: false,
+        // assign_date: Date.now(),
+      });
+    } else {
+      newEmp = new Employee({
+        fname: "Demo",
+        lname: "Staff",
+        role: "Tester",
+        branch: "Downtown",
+        status: false,
+        // assign_date: Date.now(),
+      });
+    }
+    await newEmp.save();
+    hr.employees.push(newEmp);
+    await hr.save();
+    return hr.employees;
+  } catch (err) {
+    console.error("Error adding employee to list: ", err);
+    throw err;
+  }
+}
+
+async function updateTotalIncome(userID, income) {
+  try {
+    await User.findByIdAndUpdate(userID, {
+      $inc: { "dashboard.total_income": income },
+    });
+  } catch (err) {
+    console.error("(updateTotalIncome): ", err);
+    throw err;
+  }
+}
+
+async function updateTotalExpenses(userID, expenses) {
+  try {
+    await User.findByIdAndUpdate(userID, {
+      $inc: { "dashboard.total_expenses": -expenses },
+    });
+  } catch (err) {
+    console.error("(updateTotalExpenses): ", err);
+    throw err;
+  }
+}
+
+async function updateTotalListedSpaces(userID, spaces) {
+  console.log(
+    "(updateTotalListedSpaces) userID: \n",
+    userID,
+    "spaces: \n",
+    spaces
+  );
+  try {
+    await User.findByIdAndUpdate(userID, {
+      $inc: { "dashboard.total_listed_spaces": spaces },
+    });
+  } catch (err) {
+    console.error("(updateTotalListedSpaces): ", err);
+    throw err;
+  }
+}
+
+async function updateTotalGuest(userID, guest) {
+  try {
+    await User.findByIdAndUpdate(userID, {
+      $inc: { "dashboard.total_guests": 1 },
+    });
+  } catch (err) {
+    console.error("(updateTotalGuest): ", err);
+    throw err;
   }
 }
 
@@ -245,5 +380,14 @@ module.exports = {
   checkUser,
   verifyUser,
   getUser,
+  getUserbytypeID,
   getHost,
+  getHostbyPropID,
+  getEmployee,
+  getEmployees,
+  addEmployeeToList,
+  updateTotalIncome,
+  updateTotalExpenses,
+  updateTotalListedSpaces,
+  updateTotalGuest,
 };
