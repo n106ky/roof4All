@@ -296,12 +296,16 @@ app.get("/allListings/:propertyID", ensureLogin, async (req, res) => {
 });
 
 app.get("/myrentals", ensureLogin, async (req, res) => {
+  const tenantID = req.session.user.userID;
+  const employerID = req.session.user.userID;
   try {
-    const tenantID = req.session.user.userID;
-    const employerID = req.session.user.userID;
     let rentals = await listData.getRentalsByTenant(tenantID);
-    let employees = await authData.getEmployees(employerID);
-    res.render("myrentals", { rs: rentals, emps: employees });
+    if (req.session.user.userType == "business") {
+      let employees = await authData.getEmployees(employerID);
+      res.render("myrentals", { rs: rentals, emps: employees });
+    } else{
+      res.render("myrentals", { rs: rentals, emps: null });
+    }
   } catch (err) {
     res.status(500).render("500", {
       message: `I'm sorry, but we've encountered the following error: ${err}`,
@@ -309,14 +313,17 @@ app.get("/myrentals", ensureLogin, async (req, res) => {
   }
 });
 
-
 app.get("/rentSpace/:propertyID", ensureLogin, async (req, res) => {
   try {
     const propID = req.params.propertyID;
     const tenantID = req.session.user.userID;
     await listData.rentSpace(propID, tenantID);
     let rentals = await listData.getRentalsByTenant(tenantID);
-    res.render("myrentals", { rs: rentals });
+    if (req.session.user.userType == "business") {
+    res.render("myrentals", { rs: rentals, emps: employees });
+    } else {
+      res.render("myrentals", { rs: rentals, emps: null });
+    }
   } catch (err) {
     console.log(err);
     res.status(500).render("500", {
@@ -354,7 +361,7 @@ app.get("/addEmployeeToList", ensureLogin, async (req, res) => {
 app.get("/allocateSpace/:rentSpaceID", ensureLogin, async (req, res) => {
   try {
     const rentSpaceID = req.params.rentSpaceID; // This gets the rsID
-    const empID = req.query.employeeID; 
+    const empID = req.query.employeeID;
     await listData.allocateSpace(rentSpaceID, empID);
 
     const tenantID = req.session.user.userID;

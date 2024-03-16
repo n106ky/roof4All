@@ -110,6 +110,11 @@ async function postProperty(userID, propData) {
     let user = await authData.getUser(userID);
     let host = await authData.getHost(user.typeID);
     // console.log("host found: \n", host, "\nnewList.id: \n", newList._id);
+    // await User.findByIdAndUpdate(userID, {
+    //   $inc: { 'dashboard.total_listed_spaces': propData.listing_price.no_of_rooms }
+    // });
+    await updateTotalListedSpaces(userID, propData.listing_price.no_of_rooms);
+
     host.property.push(newList._id);
     await host.save();
 
@@ -176,6 +181,8 @@ async function getAllProperties() {
 async function rentSpace(propID, tenantID) {
   try {
     let tenant = await authData.getUser(tenantID);
+    let host = await authData.getHostbyPropID(propID);
+    let host_user = await authData.getUserbytypeID(host._id);
     if (!tenant.rentedSpaces) {
       tenant.rentedSpaces = [propID];
     } else {
@@ -196,8 +203,16 @@ async function rentSpace(propID, tenantID) {
       space_rented: prop.listing_price.no_of_rooms,
       rent_due: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
     });
-
     await newRent.save();
+
+    await Property.findByIdAndUpdate(propID, {
+      $inc: { current_room_avaliable: -1 }
+    });
+
+    await authData.updateTotalIncome(host_user._id, prop.listing_price.price_space);
+
+    await authData.updateTotalIncome(tenant._id, prop.listing_price.price_space);
+    
     return newRent;
   } catch (err) {
     console.error("(rentSpace) Error finding renting spaces", err);
@@ -215,17 +230,21 @@ async function getRentalsByTenant(tenantID) {
   }
 }
 
-async function allocateSpace(rentSpaceID, empID){
+async function allocateSpace(rentSpaceID, empID) {
   try {
     console.log("rentSpaceID: \n", rentSpaceID, "\nempID: \n", empID);
     let space = await Rent.findOne({ _id: rentSpaceID });
     let emp = await authData.getEmployee(empID);
+    let emps = await authData.getEmployees();
+    let emps_emp = emps.find((e) => e._id == empID);
     space.guests = [];
     space.guests.push(empID);
     emp.status = true;
+    emps_emp.status = true;
 
     await space.save();
     await emp.save();
+    await emps_emp.save();
 
     // return ;
   } catch (err) {
@@ -242,5 +261,5 @@ module.exports = {
   getPropertyDetails,
   rentSpace,
   getRentalsByTenant,
-  allocateSpace
+  allocateSpace,
 };

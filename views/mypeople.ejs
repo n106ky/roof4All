@@ -37,7 +37,11 @@
           <td><%= e.fname %> <%= e.lname %></td>
           <td><%= e.role %></td>
           <td><%= e.branch %></td>
-          <td><% if(e.status) { %>Allocated<% } else { %>Unallocated<% } %></td>
+          <% if(e.status) { %>
+          <td>Allocated</td>
+          <% } else { %>
+          <td>Unallocated</td>
+          <% } %>
           <td>
             <% if(e.assign_date) { %><%= e.assign_date %><% } else { %>-<% } %>
           </td>
