@@ -84,7 +84,155 @@ export default function Home() {
           <figure className="pb-0 pr-2 pl-2 pt-2">
             <img
               className="flex w-full size-30 border rounded-lg"
-              src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="home1"
+            />
+          </figure>
+          <div className="card-body pl-3 pt-2 pr-3">
+            <h1 className="card-title text-sm">
+              Spacious near stop room
+              <div className="text-blue-600">$650</div>
+            </h1>
+            <div className="flex text-xs ">
+              <MapPin style={{ width: "14px", height: "14px" }} />
+              <p className="pl-1">17 Wanderust way, Finch Ave.</p>
+            </div>
+            <div className="flex text-xs border-dashed border-b-2 pb-2 ">
+              <p>
+                <BedDouble size={12} />
+                Space for 3
+              </p>
+              <p>
+                <Bath size={12} />
+                1.5
+              </p>
+              <p>
+                <Car size={12} />3
+              </p>
+            </div>
+            <div className="text-xs">
+              Price indicated are for one person, not the whole apartment. Open
+              property page to read more details.
+            </div>
+          </div>
+        </div>
+
+        <div className="card w-60  bg-base-100 shadow-xl size-100 border">
+          <figure className="pb-0 pr-2 pl-2 pt-2">
+            <img
+              className="flex w-full size-30 border rounded-lg"
+              src="https://plus.unsplash.com/premium_photo-1675537857054-8c7e518553af?q=80&w=2954&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="home1"
+            />
+          </figure>
+          <div className="card-body pl-3 pt-2 pr-3">
+            <h1 className="card-title text-sm">
+              Spacious near stop room
+              <div className="text-blue-600">$650</div>
+            </h1>
+            <div className="flex text-xs ">
+              <MapPin style={{ width: "14px", height: "14px" }} />
+              <p className="pl-1">17 Wanderust way, Finch Ave.</p>
+            </div>
+            <div className="flex text-xs border-dashed border-b-2 pb-2 ">
+              <p>
+                <BedDouble size={12} />
+                Space for 3
+              </p>
+              <p>
+                <Bath size={12} />
+                1.5
+              </p>
+              <p>
+                <Car size={12} />3
+              </p>
+            </div>
+            <div className="text-xs">
+              Price indicated are for one person, not the whole apartment. Open
+              property page to read more details.
+            </div>
+          </div>
+        </div>
+
+        <div className="card w-60  bg-base-100 shadow-xl size-100 border">
+          <figure className="pb-0 pr-2 pl-2 pt-2">
+            <img
+              className="flex w-full size-30 border rounded-lg"
+              src="https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=2974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="home1"
+            />
+          </figure>
+          <div className="card-body pl-3 pt-2 pr-3">
+            <h1 className="card-title text-sm">
+              Spacious near stop room
+              <div className="text-blue-600">$650</div>
+            </h1>
+            <div className="flex text-xs ">
+              <MapPin style={{ width: "14px", height: "14px" }} />
+              <p className="pl-1">17 Wanderust way, Finch Ave.</p>
+            </div>
+            <div className="flex text-xs border-dashed border-b-2 pb-2 ">
+              <p>
+                <BedDouble size={12} />
+                Space for 3
+              </p>
+              <p>
+                <Bath size={12} />
+                1.5
+              </p>
+              <p>
+                <Car size={12} />3
+              </p>
+            </div>
+            <div className="text-xs">
+              Price indicated are for one person, not the whole apartment. Open
+              property page to read more details.
+            </div>
+          </div>
+        </div>
+
+        <div className="card w-60  bg-base-100 shadow-xl size-100 border">
+          <figure className="pb-0 pr-2 pl-2 pt-2">
+            <img
+              className="flex w-full size-30 border rounded-lg"
+              src="https://images.unsplash.com/photo-1499955085172-a104c9463ece?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="home1"
+            />
+          </figure>
+          <div className="card-body pl-3 pt-2 pr-3">
+            <h1 className="card-title text-sm">
+              Spacious near stop room
+              <div className="text-blue-600">$650</div>
+            </h1>
+            <div className="flex text-xs ">
+              <MapPin style={{ width: "14px", height: "14px" }} />
+              <p className="pl-1">17 Wanderust way, Finch Ave.</p>
+            </div>
+            <div className="flex text-xs border-dashed border-b-2 pb-2 ">
+              <p>
+                <BedDouble size={12} />
+                Space for 3
+              </p>
+              <p>
+                <Bath size={12} />
+                1.5
+              </p>
+              <p>
+                <Car size={12} />3
+              </p>
+            </div>
+            <div className="text-xs">
+              Price indicated are for one person, not the whole apartment. Open
+              property page to read more details.
+            </div>
+          </div>
+        </div>
+
+        <div className="card w-60  bg-base-100 shadow-xl size-100 border">
+          <figure className="pb-0 pr-2 pl-2 pt-2">
+            <img
+              className="flex w-full size-30 border rounded-lg"
+              src="https://images.unsplash.com/photo-1489171078254-c3365d6e359f?q=80&w=2831&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="home1"
             />
           </figure>
@@ -158,229 +306,7 @@ export default function Home() {
           <figure className="pb-0 pr-2 pl-2 pt-2">
             <img
               className="flex w-full size-30 border rounded-lg"
-              src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="home1"
-            />
-          </figure>
-          <div className="card-body pl-3 pt-2 pr-3">
-            <h1 className="card-title text-sm">
-              Spacious near stop room
-              <div className="text-blue-600">$650</div>
-            </h1>
-            <div className="flex text-xs ">
-              <MapPin style={{ width: "14px", height: "14px" }} />
-              <p className="pl-1">17 Wanderust way, Finch Ave.</p>
-            </div>
-            <div className="flex text-xs border-dashed border-b-2 pb-2 ">
-              <p>
-                <BedDouble size={12} />
-                Space for 3
-              </p>
-              <p>
-                <Bath size={12} />
-                1.5
-              </p>
-              <p>
-                <Car size={12} />3
-              </p>
-            </div>
-            <div className="text-xs">
-              Price indicated are for one person, not the whole apartment. Open
-              property page to read more details.
-            </div>
-          </div>
-        </div>
-
-        <div className="card w-60  bg-base-100 shadow-xl size-100 border">
-          <figure className="pb-0 pr-2 pl-2 pt-2">
-            <img
-              className="flex w-full size-30 border rounded-lg"
-              src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="home1"
-            />
-          </figure>
-          <div className="card-body pl-3 pt-2 pr-3">
-            <h1 className="card-title text-sm">
-              Spacious near stop room
-              <div className="text-blue-600">$650</div>
-            </h1>
-            <div className="flex text-xs ">
-              <MapPin style={{ width: "14px", height: "14px" }} />
-              <p className="pl-1">17 Wanderust way, Finch Ave.</p>
-            </div>
-            <div className="flex text-xs border-dashed border-b-2 pb-2 ">
-              <p>
-                <BedDouble size={12} />
-                Space for 3
-              </p>
-              <p>
-                <Bath size={12} />
-                1.5
-              </p>
-              <p>
-                <Car size={12} />3
-              </p>
-            </div>
-            <div className="text-xs">
-              Price indicated are for one person, not the whole apartment. Open
-              property page to read more details.
-            </div>
-          </div>
-        </div>
-
-        <div className="card w-60  bg-base-100 shadow-xl size-100 border">
-          <figure className="pb-0 pr-2 pl-2 pt-2">
-            <img
-              className="flex w-full size-30 border rounded-lg"
-              src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="home1"
-            />
-          </figure>
-          <div className="card-body pl-3 pt-2 pr-3">
-            <h1 className="card-title text-sm">
-              Spacious near stop room
-              <div className="text-blue-600">$650</div>
-            </h1>
-            <div className="flex text-xs ">
-              <MapPin style={{ width: "14px", height: "14px" }} />
-              <p className="pl-1">17 Wanderust way, Finch Ave.</p>
-            </div>
-            <div className="flex text-xs border-dashed border-b-2 pb-2 ">
-              <p>
-                <BedDouble size={12} />
-                Space for 3
-              </p>
-              <p>
-                <Bath size={12} />
-                1.5
-              </p>
-              <p>
-                <Car size={12} />3
-              </p>
-            </div>
-            <div className="text-xs">
-              Price indicated are for one person, not the whole apartment. Open
-              property page to read more details.
-            </div>
-          </div>
-        </div>
-
-        <div className="card w-60  bg-base-100 shadow-xl size-100 border">
-          <figure className="pb-0 pr-2 pl-2 pt-2">
-            <img
-              className="flex w-full size-30 border rounded-lg"
-              src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="home1"
-            />
-          </figure>
-          <div className="card-body pl-3 pt-2 pr-3">
-            <h1 className="card-title text-sm">
-              Spacious near stop room
-              <div className="text-blue-600">$650</div>
-            </h1>
-            <div className="flex text-xs ">
-              <MapPin style={{ width: "14px", height: "14px" }} />
-              <p className="pl-1">17 Wanderust way, Finch Ave.</p>
-            </div>
-            <div className="flex text-xs border-dashed border-b-2 pb-2 ">
-              <p>
-                <BedDouble size={12} />
-                Space for 3
-              </p>
-              <p>
-                <Bath size={12} />
-                1.5
-              </p>
-              <p>
-                <Car size={12} />3
-              </p>
-            </div>
-            <div className="text-xs">
-              Price indicated are for one person, not the whole apartment. Open
-              property page to read more details.
-            </div>
-          </div>
-        </div>
-
-        <div className="card w-60  bg-base-100 shadow-xl size-100 border">
-          <figure className="pb-0 pr-2 pl-2 pt-2">
-            <img
-              className="flex w-full size-30 border rounded-lg"
-              src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="home1"
-            />
-          </figure>
-          <div className="card-body pl-3 pt-2 pr-3">
-            <h1 className="card-title text-sm">
-              Spacious near stop room
-              <div className="text-blue-600">$650</div>
-            </h1>
-            <div className="flex text-xs ">
-              <MapPin style={{ width: "14px", height: "14px" }} />
-              <p className="pl-1">17 Wanderust way, Finch Ave.</p>
-            </div>
-            <div className="flex text-xs border-dashed border-b-2 pb-2 ">
-              <p>
-                <BedDouble size={12} />
-                Space for 3
-              </p>
-              <p>
-                <Bath size={12} />
-                1.5
-              </p>
-              <p>
-                <Car size={12} />3
-              </p>
-            </div>
-            <div className="text-xs">
-              Price indicated are for one person, not the whole apartment. Open
-              property page to read more details.
-            </div>
-          </div>
-        </div>
-
-        <div className="card w-60  bg-base-100 shadow-xl size-100 border">
-          <figure className="pb-0 pr-2 pl-2 pt-2">
-            <img
-              className="flex w-full size-30 border rounded-lg"
-              src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="home1"
-            />
-          </figure>
-          <div className="card-body pl-3 pt-2 pr-3">
-            <h1 className="card-title text-sm">
-              Spacious near stop room
-              <div className="text-blue-600">$650</div>
-            </h1>
-            <div className="flex text-xs ">
-              <MapPin style={{ width: "14px", height: "14px" }} />
-              <p className="pl-1">17 Wanderust way, Finch Ave.</p>
-            </div>
-            <div className="flex text-xs border-dashed border-b-2 pb-2 ">
-              <p>
-                <BedDouble size={12} />
-                Space for 3
-              </p>
-              <p>
-                <Bath size={12} />
-                1.5
-              </p>
-              <p>
-                <Car size={12} />3
-              </p>
-            </div>
-            <div className="text-xs">
-              Price indicated are for one person, not the whole apartment. Open
-              property page to read more details.
-            </div>
-          </div>
-        </div>
-
-        <div className="card w-60  bg-base-100 shadow-xl size-100 border">
-          <figure className="pb-0 pr-2 pl-2 pt-2">
-            <img
-              className="flex w-full size-30 border rounded-lg"
-              src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src="https://images.unsplash.com/photo-1623625433656-76f7e1450acb?q=80&w=2971&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="home1"
             />
           </figure>
